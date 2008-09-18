@@ -1,0 +1,14 @@
+.div {
+	width:480px; height:272px;
+}
+.btn {height:24px; padding-top:3px;
+}
+.form{  margin:0;padding:0;}
+
+.infoform{ margin-left:10px;}
+.infoform input{width:160px; height:16px;}
+.infoform select{width:166px;}
+.infoform textarea{width:160px;}
+
+.addInfoResult{ padding:20px auto auto 20px;}
+.topdiv{width:480px; margin:0 auto;}

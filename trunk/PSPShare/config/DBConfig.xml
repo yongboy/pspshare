@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/context
+		 http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close" p:driverClassName="com.mysql.jdbc.Driver"
+		p:url="${db.url}" p:username="root" p:password="123" p:maxActive="100"
+		p:maxWait="1000" p:poolPreparedStatements="true" p:defaultAutoCommit="true" />
+	<bean id="sessionFactory"
+		class="com.spring.support.annocation.ExtendedAnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<!--  validate               加载hibernate时，验证创建数据库表结构
+ create                  每次加载hibernate，重新创建数据库表结构，这就是导致数据库表数据丢失的原因。
+ create-drop        加载hibernate时创建，退出是删除表结构
+ update                 加载hibernate自动更新数据库结构-->
+			</props>
+		</property>
+		<property name="basePackages">
+			<list>
+				<value>org.gameye.psp.image.entity</value>
+			</list>
+		</property>
+	</bean>
+	<!-- bean id="baseDao" class="org.gameye.psp.image.dao.base.BaseDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean-->
+</beans>
