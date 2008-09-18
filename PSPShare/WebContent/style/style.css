@@ -1,0 +1,81 @@
+body {
+	padding-left: 180px;
+	padding-right: 180px;
+	padding-top: 0px;
+	margin: 0px; 
+	background: #fff; 
+	padding-bottom: 20px;
+}
+form {
+	padding: 0px;
+	border: 0px;
+}
+a:link {
+	color: #336699;
+	text-decoration: underline;
+}
+a:visited {
+	color: #666699;
+	text-decoration: underline;
+}
+a:hover {
+	color: #FFFFFF;
+	text-decoration: none;
+	background: #003399;
+}
+a:active {
+	color: #FFFFFF;
+	text-decoration: none;
+	background: #FF9933;
+}
+a img {
+	border-width:0;
+}
+body,td,th {
+	font: 12px Arial, Helvetica, sans-serif;
+	line-height: 150%;
+}
+table {
+	border: none;
+	padding: 0;
+	margin: 0;
+}
+h3 {
+	font: 14.8px normal Arial, Helvetica, sans-serif;
+	color: #666666;
+	margin-bottom: 5px;
+	line-height: 150%;
+	background-color: #EEFFEE;
+}
+h2 {
+	font: 14.8px normal Arial, Helvetica, sans-serif;
+	color: #006600;
+	margin-bottom: 5px;
+	line-height: 150%;
+}
+h4 {
+	font: 20.8px normal Arial, Helvetica, sans-serif;
+	color: #006600;
+	margin-bottom: 5px;
+	line-height: 150%;
+}
+
+.spanIntel{ padding-right:20px;
+}
+.STYLE5 {font-size: 16px}
+
+.stylex {color: #FF9933}
+
+.footHr{ border:1px dotted #999999;}
+
+.blogTop{ height:55px; border:1px dotted #000099; padding-top:20px; padding-left:60px;}
+.blogTop span{ font-weight:bold; font-size:18px;}
+.blogTop div{ float:right; margin-top:20px;}
+.blogTop a{ text-decoration:none;}
+
+.oneReply{ border:1px dotted #999999; margin-right:260px;}
+.reponse{color:#666666; }
+.reponse span{ color:green;}
+.interval{ padding:0 0 0 0; margin:0 0 0 0; height:1px;}
+.hrDiv{ border-bottom:1px dotted #999999; margin-bottom:10px;}
+.tagDiv{ color:#666666; font-weight:bold;margin-top:10px;}

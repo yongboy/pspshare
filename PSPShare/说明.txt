@@ -1,0 +1,7 @@
+CREATE DATABASE TestDB;
+
+CREATE TABLE UserLog(
+	id int identity(1,1) primary key,
+	title varchar(50) not null,
+	content varchar(4000) not null
+);
