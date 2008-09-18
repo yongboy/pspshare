@@ -30,9 +30,11 @@ public class UploadImage extends BaseActionSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 3195051103800176158L;
-
+	
 	@Override
 	public String execute() {
+		if(myFiles == null || myFiles.size()==0)
+			return INPUT;
 		// 处理多个文件上传操作...
 		File dst = null;
 		String fileFix = null;
