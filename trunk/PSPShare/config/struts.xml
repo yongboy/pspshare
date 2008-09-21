@@ -2,36 +2,27 @@
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
-	<package name="global" extends="struts-default">
-		<action name="list" class="com.demo.action.UserLogAction"
-			method="list">
-			<result type="freemarker">logslist.jsp</result>
-		</action>
-		<action name="add" class="com.demo.action.UserLogAction"
-			method="add">
-			<result type="redirect">list.do</result>
-		</action>
-		<action name="del" class="com.demo.action.UserLogAction"
-			method="del">
-			<result type="redirect">list.do</result>
-		</action>
-	</package>
-	
 	<!--package name="image" namespace="/image" extends="struts-default"-->
 	<package name="image" extends="struts-default">
-		<action name="upload" class="org.gameye.psp.image.action.UploadImage">			
-			<!-- 验证上传文件的类型 -->  
+		<action name="upload" class="org.gameye.psp.image.action.ImageHandle" method="upload">
+			<result>/WEB-INF/pages/image/upload.jsp</result>
+		</action>
+		<action name="UploadImage" class="org.gameye.psp.image.action.UploadImage">			
+			<!-- 验证上传文件的类型 -->
              <interceptor-ref name ="fileUpload">   
-                 <param name ="allowedTypes">image/bmp,image/png,image/x-png,image/gif,image/jpeg,image/jpg,image/pjpeg</param>
+                 <param name ="allowedTypes">image/bmp,image/png,image/x-png,image/gif,image/jpeg,image/jpg,image/pjpeg,application/octet-stream</param>
                  <!-- 1024*1024*5 = 5M -->
                  <param name="maximumSize">5242880</param>
              </interceptor-ref>   
              <interceptor-ref name ="defaultStack"/>
              <!-- 如果加入了验证上传文件的类型,必须要加input -->  
-             <result name="success" type="freemarker">upload_result.html</result>
+             <result name="success" type="freemarker">/WEB-INF/pages/image/upload_result.html</result>
+             <result name="input">/WEB-INF/pages/image/upload.jsp</result>
 		</action>
-		<action name="Img_Show" class="org.gameye.psp.image.action.ImageHandle" method="Show">
-			<result>upload.html</result>
+		<action name="Image_*" class="org.gameye.psp.image.action.ImageHandle" method="{1}">
+			<result name="success" type="freemarker">/WEB-INF/pages/image/{1}_Result.html</result>
+			<result name="failure" type="freemarker">/WEB-INF/pages/image/Failure.html</result>
+			<result name="input" type="redirect">upload.do</result>
 		</action>
 	</package>
 </struts>
