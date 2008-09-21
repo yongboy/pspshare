@@ -5,12 +5,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>上传模板s</title>
+<title>上传图片</title>
 <link href="style/global.css" rel="stylesheet"></link>
 <link href="style/share.css" rel="stylesheet"></link>
 <script src="script/form.js"></script>
 </head>
-heshe:<s:text name="test.msg" />
 <div class="topdiv">
 <div class="div">
 <div style="color:red;"><s:fielderror /></div>
