@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -14,6 +15,7 @@ import org.apache.commons.lang.StringUtils;
 import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.config.Constants;
 import org.gameye.psp.image.entity.Image;
+import org.gameye.psp.image.entity.Tag;
 import org.gameye.psp.image.service.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -45,29 +47,32 @@ public class ImageHandle extends BaseActionSupport {
 			if (i.getType() != null) {
 				// do something...
 			}
-			if (StringUtils.isNotEmpty(i.getTags())) {
-				img.setTags(i.getTags());
+			// if (StringUtils.isNotEmpty(i.getTags())) {
+			// img.setTags(i.getTags());
+			// }
+			if (i.getTags() != null) {
+				String tagStr = null;
+				List<Tag> sets = i.getTags();
+				for (Tag t : sets) {
+					tagStr = t.getName();
+				}
+				if (StringUtils.isNotEmpty(tagStr)) {
+					sets.clear();
+					String[] tags = tagStr.trim().split(" ");
+					Tag tag = null;
+					for (String t : tags) {
+						tag = new Tag();
+						tag.setName(t);
+						tag.setDate(new Date());
+						tag.setAuthor(img.getAuthor());
+
+						tag.setImage(img);
+
+						sets.add(tag);
+					}
+					img.setTags(sets);
+				}
 			}
-			// if (i.getTags() != null) {
-			// String tagStr = null;
-			// Set<Tag> sets = i.getTags();
-			// for (Tag t : sets) {
-			// tagStr = t.getName();
-			// }
-			// if (StringUtils.isNotEmpty(tagStr)) {
-			// sets.clear();
-			// String[] tags = tagStr.trim().split(" ");
-			// Tag tag = null;
-			// long sysTime = System.currentTimeMillis();
-			// for (String t : tags) {
-			// tag = new Tag();
-			// tag.setName(t);
-			// tag.setDate(sysTime);
-			// sets.add(tag);
-			// }
-			// img.setTags(sets);
-			// }
-			// }
 
 			imageService.updateImage(img);
 		}
