@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="style/global.css" rel="stylesheet"></link>
+<link href="style/share.css" rel="stylesheet"></link>
+</head>
+<body>
+<div class="topdiv">
+<#list images as img>
+<div class="div">
+<#if page < total><a href="Image_List.do?page=${page+1}"></#if>
+<img src="images/${img.nowName}" width="480px" height="272px" border="0">
+<#if page < total></a></#if>
+</div>
+<div class="div">
+ <span style="float:right;"><#if img.author! != '0'> ${img.author!}</#if> 上传于 ${img.date?string("yyyy-MM-dd HH:mm")}</span> 
+ <span style="float:left;">${img.title}</span><br>
+ <#if 1 < page><a href="Image_List.do?page=1">第一张</a> <a href="Image_List.do?page=${page-1}">上一张</a></#if><#if page < total> <a href="Image_List.do?page=${page+1}">下一张</a> <a href="Image_List.do?page=${total}">最后一张</a></#if><br>
+ <br>
+ <!-- 分类：<a href="image/#">艺术</a><br> -->
+ 标签 : ${img.tags!}<br />
+<!-- <a href="/score/{{img.key}}">顶一下</a>(${img.score!})<span style="padding-left:5px;"></span>| --><a href="Image_Download.do?id=${img.id}">下载</a> (${img.down!})<!--  | <a href="image/#">收藏</a>(${img.collect!})--><br />
+ 描述:<br />
+		<span style="margin:5px; width:100%;font-style:inherit; border-bottom:thin; border-bottom-color:#CCCCCC; border-bottom-style:dotted;">
+        	${img.description!}
+        </span>
+  <label></label>
+  <!--label>保存一下我的位置(下次从这里开始)</labe>
+  <br>
+  我来说几句:<br>
+  <label>
+  <textarea name="textarea" id="textarea" cols="55" rows="8"></textarea>
+  </label-->
+  <br>
+  <br>
+  tip：点击图片，可以查看下一张<br>
+</div>
+</#list>
+</div>
+</body>
+</html>
