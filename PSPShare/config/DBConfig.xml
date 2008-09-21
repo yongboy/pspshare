@@ -18,7 +18,7 @@
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<!--  validate               加载hibernate时，验证创建数据库表结构
  create                  每次加载hibernate，重新创建数据库表结构，这就是导致数据库表数据丢失的原因。
  create-drop        加载hibernate时创建，退出是删除表结构
