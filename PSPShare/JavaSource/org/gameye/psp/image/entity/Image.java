@@ -1,21 +1,19 @@
 package org.gameye.psp.image.entity;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
  * Class Image
  */
 @Entity(name = "Images")
-public class Image implements Serializable{
+public class Image implements Serializable {
 
 	//
 	// Fields
@@ -53,14 +51,28 @@ public class Image implements Serializable{
 	/**
 	 * 日期
 	 */
-	private long date;
+	private Date date;
+
+	/**
+	 * 得分
+	 */
+	private int score;
+	/**
+	 * 下载
+	 */
+	private int down;
+	/**
+	 * 收藏
+	 */
+	private int collect;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "typeId")
 	private Type type;
 
-	@OneToMany(mappedBy = "image", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
-	private Set<Tag> tags;
+	// @OneToMany(mappedBy = "image", cascade = { CascadeType.ALL }, fetch =
+	// FetchType.LAZY)
+	private String tags;
 
 	//
 	// Constructors
@@ -140,11 +152,11 @@ public class Image implements Serializable{
 		this.ip = ip;
 	}
 
-	public long getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(long date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
@@ -156,12 +168,36 @@ public class Image implements Serializable{
 		this.type = type;
 	}
 
-	public Set<Tag> getTags() {
+	public String getTags() {
 		return tags;
 	}
 
-	public void setTags(Set<Tag> tags) {
+	public void setTags(String tags) {
 		this.tags = tags;
+	}
+
+	public int getScore() {
+		return score;
+	}
+
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public int getDown() {
+		return down;
+	}
+
+	public void setDown(int down) {
+		this.down = down;
+	}
+
+	public int getCollect() {
+		return collect;
+	}
+
+	public void setCollect(int collect) {
+		this.collect = collect;
 	}
 
 }

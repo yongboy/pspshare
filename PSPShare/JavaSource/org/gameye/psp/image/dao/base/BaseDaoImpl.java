@@ -140,6 +140,8 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 	}
 
 	public void update(T entity) throws DataAccessException {
-		getHibernateTemplate().update(entity);
+//		getHibernateTemplate().clear();
+//		getHibernateTemplate().update(entity);
+		getHibernateTemplate().merge(entity);
 	}
 }

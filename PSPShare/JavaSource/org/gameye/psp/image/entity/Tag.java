@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 /**
- * Class Tags 标签
+ * Class Tags 图片的有关标签
  */
 @Entity(name = "Image_Tags")
 public class Tag {
@@ -25,9 +25,9 @@ public class Tag {
 	private String author;
 	private long date;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "imgId")
-	private Image image;
+//	@ManyToOne(fetch = FetchType.LAZY)
+//	@JoinColumn(name = "imgId")
+//	private Image image;
 
 	//
 	// Constructors
@@ -67,14 +67,12 @@ public class Tag {
 		this.date = date;
 	}
 
-	public Image getImage() {
-		return image;
-	}
-
-	public void setImage(Image image) {
-		this.image = image;
-	};
-
-	
+//	public Image getImage() {
+//		return image;
+//	}
+//
+//	public void setImage(Image image) {
+//		this.image = image;
+//	}
 
 }
