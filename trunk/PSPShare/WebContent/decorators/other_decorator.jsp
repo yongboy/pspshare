@@ -11,6 +11,13 @@
 </head>
 <body>
 <div class="topdiv">
+
+    <div style="margin-top:0px;">
+    <div style="float:left; width:80%;">
+    <img src="image/share.png">PSP 壁纸分享 因为分享，所以精彩</div>
+    <div style="float:right;vertical-align:text-bottom; margin-top:42px;"><!-- a href="#">注册</a> |  <a href="#">登录</a--></div>
+    </div>
+
 <decorator:body />
 <div></div>
 <div style="width:480px; height:auto; color:#CCCCCC; background-color:#F5F5F5;">
