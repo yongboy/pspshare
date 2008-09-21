@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,10 +31,10 @@ public class UploadImage extends BaseActionSupport {
 	 * 
 	 */
 	private static final long serialVersionUID = 3195051103800176158L;
-	
+
 	@Override
 	public String execute() {
-		if(myFiles == null || myFiles.size()==0)
+		if (myFiles == null || myFiles.size() == 0)
 			return INPUT;
 		// 处理多个文件上传操作...
 		File dst = null;
@@ -58,8 +59,8 @@ public class UploadImage extends BaseActionSupport {
 			HttpServletRequest request) {
 		Image image = new Image();
 		image.setAuthor(getCurrUserId());
-		long date = System.currentTimeMillis();
-		image.setDate(date);
+		// long date = System.currentTimeMillis();
+		image.setDate(new Date());
 		image.setId(new SequenceCreator().getUID());
 		image.setIp(request.getRemoteAddr());
 		image.setNowName(nowName);
@@ -106,13 +107,10 @@ public class UploadImage extends BaseActionSupport {
 	private List<String> fileNames;
 
 	private List<String> contentTypes;
-	
+
 	private Image image;
-	
+
 	private List<Image> images;
-	
-	
-	
 
 	public void setMyFileFileName(List<String> fileNames) {
 		this.fileNames = fileNames;
