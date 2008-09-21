@@ -1,5 +1,7 @@
 package org.gameye.psp.image.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -23,11 +25,11 @@ public class Tag {
 	private long id;
 	private String name;
 	private String author;
-	private long date;
+	private Date date;
 
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "imgId")
-//	private Image image;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "imgId")
+	private Image image;
 
 	//
 	// Constructors
@@ -59,20 +61,20 @@ public class Tag {
 		this.author = author;
 	}
 
-	public long getDate() {
+	public Date getDate() {
 		return date;
 	}
 
-	public void setDate(long date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 
-//	public Image getImage() {
-//		return image;
-//	}
-//
-//	public void setImage(Image image) {
-//		this.image = image;
-//	}
+	public Image getImage() {
+		return image;
+	}
+
+	public void setImage(Image image) {
+		this.image = image;
+	}
 
 }

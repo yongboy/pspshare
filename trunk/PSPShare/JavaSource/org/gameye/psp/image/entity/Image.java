@@ -2,12 +2,15 @@ package org.gameye.psp.image.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  * Class Image
@@ -70,9 +73,9 @@ public class Image implements Serializable {
 	@JoinColumn(name = "typeId")
 	private Type type;
 
-	// @OneToMany(mappedBy = "image", cascade = { CascadeType.ALL }, fetch =
-	// FetchType.LAZY)
-	private String tags;
+	 @OneToMany(mappedBy = "image", cascade = { CascadeType.ALL }, fetch =
+	 FetchType.LAZY)
+	private List<Tag> tags;
 
 	//
 	// Constructors
@@ -168,16 +171,26 @@ public class Image implements Serializable {
 		this.type = type;
 	}
 
-	public String getTags() {
-		return tags;
-	}
-
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
+//	public String getTags() {
+//		return tags;
+//	}
+//
+//	public void setTags(String tags) {
+//		this.tags = tags;
+//	}
+	
+	
 
 	public int getScore() {
 		return score;
+	}
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
 	}
 
 	public void setScore(int score) {
