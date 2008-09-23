@@ -16,13 +16,17 @@ import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.config.Constants;
 import org.gameye.psp.image.entity.Image;
 import org.gameye.psp.image.entity.Tag;
+import org.gameye.psp.image.entity.Type;
 import org.gameye.psp.image.service.IImageService;
+import org.gameye.psp.image.service.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ImageHandle extends BaseActionSupport {
 
 	@Autowired
 	private IImageService imageService;
+	@Autowired
+	private ITypeService typeService;
 
 	public String upload() {
 		return SUCCESS;
@@ -44,7 +48,9 @@ public class ImageHandle extends BaseActionSupport {
 			img = imageService.getImage(i.getId());
 			img.setTitle(i.getTitle());
 			img.setDescription(i.getDescription());
-			if (i.getType() != null) {
+			if (i.getType() != null && i.getType().getId() > 0) {
+				// Type type = typeService.loadType(i.getType().getId());
+				img.setType(typeService.loadType(i.getType().getId()));
 				// do something...
 			}
 			// if (StringUtils.isNotEmpty(i.getTags())) {
