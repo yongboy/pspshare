@@ -20,8 +20,8 @@ public class TypeServiceImpl implements ITypeService {
 		typeDao.save(type);
 	}
 
-	public Type loadType(int id) {
-		return typeDao.load(Integer.valueOf(id));
+	public Type loadType(Integer id) {
+		return typeDao.load(id);
 	}
 
 	@PostConstruct

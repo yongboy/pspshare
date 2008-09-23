@@ -18,7 +18,7 @@
  <span style="float:left;">${img.title!}</span><br>
  <#if 1 < page><a href="Image_List.do?page=1">第一张</a> <a href="Image_List.do?page=${page-1}">上一张</a></#if><#if page < total> <a href="Image_List.do?page=${page+1}">下一张</a> <a href="Image_List.do?page=${total}">最后一张</a></#if><br>
  <br>
- <!-- 分类：<a href="image/#">艺术</a><br> -->
+ 分类：<a href="image/#">${img.type.title!}</a><br>
  标签 : <#if 0 < img.tags?size >
  <#list img.tags as tag>
 <a href="Image_OneTagList.do?tid=${tag.id}"> ${tag.name!}</a>&nbsp;&nbsp;
