@@ -22,7 +22,7 @@ import org.gameye.psp.image.service.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class ImageHandle extends BaseActionSupport {
-
+	private static final long serialVersionUID = 4070596295096869764L;
 	@Autowired
 	private IImageService imageService;
 	@Autowired
@@ -49,13 +49,9 @@ public class ImageHandle extends BaseActionSupport {
 			img.setTitle(i.getTitle());
 			img.setDescription(i.getDescription());
 			if (i.getType() != null && i.getType().getId() > 0) {
-				// Type type = typeService.loadType(i.getType().getId());
-				img.setType(typeService.loadType(i.getType().getId()));
-				// do something...
+				Type type = typeService.loadType(i.getType().getId());
+				img.setType(type);
 			}
-			// if (StringUtils.isNotEmpty(i.getTags())) {
-			// img.setTags(i.getTags());
-			// }
 			if (i.getTags() != null) {
 				String tagStr = null;
 				List<Tag> sets = i.getTags();

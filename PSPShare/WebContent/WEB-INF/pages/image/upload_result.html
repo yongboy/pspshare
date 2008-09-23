@@ -20,11 +20,11 @@
         <td>标题:</td>
         <td>
         <input type="hidden" name="images[${img_index}].id" value="${img.id}" />
-        <input type="text" name="images[${img_index}].title" /></td>
+        <input type="text" name="images[${img_index}].title" value="${img.oldName!}"/></td>
       </tr>
       <tr>
         <td>分类:</td>
-        <td><select name="images[${img_index}].typ.id">
+        <td><select name="images[${img_index}].type.id">
    <option value="1">风景</option>
    <option value="2">人物 </option>
    <option value="3">动漫</option>

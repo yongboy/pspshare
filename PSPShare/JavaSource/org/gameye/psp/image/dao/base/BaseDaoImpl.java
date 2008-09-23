@@ -16,7 +16,6 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
-
 @Repository("baseDao")
 public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> {
 	@Autowired
@@ -62,8 +61,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 	}
 
 	public T load(PK id) throws DataAccessException {
-//		return (T) getHibernateTemplate().get(this.entityClass, id);
-		return (T)sessionFactory.openSession().get(Image.class, id);
+		return (T) getHibernateTemplate().get(this.entityClass, id);
 	}
 
 	public Map<Integer, List<T>> pagedQuery(String hql, int startIndex,
@@ -140,8 +138,8 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 	}
 
 	public void update(T entity) throws DataAccessException {
-//		getHibernateTemplate().clear();
-//		getHibernateTemplate().update(entity);
+		// getHibernateTemplate().clear();
+		// getHibernateTemplate().update(entity);
 		getHibernateTemplate().merge(entity);
 	}
 }
