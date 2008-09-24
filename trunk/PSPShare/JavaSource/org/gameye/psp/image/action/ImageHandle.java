@@ -141,7 +141,70 @@ public class ImageHandle extends BaseActionSupport {
 			logger.log(Level.INFO, "文件下载时，出现无法处理的异常：\n" + e.toString()
 					+ "\n下载的文件ID为：" + image.getId());
 		}
+	}
+	
+	public String RSS3() {
+		if (size < 1)
+			size = 10;
+		if (size > 20)
+			size = 20;
+		images = imageService.rssImages(size);
+		return "RSS2";
+	}
 
+	public String RSS2() {
+		if (size < 1)
+			size = 10;
+		if (size > 20)
+			size = 20;
+		images = imageService.rssImages(size);
+		return "RSS2";
+	}
+	
+	public void RSS() {
+		if (size < 1)
+			size = 10;
+		if (size > 20)	
+			size = 20;
+		images = imageService.rssImages(size);
+
+		StringBuffer sb = new StringBuffer();
+
+		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+		sb.append("<rss version=\"2.0\">");
+		sb.append("<channel>");
+		sb.append("<title>PSP壁纸分享</title>");
+		sb.append("<link>http://forshare.org</link>");
+		sb
+				.append("<description><![CDATA[PSP壁纸,壁纸分享,分享壁纸，为你为我]]></description>");
+		sb.append("<language>zh-CN</language>");
+
+		for (Image img : images) {
+			sb.append("<item>");
+			sb.append("<title><![CDATA[");
+			if (StringUtils.isNotEmpty(img.getTitle()))
+				sb.append(img.getTitle());
+			else
+				sb.append("");
+			sb.append("]]></title>");
+			sb.append("<pubDate>").append(img.getDate().toString()).append(
+					"</pubDate>");
+			sb.append("<author>").append(img.getAuthor()).append("</author>");
+			sb.append("<link>http://hzhfm.fotolog.com.cn/2051220.html</link>");
+			sb
+					.append("<description><![CDATA[")
+					.append("<a href=\"#\"><img src=\"images/")
+					.append(img.getNowName())
+					.append(
+							"\" width=\"480px\" height=\"272px\" border=\"0\"></a><br>")
+					.append(img.getDescription()).append("]]></description>");
+			sb.append("</item>");
+		}
+
+		sb.append("</channel>");
+		sb.append("</rss>");
+		
+		printResponseMes(sb.toString());
 	}
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());

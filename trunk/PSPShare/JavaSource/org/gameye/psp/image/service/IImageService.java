@@ -24,4 +24,13 @@ public interface IImageService {
 	 * @return 包含分页结果
 	 */
 	Map<Integer, List<Image>> pagedImages(int page, int size, String order);
+
+	/**
+	 * 为RSS提供数据源
+	 * 
+	 * @param pageSize
+	 *            每次提取数据数目，数值范围在于(1-100)
+	 * @return
+	 */
+	List<Image> rssImages(int pageSize);
 }
