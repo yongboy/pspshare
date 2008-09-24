@@ -42,4 +42,15 @@ public class ImageServiceImpl implements IImageService {
 				+ order;
 		return imageDao.pagedQuery(hql, startIndex, pageSize, ob);
 	}
+
+	public List<Image> rssImages(int pageSize) {
+		if (pageSize < 1)
+			pageSize = 1;
+		if (pageSize > 100)
+			pageSize = 100;
+		Object[] ob = {};
+		String hql = "from org.gameye.psp.image.entity.Image order by date desc";
+		return imageDao.pagedQueryList(hql, 0, pageSize, ob);
+	}
+
 }

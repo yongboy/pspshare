@@ -23,6 +23,7 @@
 			<result name="success" type="freemarker">/WEB-INF/pages/image/{1}_Result.html</result>
 			<result name="failure" type="freemarker">/WEB-INF/pages/image/Failure.html</result>
 			<result name="input" type="redirect">upload.do</result>
+			<result name="RSS2" type="freemarker">/WEB-INF/pages/image/RSS_Result.jsp</result>
 		</action>
 	</package>
 </struts>
