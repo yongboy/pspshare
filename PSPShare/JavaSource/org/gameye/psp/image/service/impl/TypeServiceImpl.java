@@ -26,6 +26,9 @@ public class TypeServiceImpl implements ITypeService {
 
 	@PostConstruct
 	public void initTags() {
+		Type type = typeDao.load(1);
+		if (type != null)
+			return;
 		Type t1 = new Type();
 		t1.setId(1);
 		t1.setTitle("风景");
