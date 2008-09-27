@@ -101,7 +101,7 @@ public class ImageHandle extends BaseActionSupport {
 			return;
 
 		try {
-			String filePath = Constants.savePath + "/" + image.getNowName();
+			String filePath = getImgRealPath() + image.getNowName();
 			File file = new File(filePath);
 			FileInputStream is = new FileInputStream(file);
 			String fileName = image.getNowName();
@@ -142,7 +142,7 @@ public class ImageHandle extends BaseActionSupport {
 					+ "\n下载的文件ID为：" + image.getId());
 		}
 	}
-	
+
 	public String RSS3() {
 		if (size < 1)
 			size = 10;
@@ -160,21 +160,21 @@ public class ImageHandle extends BaseActionSupport {
 		images = imageService.rssImages(size);
 		return "RSS2";
 	}
-	
+
 	public void RSS() {
 		if (size < 1)
 			size = 10;
-		if (size > 20)	
+		if (size > 20)
 			size = 20;
 		images = imageService.rssImages(size);
-		
+
 		String urlPrefix = "http://" + getServletRequest().getServerName();
-		if(getServletRequest().getServerPort() != 80){
+		if (getServletRequest().getServerPort() != 80) {
 			urlPrefix += ":" + getServletRequest().getServerPort();
 		}
-		if(!urlPrefix.endsWith("/"))urlPrefix += "/";
-		
-		
+		if (!urlPrefix.endsWith("/"))
+			urlPrefix += "/";
+
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
@@ -198,19 +198,21 @@ public class ImageHandle extends BaseActionSupport {
 					"</pubDate>");
 			sb.append("<author>").append(img.getAuthor()).append("</author>");
 			sb.append("<link>").append(urlPrefix).append("</link>");
-			sb
-					.append("<description><![CDATA[")
-					.append("<a href=\"#\"><img src=\"").append(urlPrefix).append("images/")
-					.append(img.getNowName())
-					.append(
-							"\" width=\"480px\" height=\"272px\" border=\"0\"></a><br>")
-					.append(img.getDescription()).append("]]></description>");
+			sb.append("<description><![CDATA[").append(
+					"<a href=\"#\"><img src=\"").append(urlPrefix).append(
+					"images/").append(img.getNowName()).append(
+					"\" width=\"480px\" height=\"272px\" border=\"0\"></a>");
+			
+//			if(img.getDescription() != null && !img.getDescription().trim().equals("null")){
+//				sb.append("<br />" + img.getDescription());
+//			}
+			sb.append("]]></description>");
 			sb.append("</item>");
 		}
 
 		sb.append("</channel>");
 		sb.append("</rss>");
-		
+
 		printResponseMes(sb.toString());
 	}
 
