@@ -109,5 +109,8 @@ public class BaseActionSupport extends ActionSupport implements
 	protected String json(boolean flag, String input) {
 		return "{success : " + flag + ", data : '" + input + "'}";
 	}
-
+	
+	protected String getImgRealPath() {
+		return getServletRequest().getRealPath("/") + "images\\";
+	}
 }
