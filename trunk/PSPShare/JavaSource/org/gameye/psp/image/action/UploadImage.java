@@ -32,6 +32,11 @@ public class UploadImage extends BaseActionSupport {
 	 */
 	private static final long serialVersionUID = 3195051103800176158L;
 
+	public String ZipUpload(){
+		
+		return SUCCESS;
+	}
+	
 	@Override
 	public String execute() {
 		if (myFiles == null || myFiles.size() == 0)
@@ -44,8 +49,7 @@ public class UploadImage extends BaseActionSupport {
 		for (int i = 0; i < myFiles.size(); i++) {
 			fileFix = UploadTool.getFileExt(fileNames.get(i));
 			nowName = System.currentTimeMillis() + fileFix;
-			String path = getServletRequest().getRealPath("/");
-			String descPath = path + "images\\"  + nowName;
+			String descPath = getImgRealPath() + nowName;
 			dst = new File(descPath);
 			copyFile(myFiles.get(i), dst);
 
