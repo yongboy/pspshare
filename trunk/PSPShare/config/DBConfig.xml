@@ -8,8 +8,8 @@
 		 http://www.springframework.org/schema/context/spring-context-2.5.xsd">
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close" p:driverClassName="com.mysql.jdbc.Driver"
-		p:url="${db.url}" p:username="root" p:password="123" p:maxActive="100"
-		p:maxWait="1000" p:poolPreparedStatements="true" p:defaultAutoCommit="true" />
+		p:url="${db.url}" p:username="${db.username}" p:password="${db.password}" p:maxActive="50"
+		p:maxWait="100" p:poolPreparedStatements="true" p:defaultAutoCommit="true" />
 	<bean id="sessionFactory"
 		class="com.spring.support.annocation.ExtendedAnnotationSessionFactoryBean">
 		<property name="dataSource">
