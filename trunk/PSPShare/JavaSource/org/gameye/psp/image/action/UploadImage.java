@@ -44,7 +44,9 @@ public class UploadImage extends BaseActionSupport {
 		for (int i = 0; i < myFiles.size(); i++) {
 			fileFix = UploadTool.getFileExt(fileNames.get(i));
 			nowName = System.currentTimeMillis() + fileFix;
-			dst = new File(Constants.savePath + "/" + nowName);
+			String path = getServletRequest().getRealPath("/");
+			String descPath = path + "images\\"  + nowName;
+			dst = new File(descPath);
 			copyFile(myFiles.get(i), dst);
 
 			image = doSaveInfo(nowName, fileNames.get(i), fileFix,
