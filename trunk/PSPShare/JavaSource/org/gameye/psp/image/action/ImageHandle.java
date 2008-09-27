@@ -167,14 +167,21 @@ public class ImageHandle extends BaseActionSupport {
 		if (size > 20)	
 			size = 20;
 		images = imageService.rssImages(size);
-
+		
+		String urlPrefix = "http://" + getServletRequest().getServerName();
+		if(getServletRequest().getServerPort() != 80){
+			urlPrefix += ":" + getServletRequest().getServerPort();
+		}
+		if(!urlPrefix.endsWith("/"))urlPrefix += "/";
+		
+		
 		StringBuffer sb = new StringBuffer();
 
 		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		sb.append("<rss version=\"2.0\">");
 		sb.append("<channel>");
 		sb.append("<title>PSP壁纸分享</title>");
-		sb.append("<link>http://forshare.org</link>");
+		sb.append("<link>").append(urlPrefix).append("</link>");
 		sb
 				.append("<description><![CDATA[PSP壁纸,壁纸分享,分享壁纸，为你为我]]></description>");
 		sb.append("<language>zh-CN</language>");
@@ -190,10 +197,10 @@ public class ImageHandle extends BaseActionSupport {
 			sb.append("<pubDate>").append(img.getDate().toString()).append(
 					"</pubDate>");
 			sb.append("<author>").append(img.getAuthor()).append("</author>");
-			sb.append("<link>http://hzhfm.fotolog.com.cn/2051220.html</link>");
+			sb.append("<link>").append(urlPrefix).append("</link>");
 			sb
 					.append("<description><![CDATA[")
-					.append("<a href=\"#\"><img src=\"images/")
+					.append("<a href=\"#\"><img src=\"").append(urlPrefix).append("images/")
 					.append(img.getNowName())
 					.append(
 							"\" width=\"480px\" height=\"272px\" border=\"0\"></a><br>")
