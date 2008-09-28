@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
-	<display-name>SSHDemo</display-name>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
@@ -53,6 +52,11 @@
 		</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
+	<servlet>
+		<servlet-name>InitParameters</servlet-name>
+		<servlet-class>org.gameye.psp.image.config.InitParameters</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
 	<filter>
 		<filter-name>WebCharsetEncodingFilter
 		</filter-name>
@@ -64,8 +68,7 @@
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>WebCharsetEncodingFilter
-		</filter-name>
+		<filter-name>WebCharsetEncodingFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
 	
