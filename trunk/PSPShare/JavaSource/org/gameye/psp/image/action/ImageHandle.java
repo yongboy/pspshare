@@ -101,7 +101,7 @@ public class ImageHandle extends BaseActionSupport {
 			return;
 
 		try {
-			String filePath = getImgRealPath() + image.getNowName();
+			String filePath = Constants.getImgSavePath() + image.getNowName();
 			File file = new File(filePath);
 			FileInputStream is = new FileInputStream(file);
 			String fileName = image.getNowName();
