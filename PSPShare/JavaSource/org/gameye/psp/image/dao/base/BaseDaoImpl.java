@@ -1,17 +1,20 @@
 package org.gameye.psp.image.dao.base;
 
 import java.io.Serializable;
+import java.sql.SQLException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.gameye.psp.image.entity.Image;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.orm.hibernate3.HibernateCallback;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -63,7 +66,61 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 	public T load(PK id) throws DataAccessException {
 		return (T) getHibernateTemplate().get(this.entityClass, id);
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public Map<Integer, List<T>> pagedQuery2(final String hql, final int startIndex,
+			final int pageSize,final Object... values) throws DataAccessException {
+		return (Map<Integer, List<T>>) getHibernateTemplate().execute(
+				new HibernateCallback() {
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+						
+						int allCount = baseCount(session,hql, values);
+						Query query = createQuery(session,hql, values);
+						List<T> list = query.setFirstResult(startIndex).setMaxResults(pageSize)
+								.list();
+						if (list == null)
+							return null;
+						Map<Integer, List<T>> map = new HashMap<Integer, List<T>>();
+						map.put(allCount, list);
+						return map;						
+						
+					}
+				});
+	}
+	
+	private int baseCount(Session session,String hql, Object[] params) {
+		try {
+			String countQueryString = " select count (*) "
+					+ SqlHelper.removeSelect(SqlHelper.removeOrders(hql));
+			Query q = createQuery(session,countQueryString, params);
+			// 修正在一些情况下异常原因
+			Object obj = q.iterate().next();
+			if (obj == null)
+				return 0;
+			else
+				try {
+					return Integer.parseInt(obj.toString());
+				} catch (NumberFormatException e) {
+					return 0;
+				}
+		} catch (HibernateException he) {
+			he.printStackTrace();
+			return 0;
+		}
+	}
+	
+	private Query createQuery(Session session,String queryString, Object... values) {
+		Assert.hasText(queryString);
+		Query query = session.createQuery(queryString);
+		if (values != null && values.length > 0) {
+			for (int i = 0; i < values.length; i++) {
+				query.setParameter(i, values[i]);
+			}
+		}
+		return query;
+	}
+	
 	public Map<Integer, List<T>> pagedQuery(String hql, int startIndex,
 			int pageSize, Object... values) throws DataAccessException {
 		int allCount = baseCount(hql, values);
