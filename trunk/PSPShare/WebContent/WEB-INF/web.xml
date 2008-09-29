@@ -4,56 +4,38 @@
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
 	
-		 <!-- hibernate filter -->
-  	<filter>
-  		<filter-name>hibernateFilter</filter-name>
-  		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
-  		<!-- 
-  		<init-param>
-     		<param-name>sessionFactoryBeanName</param-name>
-     		<param-value>sessionFactory</param-value>
-   		</init-param>
-   	 
-  		<init-param>
-			<param-name>singleSession</param-name>
-    		<param-value>false</param-value>
-  		</init-param>
-  		-->
-  	</filter>
-  
+	<filter>
+		<filter-name>hibernateFilter</filter-name>
+		<filter-class>org.springframework.orm.hibernate3.support.OpenSessionInViewFilter</filter-class>
+	</filter>
 	<filter-mapping>
-	 	<filter-name>hibernateFilter</filter-name>
-	  		<url-pattern>/*</url-pattern>
+		<filter-name>hibernateFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
 	<!--load spring 2-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:applicationContext.xml
-		</param-value>
+		<param-value>classpath*:applicationContext.xml</param-value>
 	</context-param>
 	<listener>
-		<listener-class> org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
 	<!--use the struts IOC-->
 	<filter>
 		<filter-name>struts-cleanup</filter-name>
-		<filter-class> org.apache.struts2.dispatcher.ActionContextCleanUp
-		</filter-class>
+		<filter-class>org.apache.struts2.dispatcher.ActionContextCleanUp</filter-class>
 	</filter>
 	<!-- 定义SiteMesh的核心过滤器 -->
 	<filter>
 		<filter-name>sitemesh</filter-name>
-		<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter
-		</filter-class>
+		<filter-class>com.opensymphony.module.sitemesh.filter.PageFilter</filter-class>
 	</filter>
 	<!--load struts 2-->
 	<filter>
 		<filter-name>struts2</filter-name>
-		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher
-		</filter-class>
+		<filter-class>org.apache.struts2.dispatcher.FilterDispatcher</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>struts-cleanup</filter-name>
@@ -70,8 +52,7 @@
 	<!-- 添加Freemarker支持 -->
 	<servlet>
 		<servlet-name>JspSupportServlet</servlet-name>
-		<servlet-class>org.apache.struts2.views.JspSupportServlet
-		</servlet-class>
+		<servlet-class>org.apache.struts2.views.JspSupportServlet</servlet-class>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 	<servlet>
@@ -80,10 +61,8 @@
 		<load-on-startup>2</load-on-startup>
 	</servlet>
 	<filter>
-		<filter-name>WebCharsetEncodingFilter
-		</filter-name>
-		<filter-class> com.struts2.filter.WebCharsetEncodingFilter
-		</filter-class>
+		<filter-name>WebCharsetEncodingFilter</filter-name>
+		<filter-class>com.struts2.filter.WebCharsetEncodingFilter</filter-class>
 		<init-param>
 			<param-name>Charset</param-name>
 			<param-value>utf-8</param-value>
@@ -93,10 +72,7 @@
 		<filter-name>WebCharsetEncodingFilter</filter-name>
 		<url-pattern>*.do</url-pattern>
 	</filter-mapping>
-	
 	<listener>
-		<listener-class>
-			org.springframework.web.context.request.RequestContextListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
 </web-app>
