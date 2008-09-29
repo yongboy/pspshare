@@ -12,6 +12,6 @@ public class Constants {
 	}
 
 	public static String getImgSavePath() {
-		return getWebRootPath() + "images/";
+		return getWebRootPath() + "images\\";
 	}
 }

@@ -50,6 +50,7 @@ public class UploadImage extends BaseActionSupport {
 			fileFix = UploadTool.getFileExt(fileNames.get(i));
 			nowName = System.currentTimeMillis() + fileFix;
 			String descPath = Constants.getImgSavePath() + nowName;
+			
 			dst = new File(descPath);
 			copyFile(myFiles.get(i), dst);
 

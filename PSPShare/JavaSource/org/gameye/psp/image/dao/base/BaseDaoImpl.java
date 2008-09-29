@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -66,34 +65,35 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 	public T load(PK id) throws DataAccessException {
 		return (T) getHibernateTemplate().get(this.entityClass, id);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	public Map<Integer, List<T>> pagedQuery2(final String hql, final int startIndex,
-			final int pageSize,final Object... values) throws DataAccessException {
+	public Map<Integer, List<T>> pagedQuery(final String hql,
+			final int startIndex, final int pageSize, final Object... values)
+			throws DataAccessException {
 		return (Map<Integer, List<T>>) getHibernateTemplate().execute(
 				new HibernateCallback() {
 					public Object doInHibernate(Session session)
 							throws HibernateException, SQLException {
-						
-						int allCount = baseCount(session,hql, values);
-						Query query = createQuery(session,hql, values);
-						List<T> list = query.setFirstResult(startIndex).setMaxResults(pageSize)
-								.list();
+
+						int allCount = baseCount(session, hql, values);
+						Query query = createQuery(session, hql, values);
+						List<T> list = query.setFirstResult(startIndex)
+								.setMaxResults(pageSize).list();
 						if (list == null)
 							return null;
 						Map<Integer, List<T>> map = new HashMap<Integer, List<T>>();
 						map.put(allCount, list);
-						return map;						
-						
+						return map;
+
 					}
 				});
 	}
-	
-	private int baseCount(Session session,String hql, Object[] params) {
+
+	private int baseCount(Session session, String hql, Object[] params) {
 		try {
 			String countQueryString = " select count (*) "
 					+ SqlHelper.removeSelect(SqlHelper.removeOrders(hql));
-			Query q = createQuery(session,countQueryString, params);
+			Query q = createQuery(session, countQueryString, params);
 			// 修正在一些情况下异常原因
 			Object obj = q.iterate().next();
 			if (obj == null)
@@ -109,8 +109,9 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 			return 0;
 		}
 	}
-	
-	private Query createQuery(Session session,String queryString, Object... values) {
+
+	private Query createQuery(Session session, String queryString,
+			Object... values) {
 		Assert.hasText(queryString);
 		Query query = session.createQuery(queryString);
 		if (values != null && values.length > 0) {
@@ -120,37 +121,78 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 		}
 		return query;
 	}
-	
-	public Map<Integer, List<T>> pagedQuery(String hql, int startIndex,
-			int pageSize, Object... values) throws DataAccessException {
-		int allCount = baseCount(hql, values);
-		Query query = createQuery(hql, values);
-		List<T> list = query.setFirstResult(startIndex).setMaxResults(pageSize)
-				.list();
-		if (list == null)
-			return null;
-		Map<Integer, List<T>> map = new HashMap<Integer, List<T>>();
-		map.put(allCount, list);
-		return map;
-	}
 
-	public List<T> pagedQueryList(String hql, int startIndex, int pageSize,
-			Object... values) throws DataAccessException {
-		Query query = createQuery(hql, values);
-		List list = query.setFirstResult(startIndex).setMaxResults(pageSize)
-				.list();
-		if (list == null)
-			return null;
-		return (List<T>) list;
+	// public Map<Integer, List<T>> pagedQuery2(String hql, int startIndex,
+	// int pageSize, Object... values) throws DataAccessException {
+	// int allCount = baseCount(hql, values);
+	// Query query = createQuery(hql, values);
+	// List<T> list = query.setFirstResult(startIndex).setMaxResults(pageSize)
+	// .list();
+	// if (list == null)
+	// return null;
+	// Map<Integer, List<T>> map = new HashMap<Integer, List<T>>();
+	// map.put(allCount, list);
+	// return map;
+	// }
+
+	// public List<T> pagedQueryList(String hql, int startIndex, int pageSize,
+	// Object... values) throws DataAccessException {
+	// Query query = createQuery(hql, values);
+	// List list = query.setFirstResult(startIndex).setMaxResults(pageSize)
+	// .list();
+	// if (list == null)
+	// return null;
+	// return (List<T>) list;
+	// }
+
+	public List<T> pagedQueryList(final String hql, final int startIndex,
+			final int pageSize, final Object... values)
+			throws DataAccessException {
+		return (List<T>) getHibernateTemplate().execute(
+				new HibernateCallback() {
+					public Object doInHibernate(Session session)
+							throws HibernateException, SQLException {
+
+						Query query = createQuery(session, hql, values);
+						List<T> list = query.setFirstResult(startIndex)
+								.setMaxResults(pageSize).list();
+						if (list == null)
+							return null;
+						return list;
+
+					}
+				});
 	}
 
 	public int baseCount(String hql, Object[] params) {
+		// try {
+		// String countQueryString = " select count (*) "
+		// + SqlHelper.removeSelect(SqlHelper.removeOrders(hql));
+		// Query query = createQuery(countQueryString, params);
+		// // 修正在一些情况下异常原因
+		// Object obj = query.iterate().next();
+		// if (obj == null)
+		// return 0;
+		// else
+		// try {
+		// return Integer.parseInt(obj.toString());
+		// } catch (NumberFormatException e) {
+		// return 0;
+		// }
+		// } catch (HibernateException he) {
+		// he.printStackTrace();
+		// return 0;
+		// }
+
 		try {
 			String countQueryString = " select count (*) "
 					+ SqlHelper.removeSelect(SqlHelper.removeOrders(hql));
-			Query query = createQuery(countQueryString, params);
+			List list = getHibernateTemplate().find(countQueryString, params);
+			if (list == null || list.size() == 0)
+				return 0;
+
 			// 修正在一些情况下异常原因
-			Object obj = query.iterate().next();
+			Object obj = list.get(0);
 			if (obj == null)
 				return 0;
 			else
@@ -165,20 +207,21 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 		}
 	}
 
-	protected Query createQuery(String queryString, Object... values) {
-		Assert.hasText(queryString);
-		Query query = sessionFactory.openSession().createQuery(queryString);
-		if (values != null && values.length > 0) {
-			for (int i = 0; i < values.length; i++) {
-				query.setParameter(i, values[i]);
-			}
-		}
-		return query;
-	}
+	// protected Query createQuery(String queryString, Object... values) {
+	// Assert.hasText(queryString);
+	// Query query = sessionFactory.openSession().createQuery(queryString);
+	// if (values != null && values.length > 0) {
+	// for (int i = 0; i < values.length; i++) {
+	// query.setParameter(i, values[i]);
+	// }
+	// }
+	// return query;
+	// }
 
 	public List<T> queryList(String hql, Object... values)
 			throws DataAccessException {
-		return (List<T>) createQuery(hql, values).list();
+		// return (List<T>) createQuery(hql, values).list();
+		return (List<T>) getHibernateTemplate().find(hql, values);
 	}
 
 	public void save(T entity) throws DataAccessException {

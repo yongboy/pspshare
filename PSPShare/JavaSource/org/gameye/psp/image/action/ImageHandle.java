@@ -202,10 +202,11 @@ public class ImageHandle extends BaseActionSupport {
 					"<a href=\"#\"><img src=\"").append(urlPrefix).append(
 					"images/").append(img.getNowName()).append(
 					"\" width=\"480px\" height=\"272px\" border=\"0\"></a>");
-			
-//			if(img.getDescription() != null && !img.getDescription().trim().equals("null")){
-//				sb.append("<br />" + img.getDescription());
-//			}
+
+			if (StringUtils.isNotEmpty(img.getDescription())
+					&& !img.getDescription().trim().equals("null")) {
+				sb.append("<br />" + img.getDescription());
+			}
 			sb.append("]]></description>");
 			sb.append("</item>");
 		}
