@@ -9,8 +9,10 @@ import org.gameye.psp.image.entity.Image;
 import org.gameye.psp.image.service.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service("imageService")
+@Transactional
 public class ImageServiceImpl implements IImageService {
 	@Autowired
 	private IImageDao imageDao;
