@@ -38,4 +38,13 @@
 			<result name="failure" type="freemarker">/WEB-INF/pages/my/Failure.html</result>
 		</action>
 	</package>
+	
+	<package name="suggestion"  extends="struts-default" namespace="/suggestion">
+		<action name="Welcome" class="org.gameye.psp.image.action.SuggestionAction">
+			<result name="success" type="freemarker">/WEB-INF/pages/suggestion/welcome.html</result>
+		</action>
+		<action name="Add" class="org.gameye.psp.image.action.SuggestionAction" method="Add">
+			<result name="success" type="redirect">Welcome.do</result>
+		</action>
+	</package>
 </struts>
