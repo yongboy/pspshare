@@ -19,10 +19,10 @@
  分类 :  <#if img.type?? ><a href="Image_TypeList.do?id=${img.type.id}">${img.type.title!}</a><#else><a href="Image_TypeList.do?id=0">未标注</a></#if><br>
  标签 :  <#if 0 < img.tags?size >
  <#list img.tags as tag>
-<a href="Image_OneTagList.do?tid=${tag.id}"> ${tag.name!}</a>&nbsp;&nbsp;
+<!--a href="Image_OneTagList.do?tid=${tag.id}"--> ${tag.name!}<!-- /a-->&nbsp;&nbsp;
  </#list>
  <#else>
- 	<a href="Image_TagList.do?id=0">未标注</a>
+ 	<!-- a href="Image_TagList.do?id=0">未标注</a-->未标注
  </#if><br />
 动作 :  <a href="Image_Score.do?id=${img.id}&page=${page}">顶一下</a>(${img.score!})<span style="padding-left:5px;"></span>| <a href="Image_Download.do?id=${img.id}">下载</a>(${img.down!})  | <a href="Image_Collect.do?id=${img.id}&page=${page}">收藏</a>(${img.collect!})<br />
 描述 :<br />
@@ -33,24 +33,20 @@
         	无
         	</#if>        </span>
   <br />
-  评论(共${totalComment}条 最新前<#if comments??>${comments?size}<#else>0</#if>条 <a href="#">查看所有</a>) :   <br />
+  评论(共${totalComment}条 最新前<#if comments??>${comments?size}条 <a href="Image_ListComment.do?id=${img.id}">查看所有</a><#else>0</#if> ) :   <br />
   <#if comments??>
   <#list comments as comment>
   <div class="commentDiv">
-  Post at @ ${comment.date?string("yy-MM-dd HH:mm")}<br />
+  Post @ ${comment.date?string("yy-MM-dd HH:mm")}<br />
   ${comment.content}
   </div>
   </#list>
   </#if>
+  <!--label>保存一下我的位置(下次从这里开始)</label-->
   我来说几句：<br />
-  <!--评论添加区域--><!--label>保存一下我的位置(下次从这里开始)</labe>
-  <br>
-  我来说几句:<br>
-  <label>
-  <textarea name="textarea" id="textarea" cols="55" rows="8"></textarea>
-  </label-->  
   <form method="post" action="Image_AddComment.do" style="margin:0;">
   <input type="hidden" name="comment.image.id" value="${img.id}"/>
+  <input type="hidden" name="back" value="Image_List.do?page=${page}"/>
   <textarea name="comment.content" cols="45" rows="5"></textarea>
   <br />
   <input type="submit" name="button" id="button" value="保存我的评论" />
@@ -60,6 +56,10 @@
   tip：点击图片，可以查看下一张<br>
 </div>
 </#list>
+<#assign currDate = 1223180950743 />
+ss:${currDate?string("yyyy-MM-dd HH:mm:ss zzzz")}
+
+
 </div>
 </body>
 </html>

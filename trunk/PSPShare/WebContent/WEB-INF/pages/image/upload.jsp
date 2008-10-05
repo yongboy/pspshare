@@ -10,10 +10,10 @@
 <link href="style/share.css" rel="stylesheet"></link>
 <script src="script/form.js"></script>
 </head>
-<div class="topdiv">
 <div class="div">
 <div style="color:red;"><s:fielderror /></div>
-<form class="form" name="upForm" method="post" enctype="multipart/form-data" action="UploadImage.do">
+上传图片：
+<form class="form" name="upForm" method="post" enctype="multipart/form-data" action="UploadImage.do" style="margin:0;">
 			  <div id="myFileDiv">
 			    <input name="myFile" size="42" type="file" class="btn"/>			   
 			    <input type="button" onClick="addUpFile()" value="增加文件" class="btn">
@@ -22,13 +22,12 @@
 <input name="myFile" size="42" type="file" class="btn"/><br />
 <input name="myFile" size="42" type="file" class="btn"/>
 			  </div>
-			  <p><span ><br />
+			  <p><span >
 			    <input name="submit" type="submit" class="btn" id="submitBtn" value="选择完毕，开始上传" />
 			  </span> 
 			    <input name="reset" type="reset"  class="btn" value=" 重置 " />
 			  </p>
   </form>
-</div>
 </div>
 </body>
 </html>
