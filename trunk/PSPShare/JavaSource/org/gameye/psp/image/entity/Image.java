@@ -49,7 +49,10 @@ public class Image implements Serializable {
 	 * 描述
 	 */
 	private String description;
-	private String author;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
+
 	private String ip;
 	/**
 	 * 日期
@@ -70,11 +73,9 @@ public class Image implements Serializable {
 	private int collect;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "typeId")
 	private Type type;
 
-	 @OneToMany(mappedBy = "image", cascade = { CascadeType.ALL }, fetch =
-	 FetchType.LAZY)
+	@OneToMany(mappedBy = "image", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	private List<Tag> tags;
 
 	//
@@ -139,14 +140,6 @@ public class Image implements Serializable {
 		this.description = description;
 	}
 
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
-	}
-
 	public String getIp() {
 		return ip;
 	}
@@ -170,16 +163,6 @@ public class Image implements Serializable {
 	public void setType(Type type) {
 		this.type = type;
 	}
-
-//	public String getTags() {
-//		return tags;
-//	}
-//
-//	public void setTags(String tags) {
-//		this.tags = tags;
-//	}
-	
-	
 
 	public int getScore() {
 		return score;
@@ -211,6 +194,14 @@ public class Image implements Serializable {
 
 	public void setCollect(int collect) {
 		this.collect = collect;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

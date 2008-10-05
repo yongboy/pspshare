@@ -1,5 +1,7 @@
 package org.gameye.psp.image.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -55,4 +57,78 @@ public class ImageServiceImpl implements IImageService {
 		return imageDao.pagedQueryList(hql, 0, pageSize, ob);
 	}
 
+	public Map<Integer, List<Image>> oneTypeImages(int page, int size,
+			int typeId, String order) {
+		if (typeId < 1)
+			return pagedImages(page, size, order);
+
+		if (page < 1)
+			page = 1;
+		if (size < 1)
+			size = 1;
+		if (StringUtils.isEmpty(order))
+			order = "desc";
+		int startIndex = (page - 1) * size;
+		int pageSize = size;
+		List<Object> params = new ArrayList<Object>();
+		StringBuilder sb = new StringBuilder();
+		sb.append("from Image where ");
+		if (typeId < 1)
+			sb.append("type = null ");
+		else {
+			sb.append("type.id = ? ");
+			params.add(typeId);
+		}
+		sb.append("order by date ");
+		sb.append(order);
+		return imageDao.pagedQuery(sb.toString(), startIndex, pageSize, params
+				.toArray());
+	}
+
+	public Image getNextImage(String currImageId) {
+
+		return null;
+	}
+
+	public Image getPreImage(String currImageId) {
+		return null;
+	}
+
+	public Image getNextImage(int typeId, Date currImageDate) {
+		StringBuilder sb = new StringBuilder();
+		List<Object> params = new ArrayList<Object>();
+		sb.append("from Image where date > ? ");
+		params.add(currImageDate);
+		if (typeId == 0) {
+			sb.append(" and type = null ");
+		} else if (typeId > 0) {
+			sb.append(" and type.id = ? ");
+			params.add(typeId);
+		}
+		sb.append("order by date");
+		List<Image> list = imageDao.pagedQueryList(sb.toString(), 0, 1, params
+				.toArray());
+		if (list == null || list.size() == 0)
+			return null;
+		return list.get(0);
+	}
+
+	public Image getPreImage(int typeId, Date currImageDate) {
+		StringBuilder sb = new StringBuilder();
+		List<Object> params = new ArrayList<Object>();
+		sb.append("from Image where date < ? ");
+		params.add(currImageDate);
+		if (typeId == 0) {
+			sb.append(" and type = null ");
+		} else if (typeId > 0) {
+			sb.append(" and type.id = ? ");
+			params.add(typeId);
+		}
+		sb.append("order by date desc");
+		List<Image> list = imageDao.pagedQueryList(sb.toString(), 0, 1, params
+				.toArray());
+		if (list == null || list.size() == 0)
+			return null;
+		return list.get(0);
+	}
 }

@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
+import org.gameye.psp.image.entity.User;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -100,6 +101,12 @@ public class BaseActionSupport extends ActionSupport implements
 	 */
 	protected String getCurrentUserLoginName() {
 		return null;
+	}
+	
+	protected User getCurrUser(){
+		User user =  (User)request.getSession().getAttribute("user");
+		if(user == null)return null;
+		else return user;
 	}
 
 	protected String json(boolean flag) {
