@@ -2,6 +2,7 @@
 <web-app>
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
+		<welcome-file>welcome.do</welcome-file>
 	</welcome-file-list>
 	
 	<filter>
