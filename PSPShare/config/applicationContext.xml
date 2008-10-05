@@ -14,5 +14,5 @@
 			</list>
 		</property>
 	</bean>
-	<import resource="DBConfig.xml" />
+	<import resource="databaseConfig.xml" />
 </beans>
