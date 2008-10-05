@@ -26,4 +26,16 @@
 			<result name="RSS2" type="freemarker">/WEB-INF/pages/image/RSS_Result.jsp</result>
 		</action>
 	</package>
+	
+	
+	<package name="my" extends="struts-default" namespace="/my">
+		<action name="welcome" class="org.gameye.psp.image.action.MyImageSpaceAction" method="Welcome">
+			<result>/WEB-INF/pages/my/Welcome.html</result>
+		</action>
+	
+		<action name="*" class="org.gameye.psp.image.action.MyImageSpaceAction" method="{1}">
+			<result name="success" type="freemarker">/WEB-INF/pages/my/{1}.html</result>
+			<result name="failure" type="freemarker">/WEB-INF/pages/my/Failure.html</result>
+		</action>
+	</package>
 </struts>
