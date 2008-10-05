@@ -66,8 +66,10 @@ public class ImageHandle extends BaseActionSupport {
 		}
 		
 		//得到当前分类下 上一张图片ID以及下一张图片的ID
+//		preImage = imageService.getPreImage(image.getId());
+//		nextImage = imageService.getNextImage(image.getId());
 //		if(typeId > -1){
-			//当前分类不为空情况下
+////			当前分类不为空情况下
 //			preImage = imageService.getPreImage(typeId, image.getDate());
 //			nextImage = imageService.getNextImage(typeId, image.getDate());
 //		}else{
@@ -353,6 +355,11 @@ public class ImageHandle extends BaseActionSupport {
 
 		return SUCCESS;
 	}
+	
+	public String TagList(){
+		
+		return SUCCESS;
+	}
 
 	public String ListComment() {
 		if (page < 1)
@@ -398,6 +405,10 @@ public class ImageHandle extends BaseActionSupport {
 	
 	private Image preImage;
 	private Image nextImage;
+	
+//	private String next;
+	private String back;
+	
 
 	public String getId() {
 		return id;
@@ -490,5 +501,12 @@ public class ImageHandle extends BaseActionSupport {
 	public Image getNextImage() {
 		return nextImage;
 	}
-	
+
+	public String getBack() {
+		return back;
+	}
+
+	public void setBack(String back) {
+		this.back = back;
+	}	
 }
