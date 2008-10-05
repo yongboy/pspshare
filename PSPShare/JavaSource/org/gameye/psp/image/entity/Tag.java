@@ -24,11 +24,11 @@ public class Tag {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 	private String name;
-	private String author;
+	@ManyToOne(fetch = FetchType.LAZY)
+	private User user;
 	private Date date;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "imgId")
 	private Image image;
 
 	//
@@ -53,12 +53,12 @@ public class Tag {
 		this.name = name;
 	}
 
-	public String getAuthor() {
-		return author;
+	public User getUser() {
+		return user;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getDate() {

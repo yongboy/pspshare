@@ -65,7 +65,7 @@ public class UploadImage extends BaseActionSupport {
 	private Image doSaveInfo(String nowName, String oldName, String fileFix,
 			HttpServletRequest request) {
 		Image image = new Image();
-		image.setAuthor(getCurrUserId());
+		image.setUser(getCurrUser());
 		// long date = System.currentTimeMillis();
 		image.setDate(new Date());
 		image.setId(new SequenceCreator().getUID());

@@ -14,28 +14,68 @@ import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.config.Constants;
+import org.gameye.psp.image.entity.Collection;
+import org.gameye.psp.image.entity.Commentary;
+import org.gameye.psp.image.entity.DownHistory;
 import org.gameye.psp.image.entity.Image;
+import org.gameye.psp.image.entity.ScoreHistory;
 import org.gameye.psp.image.entity.Tag;
 import org.gameye.psp.image.entity.Type;
+import org.gameye.psp.image.service.ICollectionService;
+import org.gameye.psp.image.service.ICommentaryService;
+import org.gameye.psp.image.service.IDownHistoryService;
 import org.gameye.psp.image.service.IImageService;
+import org.gameye.psp.image.service.IScoreHistoryService;
 import org.gameye.psp.image.service.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
+@Controller
 public class ImageHandle extends BaseActionSupport {
 	private static final long serialVersionUID = 4070596295096869764L;
 	@Autowired
 	private IImageService imageService;
 	@Autowired
 	private ITypeService typeService;
+	@Autowired
+	private IScoreHistoryService scoreHistoryService;
+	@Autowired
+	private IDownHistoryService downHistoryService;
+	@Autowired
+	private ICommentaryService commentaryService;
+	@Autowired
+	private ICollectionService collectionService;
 
 	public String upload() {
 		return SUCCESS;
 	}
 
-	public void Show() {
-		Image image = imageService.getImage(id);
-		String imagePath = "images/" + image.getNowName();
-		printResponseMes(imagePath);
+	public String Show() {
+		image = imageService.getImage(id);
+		// 获取当前图片对应的评论列表
+		if (image != null) {
+			Map<Integer, List<Commentary>> cmtMaps = commentaryService
+					.pagedImages(1, 3, image.getId(), order);
+			for (Integer i : cmtMaps.keySet()) {
+				totalComment = i;
+				commentaries = cmtMaps.get(i);
+			}
+		} else {
+			totalComment = 0;
+			commentaries = null;
+		}
+		
+		//得到当前分类下 上一张图片ID以及下一张图片的ID
+//		if(typeId > -1){
+			//当前分类不为空情况下
+//			preImage = imageService.getPreImage(typeId, image.getDate());
+//			nextImage = imageService.getNextImage(typeId, image.getDate());
+//		}else{
+//			preImage = imageService.getPreImage(typeId, image.getDate());
+//			nextImage = imageService.getNextImage(typeId, image.getDate());
+//		}
+		
+		return SUCCESS;
 	}
 
 	// 图片上传之后的一些属性信息的批量更新
@@ -66,7 +106,7 @@ public class ImageHandle extends BaseActionSupport {
 						tag = new Tag();
 						tag.setName(t);
 						tag.setDate(new Date());
-						tag.setAuthor(img.getAuthor());
+						tag.setUser(img.getUser());
 
 						tag.setImage(img);
 
@@ -91,6 +131,18 @@ public class ImageHandle extends BaseActionSupport {
 		for (Integer inter : imgMaps.keySet()) {
 			total = inter;
 			images = imgMaps.get(inter);
+		}
+		// 获取当前图片对应的评论列表
+		if (images != null && images.size() > 0) {
+			Map<Integer, List<Commentary>> cmtMaps = commentaryService
+					.pagedImages(1, 3, images.get(0).getId(), order);
+			for (Integer i : cmtMaps.keySet()) {
+				totalComment = i;
+				commentaries = cmtMaps.get(i);
+			}
+		} else {
+			totalComment = 0;
+			commentaries = null;
 		}
 		return SUCCESS;
 	}
@@ -124,6 +176,14 @@ public class ImageHandle extends BaseActionSupport {
 				downNum = 0;
 			image.setDown(downNum + 1);
 			imageService.updateImage(image);
+
+			DownHistory downHistory = new DownHistory();
+			downHistory.setDate(new Date());
+			downHistory.setImage(image);
+			downHistory.setUser(getCurrUser());
+
+			downHistoryService.add(downHistory);
+
 		} catch (FileNotFoundException notFound) {
 			logger.log(Level.INFO, "文件下载时，该文件不存在:\n" + notFound.toString()
 					+ "\n下载的文件ID为：" + image.getId());
@@ -141,24 +201,7 @@ public class ImageHandle extends BaseActionSupport {
 			logger.log(Level.INFO, "文件下载时，出现无法处理的异常：\n" + e.toString()
 					+ "\n下载的文件ID为：" + image.getId());
 		}
-	}
 
-	public String RSS3() {
-		if (size < 1)
-			size = 10;
-		if (size > 20)
-			size = 20;
-		images = imageService.rssImages(size);
-		return "RSS2";
-	}
-
-	public String RSS2() {
-		if (size < 1)
-			size = 10;
-		if (size > 20)
-			size = 20;
-		images = imageService.rssImages(size);
-		return "RSS2";
 	}
 
 	public void RSS() {
@@ -196,7 +239,11 @@ public class ImageHandle extends BaseActionSupport {
 			sb.append("]]></title>");
 			sb.append("<pubDate>").append(img.getDate().toString()).append(
 					"</pubDate>");
-			sb.append("<author>").append(img.getAuthor()).append("</author>");
+			sb.append("<author>");
+			if (img.getUser() != null) {
+				sb.append(img.getUser().getName());
+			}
+			sb.append("</author>");
 			sb.append("<link>").append(urlPrefix).append("</link>");
 			sb.append("<description><![CDATA[").append(
 					"<a href=\"#\"><img src=\"").append(urlPrefix).append(
@@ -217,6 +264,117 @@ public class ImageHandle extends BaseActionSupport {
 		printResponseMes(sb.toString());
 	}
 
+	public String Score() {
+		if (StringUtils.isEmpty(id)) {
+			return "failure";
+		}
+
+		Image image = imageService.getImage(id);
+		int score;
+		try {
+			score = image.getScore();
+		} catch (Exception e) {
+			score = 0;
+		}
+		image.setScore(score + 1);
+		imageService.updateImage(image);
+
+		// 分值记录保存进数据库
+		ScoreHistory scoreHistory = new ScoreHistory();
+		scoreHistory.setDate(new Date());
+		scoreHistory.setImage(image);
+		scoreHistory.setScore(1);
+		scoreHistory.setUser(getCurrUser());
+
+		scoreHistoryService.add(scoreHistory);
+
+		return SUCCESS;
+	}
+
+	// 收藏当前图片
+	public String Collect() {
+		if (StringUtils.isEmpty(id)) {
+			return "failure";
+		}
+
+		Image image = imageService.getImage(id);
+		image.setCollect(image.getCollect() + 1);
+		imageService.updateImage(image);
+
+		Collection collection = new Collection();
+		collection.setDate(new Date());
+		collection.setImage(imageService.getImage(id));
+		collection.setUser(getCurrUser());
+
+		collectionService.add(collection);
+
+		return SUCCESS;
+	}
+
+	// 增加评论
+	public String AddComment() {
+		if (commentary == null) {
+			return "failure";
+		}
+		if (commentary.getImage() == null) {
+			return "failure";
+		}
+		commentary.setImage(imageService
+				.getImage(commentary.getImage().getId()));
+		commentary.setDate(new Date());
+
+		commentary.setUser(getCurrUser());
+
+		commentaryService.add(commentary);
+
+		return SUCCESS;
+	}
+
+	public String TypeList() {
+		int typeId = -1;
+		try {
+			typeId = Integer.parseInt(id);
+		} catch (NumberFormatException nfe) {
+		}
+		if (v < 4)
+			v = 6;
+		size = v * v;
+
+		Map<Integer, List<Image>> imgMaps = imageService.oneTypeImages(page,
+				size, typeId, order);
+		if (imgMaps == null || imgMaps.keySet().size() == 0) {
+			total = 0;
+			return SUCCESS;
+		}
+		for (Integer i : imgMaps.keySet()) {
+			total = i;
+			images = imgMaps.get(i);
+		}
+
+		return SUCCESS;
+	}
+
+	public String ListComment() {
+		if (page < 1)
+			page = 1;
+		if (size < 1)
+			size = 10;
+		image = imageService.getImage(id);
+		if (image == null) {
+			totalComment = 0;
+			commentaries = null;
+			return SUCCESS;
+		}
+
+		Map<Integer, List<Commentary>> cmtMaps = commentaryService.pagedImages(
+				page, size, image.getId(), order);
+		for (Integer i : cmtMaps.keySet()) {
+			totalComment = i;
+			commentaries = cmtMaps.get(i);
+		}
+		return SUCCESS;
+	}
+
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
 	private int page;
@@ -226,6 +384,20 @@ public class ImageHandle extends BaseActionSupport {
 	private String id;
 
 	private List<Image> images;
+
+	private int totalComment;
+	private List<Commentary> commentaries;
+
+	private Commentary commentary;
+
+	private int v;
+
+	private Image image;
+	
+	private int typeId;
+	
+	private Image preImage;
+	private Image nextImage;
 
 	public String getId() {
 		return id;
@@ -275,4 +447,48 @@ public class ImageHandle extends BaseActionSupport {
 		this.order = order;
 	}
 
+	public int getTotalComment() {
+		return totalComment;
+	}
+
+	public List<Commentary> getComments() {
+		return commentaries;
+	}
+
+	public Commentary getComment() {
+		return commentary;
+	}
+
+	public void setComment(Commentary commentary) {
+		this.commentary = commentary;
+	}
+
+	public int getV() {
+		return v;
+	}
+
+	public void setV(int v) {
+		this.v = v;
+	}
+
+	public Image getImage() {
+		return image;
+	}
+
+	public int getTypeId() {
+		return typeId;
+	}
+
+	public void setTypeId(int typeId) {
+		this.typeId = typeId;
+	}
+
+	public Image getPreImage() {
+		return preImage;
+	}
+
+	public Image getNextImage() {
+		return nextImage;
+	}
+	
 }

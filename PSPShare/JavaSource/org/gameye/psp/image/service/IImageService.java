@@ -1,5 +1,6 @@
 package org.gameye.psp.image.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -33,4 +34,36 @@ public interface IImageService {
 	 * @return
 	 */
 	List<Image> rssImages(int pageSize);
+
+	/**
+	 * 提取一个分类下面所有图片
+	 * 
+	 * @param page
+	 * @param size
+	 * @param typeId
+	 * @param order
+	 * @return
+	 */
+	Map<Integer, List<Image>> oneTypeImages(int page, int size, int typeId,
+			String order);
+
+	/**
+	 * 得到当前图片的上一张图片
+	 * 
+	 * @param currImageId
+	 * @return
+	 */
+	Image getPreImage(String currImageId);
+
+	Image getPreImage(int typeId, Date currImageDate);
+
+	/**
+	 * 得到当前图片的下一张图片
+	 * 
+	 * @param currImageId
+	 * @return
+	 */
+	Image getNextImage(String currImageId);
+
+	Image getNextImage(int typeId, Date currImageDate);
 }
