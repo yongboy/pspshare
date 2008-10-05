@@ -32,11 +32,11 @@ public class UploadImage extends BaseActionSupport {
 	 */
 	private static final long serialVersionUID = 3195051103800176158L;
 
-	public String ZipUpload(){
-		
+	public String ZipUpload() {
+
 		return SUCCESS;
 	}
-	
+
 	@Override
 	public String execute() {
 		if (myFiles == null || myFiles.size() == 0)
@@ -50,12 +50,13 @@ public class UploadImage extends BaseActionSupport {
 			fileFix = UploadTool.getFileExt(fileNames.get(i));
 			nowName = System.currentTimeMillis() + fileFix;
 			String descPath = Constants.getImgSavePath() + nowName;
-			
+
 			dst = new File(descPath);
 			copyFile(myFiles.get(i), dst);
 
 			image = doSaveInfo(nowName, fileNames.get(i), fileFix,
 					getServletRequest());
+			image.setContentType(contentTypes.get(i));
 			imageService.saveImage(image);
 			images.add(image);
 		}
@@ -72,6 +73,8 @@ public class UploadImage extends BaseActionSupport {
 		image.setIp(request.getRemoteAddr());
 		image.setNowName(nowName);
 		image.setOldName(oldName);
+		// 默认情况下，使用原始文件名
+		image.setTitle(oldName);
 		image.setPostfix(fileFix);
 
 		return image;

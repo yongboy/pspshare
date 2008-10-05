@@ -48,6 +48,18 @@ public interface IImageService {
 			String order);
 
 	/**
+	 * 一个标签下所有的图片列表
+	 * 
+	 * @param page
+	 * @param size
+	 * @param tagId
+	 * @param order
+	 * @return
+	 */
+	Map<Integer, List<Image>> oneTagImages(int page, int size, long tagId,
+			String order);
+
+	/**
 	 * 得到当前图片的上一张图片
 	 * 
 	 * @param currImageId

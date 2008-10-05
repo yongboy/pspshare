@@ -40,7 +40,7 @@ public class Image implements Serializable {
 	/**
 	 * 文件类型，对应于Content-Type
 	 */
-	private String content;
+	private String contentType;
 	/**
 	 * 文件后缀
 	 */
@@ -116,12 +116,12 @@ public class Image implements Serializable {
 		this.oldName = oldName;
 	}
 
-	public String getContent() {
-		return content;
+	public String getContentType() {
+		return contentType;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setContentType(String contentType) {
+		this.contentType = contentType;
 	}
 
 	public String getPostfix() {
