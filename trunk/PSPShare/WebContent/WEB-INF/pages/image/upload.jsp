@@ -27,6 +27,7 @@
 			  </span> 
 			    <input name="reset" type="reset"  class="btn" value=" 重置 " />
 			  </p>
+<s:token />
   </form>
 </div>
 </body>
