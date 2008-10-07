@@ -4,6 +4,14 @@
 <struts>
 	<!--package name="image" namespace="/image" extends="struts-default"-->
 	<package name="image" extends="struts-default">
+		
+		 <interceptors>
+			<interceptor-stack name="token">
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+				<interceptor-ref name="token"></interceptor-ref>
+			</interceptor-stack>
+		 </interceptors>
+	
 		<action name="upload" class="org.gameye.psp.image.action.ImageHandle" method="upload">
 			<result>/WEB-INF/pages/image/upload.jsp</result>
 		</action>
@@ -14,10 +22,11 @@
                  <!-- 1024*1024*5 = 5M -->
                  <param name="maximumSize">5242880</param>
              </interceptor-ref>   
-             <interceptor-ref name ="defaultStack"/>
+             <interceptor-ref name ="token"/>
              <!-- 如果加入了验证上传文件的类型,必须要加input -->  
              <result name="success" type="freemarker">/WEB-INF/pages/image/upload_result.html</result>
              <result name="input">/WEB-INF/pages/image/upload.jsp</result>
+             <result name="invalid.token">/WEB-INF/pages/image/upload.jsp</result>
 		</action>
 		<action name="Image_*" class="org.gameye.psp.image.action.ImageHandle" method="{1}">
 			<result name="success" type="freemarker">/WEB-INF/pages/image/{1}_Result.html</result>
