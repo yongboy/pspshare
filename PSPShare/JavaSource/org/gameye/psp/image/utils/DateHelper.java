@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -126,6 +127,15 @@ public class DateHelper {
 	public static String formatDate(java.util.Date date, String format) {
 		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
 				"yyyy-MM-dd");
+		if (!StringUtils.isEmpty(format))
+			sdf.applyPattern(format);
+
+		return sdf.format(date);
+	}
+	
+	public static String formatDate(java.util.Date date, String format,Locale locale) {
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat(
+				"yyyy-MM-dd",locale);
 		if (!StringUtils.isEmpty(format))
 			sdf.applyPattern(format);
 
