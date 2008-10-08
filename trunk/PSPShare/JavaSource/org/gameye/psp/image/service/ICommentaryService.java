@@ -9,5 +9,5 @@ public interface ICommentaryService {
 
 	void add(Commentary commentary);
 
-	Map<Integer, List<Commentary>> pagedImages(int page, int size,String imageId, String order);
+	Map<Integer, List<Commentary>> pagedImages(int page, int size,long imageId, String order);
 }

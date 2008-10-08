@@ -11,7 +11,7 @@ public interface IImageService {
 
 	void updateImage(Image image);
 
-	Image getImage(String id);
+	Image getImage(long id);
 
 	/**
 	 * 分页函数
@@ -65,9 +65,7 @@ public interface IImageService {
 	 * @param currImageId
 	 * @return
 	 */
-	Image getPreImage(String currImageId);
-
-	Image getPreImage(int typeId, Date currImageDate);
+	Image getPreImage(int typeId, long currImgId);
 
 	/**
 	 * 得到当前图片的下一张图片
@@ -75,7 +73,5 @@ public interface IImageService {
 	 * @param currImageId
 	 * @return
 	 */
-	Image getNextImage(String currImageId);
-
-	Image getNextImage(int typeId, Date currImageDate);
+	Image getNextImage(int typeId, long currImgId);
 }
