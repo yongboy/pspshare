@@ -11,11 +11,18 @@
 </head>
 <body>
 <div class="topdiv">
+<%
+String userAgent = request.getHeader("user-agent");
+if(userAgent.indexOf("PSP") == -1){
+%>
 <jsp:include page="/head.jsp"></jsp:include>
+<%} %>
 <decorator:body />
-<div></div>
+<div>&nbsp;</div>
+<div>
 <!-- foot div -->
 <jsp:include page="/foot.jsp"></jsp:include>
+</div>
 </div>
 </body>
 </html>
