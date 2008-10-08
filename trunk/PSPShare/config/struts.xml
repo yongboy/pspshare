@@ -56,4 +56,13 @@
 			<result name="success" type="redirect">Welcome.do</result>
 		</action>
 	</package>
+	
+	<package name="rss" extends="struts-default" namespace="/rss">
+		<action name="welcome" class="org.gameye.psp.image.action.RssImageAction" method="Welcome">
+			<result>/WEB-INF/pages/rss/Welcome.html</result>
+		</action>
+	
+		<action name="*" class="org.gameye.psp.image.action.RssImageAction" method="{1}">
+		</action>
+	</package>
 </struts>
