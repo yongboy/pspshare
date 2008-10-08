@@ -5,10 +5,12 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -18,6 +20,8 @@ import javax.persistence.OneToMany;
 @Entity(name = "Images")
 public class Image implements Serializable {
 
+	private static final long serialVersionUID = 3618623092837073406L;
+
 	//
 	// Fields
 	//
@@ -26,7 +30,8 @@ public class Image implements Serializable {
 	 * 主键
 	 */
 	@Id
-	private String id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private long id;
 
 	private String title;
 	/**
@@ -45,6 +50,13 @@ public class Image implements Serializable {
 	 * 文件后缀
 	 */
 	private String postfix;
+
+	/**
+	 * 文件长度
+	 */
+	@Column(nullable = false)
+	private long length;
+
 	/**
 	 * 描述
 	 */
@@ -84,11 +96,11 @@ public class Image implements Serializable {
 	public Image() {
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -132,12 +144,28 @@ public class Image implements Serializable {
 		this.postfix = postfix;
 	}
 
+	public long getLength() {
+		return length;
+	}
+
+	public void setLength(long length) {
+		this.length = length;
+	}
+
 	public String getDescription() {
 		return description;
 	}
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getIp() {
@@ -156,24 +184,8 @@ public class Image implements Serializable {
 		this.date = date;
 	}
 
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
-
 	public int getScore() {
 		return score;
-	}
-
-	public List<Tag> getTags() {
-		return tags;
-	}
-
-	public void setTags(List<Tag> tags) {
-		this.tags = tags;
 	}
 
 	public void setScore(int score) {
@@ -196,12 +208,19 @@ public class Image implements Serializable {
 		this.collect = collect;
 	}
 
-	public User getUser() {
-		return user;
+	public Type getType() {
+		return type;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setType(Type type) {
+		this.type = type;
 	}
 
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
 }
