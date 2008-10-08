@@ -1,0 +1,35 @@
+<div class="div">
+ 分类 :  <#if image.type?? ><a href="Image_TypeList.do?id=${image.type.id}">${image.type.title!}</a><#else><a href="Image_TypeList.do?id=-1">未分类</a></#if><br>
+ 标签 :  <#if 0 < image.tags?size >
+ <#list image.tags as tag>
+<!--a href="Image_OneTagList.do?tid=${tag.id}"--> ${tag.name!}<!-- /a-->&nbsp;&nbsp;
+ </#list>
+ <#else>
+ 	<!-- a href="Image_TagList.do?id=0">未标注</a-->未标注
+ </#if><br />
+动作 :  <a href="Image_Score.do?id=${image.id}&page=${page}">顶一下</a> (${image.score!})<span style="padding-left:5px;"></span>| <a href="Image_Download.do?id=${image.id}">下载</a> (${image.down!})  | <a href="Image_Collect.do?id=${image.id}&page=${page}">收藏</a> (${image.collect!})<br />
+描述 :  <#if image.description! = ''>无<#else><br />
+		<span style="margin:5px; width:100%;font-style:inherit; border-bottom:thin; border-bottom-color:#CCCCCC; border-bottom-style:dotted;">
+        	${image.description!}        	
+        	</#if>        </span>
+  <br />
+  评论 <#if 0 < totalComment >(共 ${totalComment} &nbsp;&nbsp;最新 <#if comments??>${comments?size}&nbsp;&nbsp;&nbsp;&nbsp;<a href="Image_ListComment.do?id=${image.id}">所有</a><#else>0</#if> ) </#if>:
+  <#if comments?? && (0< comments?size) >
+  <div class="commentDiv">
+  <#list comments as comment>
+  <div>
+  Post @ ${comment.date?string("yy-MM-dd HH:mm")}<br />
+  ${comment.content?html}  </div>
+  </#list>
+  </div>
+  </#if> 
+  <div class="addCommentDiv">
+  <form method="post" action="Image_AddComment.do">
+  <input type="hidden" name="comment.image.id" value="${image.id}"/>
+  <input type="hidden" name="back" value="Image_List.do?page=${page}"/>
+  <textarea name="comment.content" cols="35" rows="4"></textarea>
+  <br />
+  <input type="submit" name="button" id="button" value="保存我的评论" />
+  </form>
+  </div>
+</div>

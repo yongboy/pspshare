@@ -8,12 +8,16 @@
 <body>
 <#assign width= 480/v />
 <#assign height = 272/v />
+<#assign total= total/v  />
 <div class="div">
 <#list images as img>
-<a href="Image_Show.do?id=${img.id}&typeId=${id!}"><img src="images/${img.nowName}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
+<a href="Image_Show.do?id=${img.id}&typeId=${id!}"><img src="images/small/${img.nowName}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
 </div>
 <div class="div">
- <#if 1 < page><a href="Image_TypeList.do?id=${id!}&v=${v}&page=1">第一页</a> <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page-1}">上一页</a></#if><#if page < total> <#if page < 1><#assign page= 1 /></#if><a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page+1}">下一页</a> <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${((total-1)/size + 1)?int}">最后一页</a></#if>
+ <#if 1 < page><a href="Image_TypeList.do?id=${id!}&v=${v}&page=1">第一页</a> <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page-1}">上一页</a>
+ </#if>
+ <#if page < total && 1< total > <#if page < 1><#assign page= 1 /></#if>
+ <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page+1}">下一页</a> <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${((total-1)/size + 1)?int}">最后一页</a></#if>
 <br />  tip：点击图片，可以查看完整图像<br>
 </div>
 

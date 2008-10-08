@@ -6,50 +6,17 @@
 <link href="style/share.css" rel="stylesheet"></link>
 </head>
 <body>
-<div class="topdiv">
 <div class="div">
-<img src="images/${image.nowName}" width="480px" height="272px" border="0">
-</div>
-<div class="div">
- <span style="float:right;"><#if image.author! != '0'> ${image.author!}</#if> 上传于 ${image.date?string("yyyy-MM-dd HH:mm")}</span> 
+<img src="images/${image.nowName}" width="480px" height="272px" border="0"></div>
+<div>
+ <span style="float:right;"><#if image.author! != '0'> ${image.author!}</#if>  ${image.date?string("yyyy-MM-dd HH:mm")}</span>
  <span style="float:left;">${image.title!}</span><br />
- 分类 :  <#if image.type?? ><a href="Image_TypeList.do?id=${image.type.id}">${image.type.title!}</a><#else><a href="Image_TypeList.do?id=0">未标注</a></#if><br>
- 标签 :  <#if 0 < image.tags?size >
- <#list image.tags as tag>
-<!-- a href="Image_OneTagList.do?tid=${tag.id}"> ${tag.name!}</a-->${tag.name!}&nbsp;&nbsp;
- </#list>
- <#else>
- 	<!--a href="Image_TagList.do?id=0">未标注</a-->未标注
- </#if><br />
-动作 :  <a href="Image_Score.do?id=${image.id}&back=Image_Show.do?id=${image.id}">顶一下</a>(${image.score!})<span style="padding-left:5px;"></span>| <a href="Image_Download.do?id=${image.id}">下载</a>(${image.down!}) | <a href="Image_Collect.do?id=${image.id}&back=Image_Show.do?id=${image.id}">收藏</a>(${image.collect!})<br />
-描述 :<br />
-		<span style="margin:5px; width:100%;font-style:inherit; border-bottom:thin; border-bottom-color:#CCCCCC; border-bottom-style:dotted;">
-        	<#if image.description! != ''>
-        	${image.description!}
-        	<#else>
-        	无
-        	</#if>        </span>
-  <br />
-  评论(共${totalComment}条 最新前<#if comments??>${comments?size}<#else>0</#if>条 <a href="#">查看所有</a>) :   <br />
-  <#if comments??>
-  <#list comments as comment>
-  <div class="commentDiv">
-  Post @ ${comment.date?string("yy-MM-dd HH:mm")}<br />
-  ${comment.content}
-  </div>
-  </#list>
-  </#if>
-  <!--label>保存一下我的位置(下次从这里开始)</labe>
-  </label-->
-  我来说几句：<br />
-  <form method="post" action="Image_AddComment.do" style="margin:0;">
-  <input type="hidden" name="comment.image.id" value="${image.id}"/>
-  <input type="hidden" name="back" value="Image_Show.do?id=${image.id}" />
-  <textarea name="comment.content" cols="45" rows="5"></textarea>
-  <br />
-  <input type="submit" name="button" id="button" value="保存我的评论" />
-  </form>
-  </div>
+ 
+<#if preImage ??> <a href="Image_Show.do?id=${preImage.id}&typeId=${typeId!}">上一张</a><#else>没啦</#if> 
+<#if nextImage ??> <a href="Image_Show.do?id=${nextImage.id}&typeId=${typeId!}">下一张</a><#else>没啦～</#if>
 </div>
+
+<#include "/WEB-INF/pages/image/OneImageInfoPart.html" />
+
 </body>
 </html>
