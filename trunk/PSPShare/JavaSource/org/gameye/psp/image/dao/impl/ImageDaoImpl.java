@@ -6,6 +6,6 @@ import org.gameye.psp.image.entity.Image;
 import org.springframework.stereotype.Repository;
 
 @Repository("imageDao")
-public class ImageDaoImpl extends BaseDaoImpl<Image, String> implements
+public class ImageDaoImpl extends BaseDaoImpl<Image, Long> implements
 		IImageDao {
 }
