@@ -23,7 +23,7 @@ public class CommentaryServiceImpl implements ICommentaryService {
 	}
 
 	public Map<Integer, List<Commentary>> pagedImages(int page, int size,
-			String imageId, String order) {
+			long imageId, String order) {
 
 		if (page < 1)
 			page = 1;
