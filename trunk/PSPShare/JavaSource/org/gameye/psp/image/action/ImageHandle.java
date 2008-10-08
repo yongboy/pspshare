@@ -7,11 +7,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.config.Constants;
 import org.gameye.psp.image.entity.Collection;
@@ -27,6 +30,7 @@ import org.gameye.psp.image.service.IDownHistoryService;
 import org.gameye.psp.image.service.IImageService;
 import org.gameye.psp.image.service.IScoreHistoryService;
 import org.gameye.psp.image.service.ITypeService;
+import org.gameye.psp.image.utils.DateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -64,19 +68,12 @@ public class ImageHandle extends BaseActionSupport {
 			totalComment = 0;
 			commentaries = null;
 		}
-		
-		//得到当前分类下 上一张图片ID以及下一张图片的ID
-//		preImage = imageService.getPreImage(image.getId());
-//		nextImage = imageService.getNextImage(image.getId());
-//		if(typeId > -1){
-////			当前分类不为空情况下
-//			preImage = imageService.getPreImage(typeId, image.getDate());
-//			nextImage = imageService.getNextImage(typeId, image.getDate());
-//		}else{
-//			preImage = imageService.getPreImage(typeId, image.getDate());
-//			nextImage = imageService.getNextImage(typeId, image.getDate());
-//		}
-		
+
+		// 得到当前分类下 上一张图片ID以及下一张图片的ID
+		// 当前分类不为空情况下
+		preImage = imageService.getPreImage(typeId, image.getId());
+		nextImage = imageService.getNextImage(typeId, image.getId());
+
 		return SUCCESS;
 	}
 
@@ -146,6 +143,7 @@ public class ImageHandle extends BaseActionSupport {
 			totalComment = 0;
 			commentaries = null;
 		}
+		log.info("totalComment:" + totalComment);
 		return SUCCESS;
 	}
 
@@ -231,32 +229,58 @@ public class ImageHandle extends BaseActionSupport {
 				.append("<description><![CDATA[PSP壁纸,壁纸分享,分享壁纸，为你为我]]></description>");
 		sb.append("<language>zh-CN</language>");
 
+		sb.append("<image>");
+		sb.append("<url>" + urlPrefix + "image/rss_image.png</url>");
+		sb.append("<title>Share Images For You!</title>");
+		sb.append("</image>");
+		sb
+				.append("<copyright>&#xA9; 2008 Forshare.Org,Publicer Yongboy. All rights reserved.</copyright>");
+		String imgUrl = null;
+		String smallImgUrl = null;
 		for (Image img : images) {
 			sb.append("<item>");
+
 			sb.append("<title><![CDATA[");
 			if (StringUtils.isNotEmpty(img.getTitle()))
 				sb.append(img.getTitle());
-			else
-				sb.append("");
 			sb.append("]]></title>");
-			sb.append("<pubDate>").append(img.getDate().toString()).append(
-					"</pubDate>");
+
+			sb.append("<link>").append(urlPrefix).append("</link>");
+
+			sb.append("<description><![CDATA[");
+			if (StringUtils.isNotEmpty(img.getDescription())
+					&& !img.getDescription().trim().equals("null")) {
+				sb.append(img.getDescription());
+			}
+			sb.append("]]></description>");
+
 			sb.append("<author>");
 			if (img.getUser() != null) {
 				sb.append(img.getUser().getName());
 			}
 			sb.append("</author>");
-			sb.append("<link>").append(urlPrefix).append("</link>");
-			sb.append("<description><![CDATA[").append(
-					"<a href=\"#\"><img src=\"").append(urlPrefix).append(
-					"images/").append(img.getNowName()).append(
-					"\" width=\"480px\" height=\"272px\" border=\"0\"></a>");
+			// EEE, d MMM yyyy HH:mm:ss Z
+			sb.append("<pubDate>").append(
+					DateHelper.formatDate(img.getDate(),
+							"EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH))
+					.append("</pubDate>");
 
-			if (StringUtils.isNotEmpty(img.getDescription())
-					&& !img.getDescription().trim().equals("null")) {
-				sb.append("<br />" + img.getDescription());
-			}
-			sb.append("]]></description>");
+			imgUrl = urlPrefix + "images/" + img.getNowName();
+			sb.append("<enclosure url=\"" + imgUrl + "\"");
+			// 图片的length 和 type可以不用输出
+			// sb.append("length="500000" type="image/jpeg" />";
+			sb.append(" />");
+			smallImgUrl = urlPrefix + "images/small/" + img.getNowName();
+			// media 可以不输出
+			sb.append("<media:thumbnail url = \"");
+			sb.append(smallImgUrl);
+			sb.append("\" width=\"80\" height=\"45\" />");
+
+			// .append(
+			// "<a href=\"#\"><img src=\"").append(urlPrefix).append(
+			// "images/").append(img.getNowName()).append(
+			// "\" width=\"480px\" height=\"272px\" border=\"0\"></a>");
+
 			sb.append("</item>");
 		}
 
@@ -266,10 +290,21 @@ public class ImageHandle extends BaseActionSupport {
 		printResponseMes(sb.toString());
 	}
 
+	public String RSS2() {
+		if (size < 1)
+			size = 10;
+		if (size > 20)
+			size = 20;
+		images = imageService.rssImages(size);
+		return "psprss";
+	}
+
 	public String Score() {
-		if (StringUtils.isEmpty(id)) {
+		// if (StringUtils.isEmpty(id)) {
+		// return "failure";
+		// }
+		if (id < 1)
 			return "failure";
-		}
 
 		Image image = imageService.getImage(id);
 		int score;
@@ -295,9 +330,11 @@ public class ImageHandle extends BaseActionSupport {
 
 	// 收藏当前图片
 	public String Collect() {
-		if (StringUtils.isEmpty(id)) {
+		// if (StringUtils.isEmpty(id)) {
+		// return "failure";
+		// }
+		if (id < 1)
 			return "failure";
-		}
 
 		Image image = imageService.getImage(id);
 		image.setCollect(image.getCollect() + 1);
@@ -335,7 +372,7 @@ public class ImageHandle extends BaseActionSupport {
 	public String TypeList() {
 		int typeId = -1;
 		try {
-			typeId = Integer.parseInt(id);
+			typeId = Integer.parseInt(Long.toString(id));
 		} catch (NumberFormatException nfe) {
 		}
 		if (v < 4)
@@ -355,9 +392,9 @@ public class ImageHandle extends BaseActionSupport {
 
 		return SUCCESS;
 	}
-	
-	public String TagList(){
-		
+
+	public String TagList() {
+
 		return SUCCESS;
 	}
 
@@ -388,7 +425,7 @@ public class ImageHandle extends BaseActionSupport {
 	private int size;
 	private int total;
 	private String order;
-	private String id;
+	private long id;
 
 	private List<Image> images;
 
@@ -400,21 +437,20 @@ public class ImageHandle extends BaseActionSupport {
 	private int v;
 
 	private Image image;
-	
+
 	private int typeId;
-	
+
 	private Image preImage;
 	private Image nextImage;
-	
-//	private String next;
-	private String back;
-	
 
-	public String getId() {
+	// private String next;
+	private String back;
+
+	public long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -508,5 +544,7 @@ public class ImageHandle extends BaseActionSupport {
 
 	public void setBack(String back) {
 		this.back = back;
-	}	
+	}
+
+	private static Log log = LogFactory.getLog(ImageHandle.class);
 }

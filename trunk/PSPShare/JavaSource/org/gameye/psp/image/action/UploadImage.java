@@ -56,6 +56,7 @@ public class UploadImage extends BaseActionSupport {
 
 			image = doSaveInfo(nowName, fileNames.get(i), fileFix,
 					getServletRequest());
+			image.setLength(myFiles.get(i).length());
 			image.setContentType(contentTypes.get(i));
 			imageService.saveImage(image);
 			images.add(image);
@@ -69,7 +70,7 @@ public class UploadImage extends BaseActionSupport {
 		image.setUser(getCurrUser());
 		// long date = System.currentTimeMillis();
 		image.setDate(new Date());
-		image.setId(new SequenceCreator().getUID());
+		// image.setId(new SequenceCreator().getUID());
 		image.setIp(request.getRemoteAddr());
 		image.setNowName(nowName);
 		image.setOldName(oldName);
