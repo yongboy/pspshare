@@ -19,7 +19,7 @@ public class Collection implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	private Image image;
 
 	@ManyToOne(fetch = FetchType.LAZY)
