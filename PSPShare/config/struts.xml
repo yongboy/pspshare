@@ -15,6 +15,9 @@
 		<action name="upload" class="org.gameye.psp.image.action.ImageHandle" method="upload">
 			<result>/WEB-INF/pages/image/upload.jsp</result>
 		</action>
+		<action name="uploadZip" class="org.gameye.psp.image.action.ImageHandle" method="uploadZip">
+			<result>/WEB-INF/pages/image/uploadZip.jsp</result>
+		</action>
 		<action name="UploadImage" class="org.gameye.psp.image.action.UploadImage">			
 			<!-- 验证上传文件的类型 -->
              <interceptor-ref name ="fileUpload">   
@@ -28,6 +31,21 @@
              <result name="input">/WEB-INF/pages/image/upload.jsp</result>
              <result name="invalid.token">/WEB-INF/pages/image/upload.jsp</result>
 		</action>
+		<action name="UploadZip" class="org.gameye.psp.image.action.UploadImage" method="ZipUpload">			
+			<!-- 验证上传文件的类型 -->
+             <interceptor-ref name ="fileUpload">   
+                 <param name ="allowedTypes">application/zip,application/x-zip-compressed</param>
+                 <!-- 1024*1024*5 = 5M -->
+                 <param name="maximumSize">5242880</param>
+             </interceptor-ref>   
+             <interceptor-ref name ="token"/>
+             <!-- 如果加入了验证上传文件的类型,必须要加input -->  
+             <result name="success" type="freemarker">/WEB-INF/pages/image/upload_result.html</result>
+             <result name="input">/WEB-INF/pages/image/uploadZip.jsp</result>
+             <result name="invalid.token">/WEB-INF/pages/image/uploadZip.jsp</result>
+		</action>
+		
+		
 		<action name="Image_*" class="org.gameye.psp.image.action.ImageHandle" method="{1}">
 			<result name="success" type="freemarker">/WEB-INF/pages/image/{1}_Result.html</result>
 			<result name="failure" type="freemarker">/WEB-INF/pages/image/Failure.html</result>
@@ -57,12 +75,10 @@
 		</action>
 	</package>
 	
-	<package name="rss" extends="struts-default" namespace="/rss">
-		<action name="welcome" class="org.gameye.psp.image.action.RssImageAction" method="Welcome">
-			<result>/WEB-INF/pages/rss/Welcome.html</result>
-		</action>
-	
-		<action name="*" class="org.gameye.psp.image.action.RssImageAction" method="{1}">
-		</action>
+	<package name="atom" extends="struts-default" namespace="/atom">
+		<action name="Welcome" class="org.gameye.psp.image.action.RssImageAction" method="Welcome">
+			<result name="success" type="freemarker">/WEB-INF/pages/rss/Welcome.html</result>
+		</action>	
+		<action name="*_rss" class="org.gameye.psp.image.action.RssImageAction" method="{1}"></action>
 	</package>
 </struts>
