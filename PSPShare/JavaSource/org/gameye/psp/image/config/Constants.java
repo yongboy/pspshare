@@ -1,5 +1,9 @@
 package org.gameye.psp.image.config;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Constants {
 	public static String savePath = null;
 
@@ -17,7 +21,7 @@ public class Constants {
 
 	public enum thumbnail {
 		path("thumbnail/"),
-		realDir(getWebRootPath() + path),
+		realDir(getImgSavePath() + path),
 		width("80"),
 		height("45");
 
@@ -31,4 +35,7 @@ public class Constants {
 			return value;
 		}
 	}
+	private static String imgSuffix = ".jpg,.jpeg,.png,.bmp,.gif";
+	public static final Set<String> allowImageSuffix = new HashSet<String>(
+			Arrays.asList(imgSuffix.split(",")));
 }
