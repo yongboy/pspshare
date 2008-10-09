@@ -6,21 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>上传图片</title>
-<link href="style/global.css" rel="stylesheet"></link>
-<link href="style/share.css" rel="stylesheet"></link>
-<script src="script/form.js"></script>
 </head>
 <div class="div">
 <div style="color:red;"><s:fielderror /></div>
-<div style="margin-bottom:10px;"><span style="float:left">普通上传</span><span style="margin-left:20px;"><a href="uploadZip.do">ZIP 打包上传</a></span></div>
-<form class="form" name="upForm" method="post" enctype="multipart/form-data" action="UploadImage.do" style="margin:0;">
+<div style="margin-bottom:10px;"><span style="float:left"><a href="upload.do">普通上传</a></span><span style="margin-left:20px;">ZIP 打包上传</span></div>
+<form class="form" name="upForm" method="post" enctype="multipart/form-data" action="UploadZip.do" style="margin:0;">
 			  <div id="myFileDiv">
-			    <input name="myFile" size="42" type="file" class="btn"/>			   
-			    <input type="button" onClick="addUpFile()" value="增加文件" class="btn">
-			    <br>
-			  <input name="myFile" size="42" type="file" class="btn"/><br />
-<input name="myFile" size="42" type="file" class="btn"/><br />
-<input name="myFile" size="42" type="file" class="btn"/>
+              请选择PSP壁纸ZIP格式压缩包 :<br />
+			    <input name="myFile" size="42" type="file" class="btn"/>
 			  </div>
 			  <p><span >
 			    <input name="submit" type="submit" class="btn" id="submitBtn" value="选择完毕，开始上传" />
