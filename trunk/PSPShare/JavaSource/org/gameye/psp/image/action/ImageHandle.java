@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +20,7 @@ import org.gameye.psp.image.entity.Collection;
 import org.gameye.psp.image.entity.Commentary;
 import org.gameye.psp.image.entity.DownHistory;
 import org.gameye.psp.image.entity.Image;
+import org.gameye.psp.image.entity.LastPlace;
 import org.gameye.psp.image.entity.ScoreHistory;
 import org.gameye.psp.image.entity.Tag;
 import org.gameye.psp.image.entity.Type;
@@ -28,9 +28,9 @@ import org.gameye.psp.image.service.ICollectionService;
 import org.gameye.psp.image.service.ICommentaryService;
 import org.gameye.psp.image.service.IDownHistoryService;
 import org.gameye.psp.image.service.IImageService;
+import org.gameye.psp.image.service.ILastPlaceService;
 import org.gameye.psp.image.service.IScoreHistoryService;
 import org.gameye.psp.image.service.ITypeService;
-import org.gameye.psp.image.utils.DateHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -49,8 +49,14 @@ public class ImageHandle extends BaseActionSupport {
 	private ICommentaryService commentaryService;
 	@Autowired
 	private ICollectionService collectionService;
+	@Autowired
+	private ILastPlaceService lastPlaceService;
 
 	public String upload() {
+		return SUCCESS;
+	}
+	
+	public String uploadZip(){
 		return SUCCESS;
 	}
 
@@ -204,99 +210,16 @@ public class ImageHandle extends BaseActionSupport {
 
 	}
 
-	public void RSS() {
-		if (size < 1)
-			size = 10;
-		if (size > 20)
-			size = 20;
-		images = imageService.rssImages(size);
+	public String SaveMyPlace() {
+		LastPlace place = new LastPlace();
+		place.setDate(new Date());
+		place.setIp(getServletRequest().getRemoteAddr());
+		place.setPlace(back);
+		place.setUser(getCurrUser());
 
-		String urlPrefix = "http://" + getServletRequest().getServerName();
-		if (getServletRequest().getServerPort() != 80) {
-			urlPrefix += ":" + getServletRequest().getServerPort();
-		}
-		if (!urlPrefix.endsWith("/"))
-			urlPrefix += "/";
+		lastPlaceService.save(place);
 
-		StringBuffer sb = new StringBuffer();
-
-		sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-		sb.append("<rss version=\"2.0\">");
-		sb.append("<channel>");
-		sb.append("<title>PSP壁纸分享</title>");
-		sb.append("<link>").append(urlPrefix).append("</link>");
-		sb
-				.append("<description><![CDATA[PSP壁纸,壁纸分享,分享壁纸，为你为我]]></description>");
-		sb.append("<language>zh-CN</language>");
-
-		sb.append("<image>");
-		sb.append("<url>" + urlPrefix + "image/rss_image.png</url>");
-		sb.append("<title>Share Images For You!</title>");
-		sb.append("</image>");
-		sb
-				.append("<copyright>&#xA9; 2008 Forshare.Org,Publicer Yongboy. All rights reserved.</copyright>");
-		String imgUrl = null;
-		String smallImgUrl = null;
-		for (Image img : images) {
-			sb.append("<item>");
-
-			sb.append("<title><![CDATA[");
-			if (StringUtils.isNotEmpty(img.getTitle()))
-				sb.append(img.getTitle());
-			sb.append("]]></title>");
-
-			sb.append("<link>").append(urlPrefix).append("</link>");
-
-			sb.append("<description><![CDATA[");
-			if (StringUtils.isNotEmpty(img.getDescription())
-					&& !img.getDescription().trim().equals("null")) {
-				sb.append(img.getDescription());
-			}
-			sb.append("]]></description>");
-
-			sb.append("<author>");
-			if (img.getUser() != null) {
-				sb.append(img.getUser().getName());
-			}
-			sb.append("</author>");
-			// EEE, d MMM yyyy HH:mm:ss Z
-			sb.append("<pubDate>").append(
-					DateHelper.formatDate(img.getDate(),
-							"EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH))
-					.append("</pubDate>");
-
-			imgUrl = urlPrefix + "images/" + img.getNowName();
-			sb.append("<enclosure url=\"" + imgUrl + "\"");
-			// 图片的length 和 type可以不用输出
-			// sb.append("length="500000" type="image/jpeg" />";
-			sb.append(" />");
-			smallImgUrl = urlPrefix + "images/small/" + img.getNowName();
-			// media 可以不输出
-			sb.append("<media:thumbnail url = \"");
-			sb.append(smallImgUrl);
-			sb.append("\" width=\"80\" height=\"45\" />");
-
-			// .append(
-			// "<a href=\"#\"><img src=\"").append(urlPrefix).append(
-			// "images/").append(img.getNowName()).append(
-			// "\" width=\"480px\" height=\"272px\" border=\"0\"></a>");
-
-			sb.append("</item>");
-		}
-
-		sb.append("</channel>");
-		sb.append("</rss>");
-
-		printResponseMes(sb.toString());
-	}
-
-	public String RSS2() {
-		if (size < 1)
-			size = 10;
-		if (size > 20)
-			size = 20;
-		images = imageService.rssImages(size);
-		return "psprss";
+		return SUCCESS;
 	}
 
 	public String Score() {
