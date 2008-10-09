@@ -7,6 +7,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><decorator:title default="PSP Image Share For You !" /></title>
+<link href="/style/global.css" rel="stylesheet"></link>
+<link href="/style/share.css" rel="stylesheet"></link>
 <decorator:head />
 </head>
 <body>
