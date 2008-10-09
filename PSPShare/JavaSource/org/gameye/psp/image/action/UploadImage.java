@@ -5,6 +5,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -16,8 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.config.Constants;
 import org.gameye.psp.image.entity.Image;
+import org.gameye.psp.image.service.IImageHandleService;
 import org.gameye.psp.image.service.IImageService;
-import org.gameye.psp.image.utils.SequenceCreator;
 import org.gameye.psp.image.utils.UploadTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,6 +28,9 @@ public class UploadImage extends BaseActionSupport {
 
 	@Autowired
 	private IImageService imageService;
+	
+	@Autowired
+	private IImageHandleService imageHandleService;
 	/**
 	 * 
 	 */
@@ -45,14 +49,27 @@ public class UploadImage extends BaseActionSupport {
 		File dst = null;
 		String fileFix = null;
 		String nowName = null;
+		String descPath = null;
+		String thumbnailPath = null;
 		images = new ArrayList<Image>();
 		for (int i = 0; i < myFiles.size(); i++) {
 			fileFix = UploadTool.getFileExt(fileNames.get(i));
 			nowName = System.currentTimeMillis() + fileFix;
-			String descPath = Constants.getImgSavePath() + nowName;
-
+			descPath = Constants.getImgSavePath() + nowName;
+			thumbnailPath = Constants.thumbnail.realDir.getValue() + nowName;
 			dst = new File(descPath);
 			copyFile(myFiles.get(i), dst);
+			// 保存缩略图
+			try {
+				imageHandleService
+						.generate(myFiles.get(i).getPath(), thumbnailPath,
+								Integer.parseInt(Constants.thumbnail.width
+										.getValue()), Integer
+										.parseInt(Constants.thumbnail.height
+												.getValue()), false);
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
 
 			image = doSaveInfo(nowName, fileNames.get(i), fileFix,
 					getServletRequest());

@@ -14,7 +14,9 @@ import javax.imageio.ImageWriter;
 import javax.imageio.stream.ImageOutputStream;
 
 import org.gameye.psp.image.service.IImageProvider;
+import org.springframework.stereotype.Service;
 
+@Service("imageProvider")
 public class ImageProviderImpl implements IImageProvider {
 
 	public BufferedImage readImage(String source) throws IOException {

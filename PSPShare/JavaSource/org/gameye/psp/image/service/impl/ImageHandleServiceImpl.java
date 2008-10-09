@@ -22,22 +22,24 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import org.gameye.psp.image.service.IImageProvider;
 import org.gameye.psp.image.service.IImageHandleService;
+import org.gameye.psp.image.service.IImageProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * 标准的Image处理的装饰器模式实现
  * 
- * 原作者 梁飞 liangfei0201@163.com
- * 尊重原作者，改动大，已非原貌
- * 代码运行有问题，现已经修改之
+ * 原作者 梁飞 liangfei0201@163.com 尊重原作者，改动大，已非原貌 代码运行有问题，现已经修改之
  */
 
+@Service("imageHandleService")
 public class ImageHandleServiceImpl implements IImageHandleService {
 
 	private IImageProvider imageProvider;
 
+	@Autowired
 	public ImageHandleServiceImpl(IImageProvider imageProvider) {
 		this.imageProvider = imageProvider;
 	}
@@ -243,11 +245,11 @@ public class ImageHandleServiceImpl implements IImageHandleService {
 
 		ImageIO.write(input, "PNG", output);
 	}
-	
+
 	public void tranPNG2JPG(File jpgFile, String pngPath) throws IOException {
 		png2JPG(ImageIO.read(jpgFile), pngPath);
 	}
-	
+
 	private void png2JPG(BufferedImage input, String pngPath)
 			throws IOException {
 		File output = new File(pngPath);
@@ -261,5 +263,5 @@ public class ImageHandleServiceImpl implements IImageHandleService {
 			throws IOException {
 		png2JPG(ImageIO.read(inputStream), jpgPath);
 	}
-	
+
 }
