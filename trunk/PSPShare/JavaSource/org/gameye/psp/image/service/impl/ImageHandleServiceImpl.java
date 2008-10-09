@@ -243,4 +243,23 @@ public class ImageHandleServiceImpl implements IImageHandleService {
 
 		ImageIO.write(input, "PNG", output);
 	}
+	
+	public void tranPNG2JPG(File jpgFile, String pngPath) throws IOException {
+		png2JPG(ImageIO.read(jpgFile), pngPath);
+	}
+	
+	private void png2JPG(BufferedImage input, String pngPath)
+			throws IOException {
+		File output = new File(pngPath);
+		if (!output.getParentFile().exists())
+			output.getParentFile().mkdirs();
+
+		ImageIO.write(input, "JPEG", output);
+	}
+
+	public void tranPNG2JPG(InputStream inputStream, String jpgPath)
+			throws IOException {
+		png2JPG(ImageIO.read(inputStream), jpgPath);
+	}
+	
 }
