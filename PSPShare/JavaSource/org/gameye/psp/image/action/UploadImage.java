@@ -31,6 +31,10 @@ public class UploadImage extends BaseActionSupport {
 	@Autowired
 	private IImageHandleService imageHandleService;
 
+	public String uploadOther() {
+		return SUCCESS;
+	}
+	
 	public String ZipUpload() {
 		if (myFiles == null || myFiles.size() == 0)
 			return INPUT;
