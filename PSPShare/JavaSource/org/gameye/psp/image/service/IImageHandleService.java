@@ -101,7 +101,7 @@ public interface IImageHandleService {
 	 *            要保存子级文件的路径
 	 */
 	void resizeAndCutImage(String imgSrcPath, int srcWidth, int srcHeight,
-			Rectangle subImageBounds, String targetPath)throws IOException;
+			Rectangle subImageBounds, String targetPath) throws IOException;
 
 	/**
 	 * 对图片先缩放然后进行截取缩放等
@@ -118,8 +118,8 @@ public interface IImageHandleService {
 	 *            要保存子级文件的路径
 	 */
 	void resizeAndCutImage(File srcImgFile, int srcWidth, int srcHeight,
-			Rectangle subImageBounds, String targetPath)throws IOException;
-	
+			Rectangle subImageBounds, String targetPath) throws IOException;
+
 	/**
 	 * 转换JPG文件到PNG文件
 	 * 
@@ -132,6 +132,17 @@ public interface IImageHandleService {
 	void tranJPG2PNG(File jpgFile, String pngPath) throws IOException;
 
 	/**
+	 * 转换PNG文件到JPG文件
+	 * 
+	 * @param jpgFile
+	 *            JPG文件实例
+	 * @param pngPath
+	 *            要保存PNG图片的路基你个
+	 * @throws IOException
+	 */
+	void tranPNG2JPG(File jpgFile, String pngPath) throws IOException;
+
+	/**
 	 * 转换JPG文件到PNG文件
 	 * 
 	 * @param jpgPath
@@ -141,7 +152,7 @@ public interface IImageHandleService {
 	 * @throws IOException
 	 */
 	void tranJPG2PNG(String jpgPath, String pngPath) throws IOException;
-	
+
 	/**
 	 * 转换JPG文件到PNG文件
 	 * 
@@ -151,6 +162,17 @@ public interface IImageHandleService {
 	 * @throws IOException
 	 */
 	void tranJPG2PNG(InputStream inputStream, String pngPath)
+			throws IOException;
+
+	/**
+	 * 转换PNG文件到JPG文件
+	 * 
+	 * @param inputStream
+	 *            一个JPG文件的输入流
+	 * @param pngPath
+	 * @throws IOException
+	 */
+	void tranPNG2JPG(InputStream inputStream, String jpgPath)
 			throws IOException;
 
 }
