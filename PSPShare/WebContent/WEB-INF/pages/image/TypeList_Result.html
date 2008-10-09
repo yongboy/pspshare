@@ -11,7 +11,7 @@
 <#assign total= total/v  />
 <div class="div">
 <#list images as img>
-<a href="Image_Show.do?id=${img.id}&typeId=${id!}"><img src="images/small/${img.nowName}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
+<a href="Image_Show.do?id=${img.id}&typeId=${id!}"><img src="images/thumbnail/${img.nowName}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
 </div>
 <div class="div">
  <#if 1 < page><a href="Image_TypeList.do?id=${id!}&v=${v}&page=1">第一页</a> <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page-1}">上一页</a>
