@@ -1,12 +1,16 @@
 package org.gameye.psp.image.utils;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
@@ -78,6 +82,60 @@ public class FileHelper
 			e.printStackTrace();
 			return null;
 		}
+	}
+
+	public static String getFileExt(String fileName) {
+		return fileName.substring(fileName.lastIndexOf("."));
+	}
+
+	public static String getFileName(String fileName) {
+		return fileName.substring(0, fileName.lastIndexOf("."));
+	}
+
+	public static void copy(File src, File dst) {
+		// 判断上级目录是否为空，否则，直接创建目录
+		File dir = new File(dst.getParent());
+		if (!dir.exists())
+			dir.mkdirs();
+		try {
+			InputStream in = null;
+			OutputStream out = null;
+			try {
+				in = new BufferedInputStream(new FileInputStream(src));
+				out = new BufferedOutputStream(new FileOutputStream(dst));
+				byte[] buffer = new byte[1024 * 10];
+				while (in.read(buffer) > 0) {
+					out.write(buffer);
+				}
+			} finally {
+				if (null != in) {
+					in.close();
+				}
+				if (null != out) {
+					out.close();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void copy(InputStream in, String target) throws IOException {
+		File f = new File(target);
+		File f2 = new File(f.getParent());
+		if (!f2.exists())
+			f2.mkdirs();
+
+		f.createNewFile();
+		FileOutputStream out = new FileOutputStream(f);
+		// --------解决了图片失真的情况
+		int c;
+		byte[] by = new byte[1024];
+		while ((c = in.read(by)) != -1) {
+			out.write(by, 0, c);
+		}
+		out.close();
+		in.close();
 	}
 
 	public static void main(String[] args) {

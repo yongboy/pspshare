@@ -1,43 +1,91 @@
 package org.gameye.psp.image.action;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.tools.zip.ZipEntry;
+import org.apache.tools.zip.ZipFile;
 import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.config.Constants;
 import org.gameye.psp.image.entity.Image;
 import org.gameye.psp.image.service.IImageHandleService;
 import org.gameye.psp.image.service.IImageService;
+import org.gameye.psp.image.utils.FileHelper;
 import org.gameye.psp.image.utils.UploadTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class UploadImage extends BaseActionSupport {
+	private static final long serialVersionUID = 3195051103800176158L;
 
 	@Autowired
 	private IImageService imageService;
-	
+
 	@Autowired
 	private IImageHandleService imageHandleService;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3195051103800176158L;
 
 	public String ZipUpload() {
+		if (myFiles == null || myFiles.size() == 0)
+			return INPUT;
+		try {
+			ZipFile zipFile = new ZipFile(myFiles.get(0));
+			Enumeration e = zipFile.getEntries();
 
+			org.apache.tools.zip.ZipEntry zipEntry = null;
+			if (!e.hasMoreElements())
+				return INPUT;
+
+			String fileFix = null;
+			String nowName = null;
+			String descPath = null;
+			String thumbnailPath = null;
+			images = new ArrayList<Image>();
+			while (e.hasMoreElements()) {
+				zipEntry = (ZipEntry) e.nextElement();
+				if (zipEntry.isDirectory()) {
+					continue;
+				}
+				fileFix = UploadTool.getFileExt(zipEntry.getName())
+						.toLowerCase();
+				// 假如不包含，继续循环
+				if (!Constants.allowImageSuffix.contains(fileFix))
+					continue;
+				nowName = System.currentTimeMillis() + fileFix;
+				descPath = Constants.getImgSavePath() + nowName;
+				thumbnailPath = Constants.thumbnail.realDir.getValue()
+						+ nowName;
+				FileHelper.copy(zipFile.getInputStream(zipEntry), descPath);
+				// 保存缩略图
+				try {
+					imageHandleService.generate(descPath, thumbnailPath,
+							Integer.parseInt(Constants.thumbnail.width
+									.getValue()), Integer
+									.parseInt(Constants.thumbnail.height
+											.getValue()), false);
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				}
+
+				image = doSaveInfo(nowName, zipEntry.getName(), fileFix,
+						getServletRequest());
+				image.setLength(zipEntry.getSize());
+				// 得到文件类型，此时可能不是很准确
+				image.setContentType("image/" + fileFix);
+
+				imageService.saveImage(image);
+				images.add(image);
+			}
+
+		} catch (Exception ex) {
+			System.out.println("异常：" + ex.getMessage());
+		}
 		return SUCCESS;
 	}
 
@@ -53,12 +101,14 @@ public class UploadImage extends BaseActionSupport {
 		String thumbnailPath = null;
 		images = new ArrayList<Image>();
 		for (int i = 0; i < myFiles.size(); i++) {
-			fileFix = UploadTool.getFileExt(fileNames.get(i));
+			fileFix = UploadTool.getFileExt(fileNames.get(i)).toLowerCase();
+			if (!Constants.allowImageSuffix.contains(fileFix))
+				continue;
 			nowName = System.currentTimeMillis() + fileFix;
 			descPath = Constants.getImgSavePath() + nowName;
 			thumbnailPath = Constants.thumbnail.realDir.getValue() + nowName;
 			dst = new File(descPath);
-			copyFile(myFiles.get(i), dst);
+			FileHelper.copy(myFiles.get(i), dst);
 			// 保存缩略图
 			try {
 				imageHandleService
@@ -100,34 +150,6 @@ public class UploadImage extends BaseActionSupport {
 
 	public String getCurrUserId() {
 		return "0";
-	}
-
-	public static void copyFile(File src, File dst) {
-		// 判断上级目录是否为空，否则，直接创建目录
-		File dir = new File(dst.getParent());
-		if (!dir.exists())
-			dir.mkdirs();
-		try {
-			InputStream in = null;
-			OutputStream out = null;
-			try {
-				in = new BufferedInputStream(new FileInputStream(src));
-				out = new BufferedOutputStream(new FileOutputStream(dst));
-				byte[] buffer = new byte[1024 * 10];
-				while (in.read(buffer) > 0) {
-					out.write(buffer);
-				}
-			} finally {
-				if (null != in) {
-					in.close();
-				}
-				if (null != out) {
-					out.close();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	private List<File> myFiles;
