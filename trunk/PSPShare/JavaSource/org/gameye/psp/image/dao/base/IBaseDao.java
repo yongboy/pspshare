@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 public interface IBaseDao<T, PK extends Serializable> {
 	void save(T entity) throws DataAccessException;;
@@ -29,6 +28,9 @@ public interface IBaseDao<T, PK extends Serializable> {
 	List<T> pagedQueryList(String hql, int startIndex, int pageSize,
 			Object... values) throws DataAccessException;
 
+	List<T> pagedQuery(String hql, int pageSize, Object... values)
+			throws DataAccessException;
+
 	List<T> queryList(String hql, Object... values) throws DataAccessException;
 
 	int baseCount(String hql, Object[] params) throws DataAccessException;
@@ -36,8 +38,4 @@ public interface IBaseDao<T, PK extends Serializable> {
 	void flush() throws DataAccessException;
 
 	void clear() throws DataAccessException;
-
-	// String executeProc(String params, String procDrefine);
-
-//	HibernateTemplate returnHibernateTemplate();
 }

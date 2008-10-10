@@ -88,7 +88,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 					}
 				});
 	}
-
+	
 	private int baseCount(Session session, String hql, Object[] params) {
 		try {
 			String countQueryString = " select count (*) "
@@ -122,29 +122,7 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 		return query;
 	}
 
-	// public Map<Integer, List<T>> pagedQuery2(String hql, int startIndex,
-	// int pageSize, Object... values) throws DataAccessException {
-	// int allCount = baseCount(hql, values);
-	// Query query = createQuery(hql, values);
-	// List<T> list = query.setFirstResult(startIndex).setMaxResults(pageSize)
-	// .list();
-	// if (list == null)
-	// return null;
-	// Map<Integer, List<T>> map = new HashMap<Integer, List<T>>();
-	// map.put(allCount, list);
-	// return map;
-	// }
-
-	// public List<T> pagedQueryList(String hql, int startIndex, int pageSize,
-	// Object... values) throws DataAccessException {
-	// Query query = createQuery(hql, values);
-	// List list = query.setFirstResult(startIndex).setMaxResults(pageSize)
-	// .list();
-	// if (list == null)
-	// return null;
-	// return (List<T>) list;
-	// }
-
+	@SuppressWarnings("unchecked")
 	public List<T> pagedQueryList(final String hql, final int startIndex,
 			final int pageSize, final Object... values)
 			throws DataAccessException {
@@ -156,34 +134,17 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 						Query query = createQuery(session, hql, values);
 						List<T> list = query.setFirstResult(startIndex)
 								.setMaxResults(pageSize).list();
-						if (list == null)
-							return null;
 						return list;
-
 					}
 				});
 	}
 
-	public int baseCount(String hql, Object[] params) {
-		// try {
-		// String countQueryString = " select count (*) "
-		// + SqlHelper.removeSelect(SqlHelper.removeOrders(hql));
-		// Query query = createQuery(countQueryString, params);
-		// // 修正在一些情况下异常原因
-		// Object obj = query.iterate().next();
-		// if (obj == null)
-		// return 0;
-		// else
-		// try {
-		// return Integer.parseInt(obj.toString());
-		// } catch (NumberFormatException e) {
-		// return 0;
-		// }
-		// } catch (HibernateException he) {
-		// he.printStackTrace();
-		// return 0;
-		// }
+	public List<T> pagedQuery(String hql, int pageSize, Object... values)
+			throws DataAccessException {
+		return pagedQueryList(hql, 0, pageSize, values);
+	}
 
+	public int baseCount(String hql, Object[] params) {
 		try {
 			String countQueryString = " select count (*) "
 					+ SqlHelper.removeSelect(SqlHelper.removeOrders(hql));
@@ -207,20 +168,8 @@ public class BaseDaoImpl<T, PK extends Serializable> implements IBaseDao<T, PK> 
 		}
 	}
 
-	// protected Query createQuery(String queryString, Object... values) {
-	// Assert.hasText(queryString);
-	// Query query = sessionFactory.openSession().createQuery(queryString);
-	// if (values != null && values.length > 0) {
-	// for (int i = 0; i < values.length; i++) {
-	// query.setParameter(i, values[i]);
-	// }
-	// }
-	// return query;
-	// }
-
 	public List<T> queryList(String hql, Object... values)
 			throws DataAccessException {
-		// return (List<T>) createQuery(hql, values).list();
 		return (List<T>) getHibernateTemplate().find(hql, values);
 	}
 
