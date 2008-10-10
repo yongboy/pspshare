@@ -19,7 +19,7 @@
   <#list comments as comment>
   <div>
   Post @ ${comment.date?string("yy-MM-dd HH:mm")}<br />
-  ${comment.content?html}  </div>
+  <pre>${comment.content?html}</pre>  </div>
   </#list>
   </div>
   </#if> 
