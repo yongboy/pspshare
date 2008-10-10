@@ -1,5 +1,11 @@
 package org.gameye.psp.image.action.base;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +23,12 @@ public class BaseActionSupport extends ActionSupport implements
 
 	public BaseActionSupport() {
 		super();
+		// ResourceBundle RESOURCE_BUNDLE =
+		// ResourceBundle.getBundle("messageResource");
+		// ResourceBundleModel rsbm = new
+		// ResourceBundleModel(RESOURCE_BUNDLE,new BeansWrapper());
+		// ActionContext ctx = ActionContext.getContext();
+		// ctx.put("bundle", rsbm);
 	}
 
 	private HttpServletRequest request;
@@ -37,17 +49,6 @@ public class BaseActionSupport extends ActionSupport implements
 	public HttpServletResponse getServletResponse() {
 		return this.response;
 	}
-
-	//
-	// public BaseActionSupport() {
-	// super();
-	// ResourceBundle RESOURCE_BUNDLE = ResourceBundle
-	// .getBundle("messageResource");
-	// ResourceBundleModel rsbm = new ResourceBundleModel(RESOURCE_BUNDLE,
-	// new BeansWrapper());
-	// ActionContext ctx = ActionContext.getContext();
-	// ctx.put("bundle", rsbm);
-	// }
 
 	public void printResponseMes(String str) {
 		printResponseMes("text/xml;charset=UTF-8", str);
@@ -102,11 +103,13 @@ public class BaseActionSupport extends ActionSupport implements
 	protected String getCurrentUserLoginName() {
 		return null;
 	}
-	
-	protected User getCurrUser(){
-		User user =  (User)request.getSession().getAttribute("user");
-		if(user == null)return null;
-		else return user;
+
+	protected User getCurrUser() {
+		User user = (User) request.getSession().getAttribute("user");
+		if (user == null)
+			return null;
+		else
+			return user;
 	}
 
 	protected String json(boolean flag) {
@@ -115,5 +118,42 @@ public class BaseActionSupport extends ActionSupport implements
 
 	protected String json(boolean flag, String input) {
 		return "{success : " + flag + ", data : '" + input + "'}";
+	}
+
+	/**
+	 * 提供一个下载的公共函数
+	 * 
+	 * @param filePath
+	 * @param fileName
+	 */
+	protected void downloadFile(String filePath, String fileName) {
+		try {
+			File file = new File(filePath);
+			InputStream is = new FileInputStream(file);
+			// 只有转化编码才可以被浏览器认识，不至于出现乱码
+			// fileName = new
+			// String(fileName.getBytes(),"ISO-8859-1");//EncodingUtil.
+			// Utf8Toiso88591(fileName);
+			HttpServletResponse response = getServletResponse();
+			response.setHeader("Content-disposition", "attachment; filename="
+					+ fileName);
+			int len = -1;
+			OutputStream out = response.getOutputStream();
+			while ((len = is.read()) != -1) {
+				out.write(len);
+			}
+			is.close();
+			out.flush();
+			out.close();
+		} catch (FileNotFoundException notFound) {
+			printResponseMes("您所请求的文件不存在！");
+			// logger.log(Level.INFO, "文件下载时，该文件不存在:\n" + notFound.toString()
+			// + "\n下载的文件ID为：" + sf.getId());
+		} catch (IOException ioe) {
+		} catch (Exception e) {
+			e.printStackTrace();
+			// logger.log(Level.INFO, "文件下载时，出现无法处理的异常：\n" + e.toString()
+			// + "\n下载的文件ID为：" + sf.getId());
+		}
 	}
 }
