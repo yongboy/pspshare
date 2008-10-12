@@ -6,8 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -30,6 +32,7 @@ import org.gameye.psp.image.service.IDownHistoryService;
 import org.gameye.psp.image.service.IImageService;
 import org.gameye.psp.image.service.ILastPlaceService;
 import org.gameye.psp.image.service.IScoreHistoryService;
+import org.gameye.psp.image.service.ITagService;
 import org.gameye.psp.image.service.ITypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -51,12 +54,14 @@ public class ImageHandle extends BaseActionSupport {
 	private ICollectionService collectionService;
 	@Autowired
 	private ILastPlaceService lastPlaceService;
+	@Autowired
+	private ITagService tagService;
 
 	public String upload() {
 		return SUCCESS;
 	}
-	
-	public String uploadZip(){
+
+	public String uploadZip() {
 		return SUCCESS;
 	}
 
@@ -112,8 +117,9 @@ public class ImageHandle extends BaseActionSupport {
 						tag.setName(t);
 						tag.setDate(new Date());
 						tag.setUser(img.getUser());
-
-						tag.setImage(img);
+						Set<Image> imgSet = new HashSet<Image>();
+						imgSet.add(img);
+						tag.setImages(imgSet);
 
 						sets.add(tag);
 					}
@@ -123,6 +129,62 @@ public class ImageHandle extends BaseActionSupport {
 
 			imageService.updateImage(img);
 		}
+		return SUCCESS;
+	}
+
+	public String AddZipInfo() {
+		if (images == null || images.size() == 0) {
+			return "failure";
+		}
+		Image target = images.get(0);
+
+		String ids = target.getPostfix();
+		if (StringUtils.isEmpty(ids)) {
+			return "failure";
+		}
+		if (ids.endsWith(","))
+			ids = ids.substring(0, ids.length() - 1);
+		String[] imgIds = ids.split(",");
+		Image img = null;
+		List<Tag> sets = null;
+		Set<Image> imageSet = new HashSet<Image>();
+		int index = 0;
+		for (String imgId : imgIds) {
+			img = imageService.getImage(Long.parseLong(imgId));
+			img.setTitle(target.getTitle() + (++index));
+			img.setDescription(target.getDescription());
+			if (target.getType() != null && target.getType().getId() > 0) {
+				Type type = typeService.loadType(target.getType().getId());
+				img.setType(type);
+			}
+			if (target.getTags() != null) {
+				if (sets == null) {
+					String tagStr = null;
+					sets = target.getTags();
+					for (Tag t : sets) {
+						tagStr = t.getName();
+					}
+					if (StringUtils.isNotEmpty(tagStr)) {
+						sets.clear();
+						String[] tags = tagStr.trim().split(" ");
+						Tag tag = null;
+						for (String t : tags) {
+							tag = new Tag();
+							tag.setName(t);
+							tag.setDate(new Date());
+							tag.setUser(img.getUser());
+
+							sets.add(tag);
+							// 保存进数据库
+							tagService.addTags(sets);
+						}
+					}
+				}
+				img.setTags(sets);
+			}
+			imageSet.add(img);
+		}
+		imageService.updateImages(imageSet);
 		return SUCCESS;
 	}
 
@@ -149,7 +211,6 @@ public class ImageHandle extends BaseActionSupport {
 			totalComment = 0;
 			commentaries = null;
 		}
-		log.info("totalComment:" + totalComment);
 		return SUCCESS;
 	}
 
@@ -369,6 +430,8 @@ public class ImageHandle extends BaseActionSupport {
 	// private String next;
 	private String back;
 
+	private List<String> tags;
+
 	public long getId() {
 		return id;
 	}
@@ -467,6 +530,10 @@ public class ImageHandle extends BaseActionSupport {
 
 	public void setBack(String back) {
 		this.back = back;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
 	}
 
 	private static Log log = LogFactory.getLog(ImageHandle.class);

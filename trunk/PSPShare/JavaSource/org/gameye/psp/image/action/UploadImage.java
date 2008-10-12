@@ -9,6 +9,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipFile;
 import org.gameye.psp.image.action.base.BaseActionSupport;
@@ -16,6 +18,7 @@ import org.gameye.psp.image.config.Constants;
 import org.gameye.psp.image.entity.Image;
 import org.gameye.psp.image.service.IImageHandleService;
 import org.gameye.psp.image.service.IImageService;
+import org.gameye.psp.image.utils.DateHelper;
 import org.gameye.psp.image.utils.FileHelper;
 import org.gameye.psp.image.utils.UploadTool;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class UploadImage extends BaseActionSupport {
 	private static final long serialVersionUID = 3195051103800176158L;
+	private static Log log = LogFactory.getLog(UploadImage.class);
 
 	@Autowired
 	private IImageService imageService;
@@ -34,7 +38,7 @@ public class UploadImage extends BaseActionSupport {
 	public String uploadOther() {
 		return SUCCESS;
 	}
-	
+
 	public String ZipUpload() {
 		if (myFiles == null || myFiles.size() == 0)
 			return INPUT;
@@ -49,8 +53,15 @@ public class UploadImage extends BaseActionSupport {
 			String fileFix = null;
 			String nowName = null;
 			String descPath = null;
+			// 得到文件的相对路径
+			String imgDir = getImgDir();
+			// 得到文件的真实路径
+			String imgDirPath = Constants.getImgSavePath() + imgDir;
+			String imgSmallDirPath = imgDirPath
+					+ Constants.thumbnail.path.getValue();
 			String thumbnailPath = null;
 			images = new ArrayList<Image>();
+			Image image = null;
 			while (e.hasMoreElements()) {
 				zipEntry = (ZipEntry) e.nextElement();
 				if (zipEntry.isDirectory()) {
@@ -61,32 +72,44 @@ public class UploadImage extends BaseActionSupport {
 				// 假如不包含，继续循环
 				if (!Constants.allowImageSuffix.contains(fileFix))
 					continue;
-				nowName = System.currentTimeMillis() + fileFix;
-				descPath = Constants.getImgSavePath() + nowName;
-				thumbnailPath = Constants.thumbnail.realDir.getValue()
-						+ nowName;
-				FileHelper.copy(zipFile.getInputStream(zipEntry), descPath);
-				// 保存缩略图
+
 				try {
+					image = doSaveInfo(nowName, zipEntry.getName(), fileFix,
+							getServletRequest());
+					image.setLength(zipEntry.getSize());
+					// 得到文件类型，此时可能不是很准确
+					image.setContentType("image/" + fileFix);
+					image.setPath(imgDir);
+					imageService.saveImage(image);
+
+					nowName = image.getId() + fileFix;
+					descPath = imgDirPath + nowName;
+					thumbnailPath = imgSmallDirPath + nowName;
+
+					FileHelper.copy(zipFile.getInputStream(zipEntry), descPath);
+					// 保存缩略图
 					imageHandleService.generate(descPath, thumbnailPath,
 							Integer.parseInt(Constants.thumbnail.width
 									.getValue()), Integer
 									.parseInt(Constants.thumbnail.height
 											.getValue()), false);
+					// 这里会自动更新
+					image.setNowName(nowName);
 				} catch (IOException ioe) {
+					log.fatal("文件进行操作时出现严重问题 ");
 					ioe.printStackTrace();
+					if (image == null) {
+						log.fatal("image对象为空！");
+					} else {
+						log.fatal("image 不为空！");
+						imageService.delete(image);
+					}
 				}
 
-				image = doSaveInfo(nowName, zipEntry.getName(), fileFix,
-						getServletRequest());
-				image.setLength(zipEntry.getSize());
-				// 得到文件类型，此时可能不是很准确
-				image.setContentType("image/" + fileFix);
-
-				imageService.saveImage(image);
 				images.add(image);
 			}
-
+			// 批量更新图片属性信息
+			// imageService.updateImages(images);
 		} catch (Exception ex) {
 			System.out.println("异常：" + ex.getMessage());
 		}
@@ -98,40 +121,66 @@ public class UploadImage extends BaseActionSupport {
 		if (myFiles == null || myFiles.size() == 0)
 			return INPUT;
 		// 处理多个文件上传操作...
-		File dst = null;
 		String fileFix = null;
 		String nowName = null;
 		String descPath = null;
+		// 得到文件的相对路径
+		String imgDir = getImgDir();
+		// 得到文件的真实路径
+		String imgDirPath = Constants.getImgSavePath() + imgDir;
+		// 缩略图的真实路径
+		String imgSmallDirPath = imgDirPath
+				+ Constants.thumbnail.path.getValue();
 		String thumbnailPath = null;
 		images = new ArrayList<Image>();
+		Image image = null;
 		for (int i = 0; i < myFiles.size(); i++) {
 			fileFix = UploadTool.getFileExt(fileNames.get(i)).toLowerCase();
 			if (!Constants.allowImageSuffix.contains(fileFix))
 				continue;
-			nowName = System.currentTimeMillis() + fileFix;
-			descPath = Constants.getImgSavePath() + nowName;
-			thumbnailPath = Constants.thumbnail.realDir.getValue() + nowName;
-			dst = new File(descPath);
-			FileHelper.copy(myFiles.get(i), dst);
+
 			// 保存缩略图
 			try {
+				// 有限保存image属性信息
+				image = doSaveInfo(nowName, fileNames.get(i), fileFix,
+						getServletRequest());
+				image.setLength(myFiles.get(i).length());
+				image.setContentType(contentTypes.get(i));
+				image.setPath(imgDir);
+				imageService.saveImage(image);
+
+				// 计算文件路径以及文件名称
+				nowName = image.getId() + fileFix;
+				descPath = imgDirPath + nowName;
+				thumbnailPath = imgSmallDirPath + nowName;
+
+				// 文件进行拷贝等操作
+				FileHelper.copy(myFiles.get(i), descPath);
+				// 文件进行缩略图制作
 				imageHandleService
 						.generate(myFiles.get(i).getPath(), thumbnailPath,
 								Integer.parseInt(Constants.thumbnail.width
 										.getValue()), Integer
 										.parseInt(Constants.thumbnail.height
 												.getValue()), false);
+				// 这里会自动更新
+				image.setNowName(nowName);
 			} catch (IOException ioe) {
+				log.fatal("文件进行操作时出现严重问题 ");
 				ioe.printStackTrace();
+				if (image == null) {
+					log.fatal("image对象为空！");
+				} else {
+					log.fatal("image 不为空！");
+					imageService.delete(image);
+				}
 			}
 
-			image = doSaveInfo(nowName, fileNames.get(i), fileFix,
-					getServletRequest());
-			image.setLength(myFiles.get(i).length());
-			image.setContentType(contentTypes.get(i));
-			imageService.saveImage(image);
 			images.add(image);
 		}
+		// 批量更新图片属性信息
+		imageService.updateImages(images);
+
 		return SUCCESS;
 	}
 
@@ -154,6 +203,18 @@ public class UploadImage extends BaseActionSupport {
 
 	public String getCurrUserId() {
 		return "0";
+	}
+
+	// 得到文件的相对路径 2008/10/13/23/
+	private String getImgDir() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(DateHelper.formatDate(new Date(), "yyyy/MM/dd/"));
+		if (getCurrUser() != null)
+			sb.append(getCurrUser().getId());
+		else
+			sb.append("0");
+		sb.append("/");
+		return sb.toString();
 	}
 
 	private List<File> myFiles;

@@ -3,6 +3,7 @@ package org.gameye.psp.image.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,8 +12,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 /**
  * Class Image
@@ -62,6 +65,12 @@ public class Image implements Serializable {
 	 */
 	private String description;
 
+	/**
+	 * 文件的相对路径 计算规则为 年/月/日/用户ID 这里为了避免计算，耦合一下 eg : 2008/06/12/12/
+	 */
+	@Column(nullable = false, updatable = false)
+	private String path;
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 
@@ -86,8 +95,19 @@ public class Image implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Type type;
-
-	@OneToMany(mappedBy = "image", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	
+//	@JoinTable(name = "Image_Tag_Reffer", 
+//	joinColumns = { @JoinColumn(name = "image_id", referencedColumnName = "id") },
+//	inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName = "id")
+//	}
+//)
+	
+	@ManyToMany(cascade = { CascadeType.PERSIST,CascadeType.MERGE }, fetch = FetchType.LAZY)
+	@JoinTable(name = "Image_Tag_Reffer", 
+		joinColumns = { @JoinColumn(name = "image_id") },
+		inverseJoinColumns = { @JoinColumn(name = "tag_id")
+		}
+	)	
 	private List<Tag> tags;
 
 	//
@@ -158,6 +178,14 @@ public class Image implements Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public User getUser() {
