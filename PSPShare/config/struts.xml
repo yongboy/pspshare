@@ -40,7 +40,7 @@
              </interceptor-ref>   
              <interceptor-ref name ="token"/>
              <!-- 如果加入了验证上传文件的类型,必须要加input -->  
-             <result name="success" type="freemarker">/WEB-INF/pages/image/upload_result.html</result>
+             <result name="success" type="freemarker">/WEB-INF/pages/image/uploadZip_Result.html</result>
              <result name="input">/WEB-INF/pages/image/uploadZip.jsp</result>
              <result name="invalid.token">/WEB-INF/pages/image/uploadZip.jsp</result>
 		</action>
@@ -52,11 +52,20 @@
 			<result name="input" type="redirect">upload.do</result>
 			<result name="psprss">/WEB-INF/pages/image/Rss_Result.jsp</result>
 		</action>
+		
+		<action name="CheckLogin" class="org.gameye.psp.image.action.CheckLoginAction">
+			<result name="input">login.jsp</result>
+			<result name="success" type="redirect">/my/Welcome.do</result>
+		</action>
+		<action name="Register" class="org.gameye.psp.image.action.CheckLoginAction" method="Register">
+			<result name="input">register.jsp</result>
+			<result name="success" type="freemarker">register_Result.jsp</result>
+		</action>
 	</package>
 	
 	
 	<package name="my" extends="struts-default" namespace="/my">
-		<action name="welcome" class="org.gameye.psp.image.action.MyImageSpaceAction" method="Welcome">
+		<action name="Welcome" class="org.gameye.psp.image.action.MyImageSpaceAction" method="Welcome">
 			<result>/WEB-INF/pages/my/Welcome.html</result>
 		</action>
 	
