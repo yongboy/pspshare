@@ -6,7 +6,12 @@
 	<excludes>
 		<pattern>*RSS*</pattern>
         <pattern>index.html</pattern>
+        <pattern>index.jsp</pattern>
     </excludes>
+    
+    <decorator name="main" page="main_decorator.jsp">
+		<pattern>*.jsp</pattern>
+	</decorator>
 	
 	<!--decorator name="main" page="other_decorator.jsp">
 		<pattern>*.html</pattern>
