@@ -9,8 +9,8 @@
  </#if><br />
 动作 :  <a href="Image_Score.do?id=${image.id}&page=${page}">顶一下</a> (${image.score!})<span style="padding-left:5px;"></span>| <a href="Image_Download.do?id=${image.id}">下载</a> (${image.down!})  | <a href="Image_Collect.do?id=${image.id}&page=${page}">收藏</a> (${image.collect!})  |  <a href="Image_SaveMyPlace.do?back=/Image_List.do?page=10">记录我的位置</a><br />
 描述 :  <#if image.description! = ''>无<#else><br />
-		<span style="margin:5px; width:100%;font-style:inherit; border-bottom:thin; border-bottom-color:#CCCCCC; border-bottom-style:dotted;">
-        	${image.description!}        	
+		<span style="margin:0px; width:100%;font-style:inherit; border-bottom:thin; border-bottom-color:#CCCCCC; border-bottom-style:dotted;">
+        	<pre style="margin:0px;">${image.description!}</pre>     	
         	</#if>        </span>
   <br />
   评论 <#if 0 < totalComment >(共 ${totalComment} &nbsp;&nbsp;最新 <#if comments??>${comments?size}&nbsp;&nbsp;&nbsp;&nbsp;<a href="Image_ListComment.do?id=${image.id}">所有</a><#else>0</#if> ) </#if>:
@@ -18,8 +18,7 @@
   <div class="commentDiv">
   <#list comments as comment>
   <div>
-  Post @ ${comment.date?string("yy-MM-dd HH:mm")}<br />
-  <pre>${comment.content?html}</pre>  </div>
+  Post @ ${comment.date?string("yy-MM-dd HH:mm")}<pre style="margin:0px;">${comment.content}</pre></div>
   </#list>
   </div>
   </#if> 
