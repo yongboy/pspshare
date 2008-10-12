@@ -1,7 +1,9 @@
 package org.gameye.psp.image.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +18,18 @@ public class User implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
 
+	@Column(unique=false,nullable=false,length=50)
 	private String name;
+	
+	private String nickName;
+	
+	private String password;
 	private String mail;
+	// 所在国家
+	// private String country;
+	// //性别，y：男性；n：女性
+	// private char sexy;
+	private Date date;
 
 	public long getId() {
 		return id;
@@ -35,6 +47,22 @@ public class User implements Serializable {
 		this.name = name;
 	}
 
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getMail() {
 		return mail;
 	}
@@ -43,4 +71,11 @@ public class User implements Serializable {
 		this.mail = mail;
 	}
 
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
 }

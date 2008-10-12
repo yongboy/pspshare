@@ -1,5 +1,6 @@
 package org.gameye.psp.image.config;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;

@@ -1,6 +1,6 @@
 package org.gameye.psp.image.service;
 
-import java.util.Date;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -10,8 +10,14 @@ public interface IImageService {
 	void saveImage(Image image);
 
 	void updateImage(Image image);
+	
+	void saveImages(Collection<Image> images);
+
+	void updateImages(Collection<Image> images);
 
 	Image getImage(long id);
+	
+	void delete(Image image);
 
 	/**
 	 * 分页函数

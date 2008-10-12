@@ -92,11 +92,15 @@ public class FileHelper
 		return fileName.substring(0, fileName.lastIndexOf("."));
 	}
 
+	public static void copy(File src, String target) {
+		copy(src, new File(target));
+	}
+
 	public static void copy(File src, File dst) {
 		// 判断上级目录是否为空，否则，直接创建目录
-		File dir = new File(dst.getParent());
-		if (!dir.exists())
-			dir.mkdirs();
+		if(!dst.getParentFile().exists()){
+			dst.getParentFile().mkdirs();
+		}
 		try {
 			InputStream in = null;
 			OutputStream out = null;

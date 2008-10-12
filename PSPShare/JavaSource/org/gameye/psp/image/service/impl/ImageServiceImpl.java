@@ -1,6 +1,7 @@
 package org.gameye.psp.image.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,18 @@ public class ImageServiceImpl implements IImageService {
 
 	public void saveImage(Image image) {
 		imageDao.save(image);
+	}
+
+	public void saveImages(Collection<Image> images) {
+		imageDao.saveOrUpdateAll(images);
+	}
+
+	public void updateImages(Collection<Image> images) {
+		imageDao.saveOrUpdateAll(images);
+	}
+
+	public void delete(Image image) {
+		imageDao.delete(image);
 	}
 
 	public Map<Integer, List<Image>> pagedImages(int page, int size,

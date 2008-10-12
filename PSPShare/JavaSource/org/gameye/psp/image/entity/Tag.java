@@ -1,21 +1,24 @@
 package org.gameye.psp.image.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 /**
  * Class Tags 图片的有关标签
  */
 @Entity(name = "Image_Tags")
-public class Tag {
+public class Tag implements Serializable {
 
+	private static final long serialVersionUID = 8114851108962687308L;
 	//
 	// Fields
 	//
@@ -28,8 +31,8 @@ public class Tag {
 	private User user;
 	private Date date;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Image image;
+	@ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+	private Set<Image> images;
 
 	//
 	// Constructors
@@ -69,12 +72,11 @@ public class Tag {
 		this.date = date;
 	}
 
-	public Image getImage() {
-		return image;
+	public Set<Image> getImages() {
+		return images;
 	}
 
-	public void setImage(Image image) {
-		this.image = image;
+	public void setImages(Set<Image> images) {
+		this.images = images;
 	}
-
 }

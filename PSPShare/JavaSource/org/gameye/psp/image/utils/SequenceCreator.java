@@ -6,6 +6,8 @@ package org.gameye.psp.image.utils;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
+import java.util.HashSet;
+import java.util.Set;
 //
 public class SequenceCreator {
 	private SecureRandom seeder;
@@ -46,6 +48,34 @@ public class SequenceCreator {
 	
 		return buf.toString();
 	}
+	protected static Set<String> setL = new HashSet<String>();
+	synchronized public long getLongID()
+	{
+		init();
+		StringBuffer buf = new StringBuffer();
+	
+		long time = System.currentTimeMillis();
+		int timeLow = (int) time & 0xFFFFFFFF;
+		int node = seeder.nextInt();
+//		seeder.nextLong();
+	
+		buf.append(Math.abs(timeLow)).append(Math.abs(node));
+		String s = buf.toString();
+		setL.add("time-" + Long.toString(time).length());
+		setL.add("timeLow-" + Integer.toString(timeLow).length());
+		setL.add("node-" + Integer.toString(node).length());
+		setL.add("s-" + s.length());
+		int maxLen = 19;
+		int reduce =maxLen - s.length();
+		if(reduce == 0)
+			return Long.parseLong(s);
+		else{
+			for(int i=0; i < reduce; i++){
+				buf.append("0");
+			}
+			return Long.parseLong(buf.toString());
+		}
+	}
 
 	
 	
@@ -78,11 +108,44 @@ public class SequenceCreator {
 	}
 	
 	public static void main(String[] args) throws Exception {
-
-		SequenceCreator random = new SequenceCreator();
-		for (int i = 0; i < 20; i++) {
-//			System.out.println("UID: " + random.getUID());
+//		long s = System.currentTimeMillis();
+//		Set <Long> sets = new HashSet<Long>();
+//		long s1 = -1;
+//		
+//		for (int i = 0; i < 100; i++) {
+//			SequenceCreator random = new SequenceCreator();
+//			s1 = random.getLongID();
+//			sets.add(s1);
+//			System.out.println("UID: " + s1);
+//		}
+//		long e = System.currentTimeMillis();
+//		System.out.println("使用时间 : " + (e-s));
+//		System.out.println("循环100次 ： " + sets.size());
+//		for(String i : setL){
+//			System.out.println(i);
+//		}
+//		for(int i = 0; i < 100; i ++ ){
+//		long demo1 = new SequenceCreator().getLongID();
+//		long demo2 = new SequenceCreator().getLongID();
+//		
+//		if(demo2>demo1){
+//			System.out.println("正解:" + (demo2-demo1));
+//		}else{
+//			System.out.println("错解:" + (demo2-demo1));
+//		}
+//		}
+		
+		
+		for(int i=0; i <100;i++){
+		long time = System.currentTimeMillis();
+//		int timeLow = (int) time & 0xFFFFFFFF;
+		SecureRandom seeder = new SecureRandom();
+		seeder.nextInt();
+		int node = seeder.nextInt();
+		StringBuilder sb = new StringBuilder();
+		sb.append(time);
+		sb.append(Math.abs(node));
+		System.out.println(sb.toString());
 		}
-
 	} 
 }
