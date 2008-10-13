@@ -80,4 +80,15 @@ public interface IImageService {
 	 * @return
 	 */
 	Image getNextImage(int typeId, long currImgId);
+	
+	/**
+	 * 得到一个用户的所有图片
+	 * @param page
+	 * @param size
+	 * @param userId
+	 * @param order
+	 * @return
+	 */
+	Map<Integer, List<Image>> oneUserImages(int page, int size, String userId,
+			String order);
 }

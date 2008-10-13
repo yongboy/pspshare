@@ -162,4 +162,28 @@ public class ImageServiceImpl implements IImageService {
 			return null;
 		return list.get(0);
 	}
+
+	public Map<Integer, List<Image>> oneUserImages(int page, int size,
+			String userId, String order) {
+		if (StringUtils.isEmpty(userId))
+			return null;
+
+		if (page < 1)
+			page = 1;
+		if (size < 1)
+			size = 1;
+		if (StringUtils.isEmpty(order))
+			order = "desc";
+		int startIndex = (page - 1) * size;
+		int pageSize = size;
+		List<Object> params = new ArrayList<Object>();
+		StringBuilder sb = new StringBuilder();
+		sb.append("from org.gameye.psp.image.entity.Image where ");
+		sb.append("user.id = ? ");
+		params.add(userId);
+		sb.append("order by id ");
+		sb.append(order);
+		return imageDao.pagedQuery(sb.toString(), startIndex, pageSize, params
+				.toArray());
+	}
 }

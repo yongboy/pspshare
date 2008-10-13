@@ -1,7 +1,6 @@
 package org.gameye.psp.image.service.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 
@@ -23,29 +22,31 @@ public class UserServiceImpl implements IUserService {
 		userDao.save(user);
 	}
 
-	public User getById(Long id) {
-		return userDao.load(id);
+	public User getById(String userId) {
+		return userDao.load(userId);
 	}
 
-	public User getUserByName(String userName) {
-		String hql = "from org.gameye.psp.image.entity.User where name = ? ";
-		Object[] values = { userName };
-		List<User> users = userDao.queryList(hql, values);
-		if (users == null || users.size() == 0)
-			return null;
-		else
-			return users.get(0);
-	}
+	// public User getUserByName(String userName) {
+	// String hql = "from org.gameye.psp.image.entity.User where name = ? ";
+	// Object[] values = { userName };
+	// List<User> users = userDao.queryList(hql, values);
+	// if (users == null || users.size() == 0)
+	// return null;
+	// else
+	// return users.get(0);
+	// }
 
 	@PostConstruct
 	private void initDemoUser() {
-		if (userDao.load(1L) != null) {
+		if (userDao.load("yongboy") != null) {
 			return;
 		}
 		User user = new User();
+		user.setNumber(1L);
+		// user.setId(1L);
 		user.setDate(new Date());
 		user.setMail("yongboy@gmail.com");
-		user.setName("yongboy");
+		user.setId("yongboy");
 		user.setPassword("e10adc3949ba59abbe56e057f20f883e");
 		user.setNickName("yongboy");
 

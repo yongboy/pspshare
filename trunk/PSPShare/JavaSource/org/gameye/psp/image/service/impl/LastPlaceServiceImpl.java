@@ -19,7 +19,7 @@ public class LastPlaceServiceImpl implements ILastPlaceService {
 
 	public LastPlace getLastTimePlace(User user) {
 		String hql = "from LastPlace where user.id = ? order id desc";
-		Object[] o = { user.getId() };
+		Object[] o = { user.getId()};
 		List<LastPlace> list = lastPlaceDao.pagedQueryList(hql, 0, 1, o);
 		if (list == null || list.size() == 0)
 			return null;
