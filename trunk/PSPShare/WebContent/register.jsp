@@ -24,8 +24,8 @@
   <tr>
     <td width="15%">&nbsp;</td>
     <td width="85%" colspan="2"><label>    <strong>用户名：</strong><br>
-    <input type="text" name="user.name">
-    </label></td>
+    <input type="text" name="user.id">
+    (3个到20个字符)</label></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
