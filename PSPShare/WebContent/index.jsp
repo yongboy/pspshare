@@ -9,19 +9,8 @@
 <title>PSP 图片分享</title>
 </head>
 <body>
-<div class="topdiv">
-<table width="480" height="272" border="0" cellpadding="0" cellspacing="0">
-  <tr>
-    <td height="66" colspan="2">
 
-<jsp:include page="/head.jsp"></jsp:include>
-
-</td>
-  </tr>
-  <!--tr>
-    <td>&nbsp;</td>
-    <td></td>
-  </tr-->
+<table width="480" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td height="152" valign="top"><span style="float:left;"><a href="Image_List.do"><img src="image/home_explore.png" width="230" height="152"></a></span></td>
     <td valign="top"><span style="float:right;"><a href="upload.do"><img src="image/home_upload.png" width="230" height="152"></a></span></td>
@@ -32,7 +21,5 @@
    <td><div style="font-size:9px; margin-left:5px;">浏览一下有关分享的创意，或许您有更好的建议，或许您也想参与进来，为他人，为乐趣 :))</div></td>
   </tr>
 </table>
-<jsp:include page="/foot.jsp"></jsp:include>
-</div>
 </body>
 </html>
