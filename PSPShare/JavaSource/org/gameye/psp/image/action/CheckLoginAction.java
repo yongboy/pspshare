@@ -1,5 +1,8 @@
 package org.gameye.psp.image.action;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
 import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.entity.User;
@@ -7,6 +10,8 @@ import org.gameye.psp.image.service.IUserService;
 import org.gameye.psp.image.utils.MD5;
 import org.gameye.psp.image.utils.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class CheckLoginAction extends BaseActionSupport {
 
@@ -21,11 +26,11 @@ public class CheckLoginAction extends BaseActionSupport {
 			error = "传输对象有误！";
 			return INPUT;
 		}
-		if (StringUtils.isEmpty(user.getName())) {
+		if (StringUtils.isEmpty(user.getId())) {
 			error = "用户名不能为空！";
 			return INPUT;
 		}
-		if (!StringHelper.VerifyUserName(user.getName())) {
+		if (!StringHelper.VerifyUserName(user.getId())) {
 			error = "用户名输入格式有误！";
 			return INPUT;
 		}
@@ -34,13 +39,14 @@ public class CheckLoginAction extends BaseActionSupport {
 			return INPUT;
 		}
 
-		User oldUser = userService.getUserByName(user.getName());
-		if (oldUser == null || !oldUser.getName().equals(user.getName())) {
+		User oldUser = userService.getById(user.getId());
+		if (oldUser == null || !oldUser.getId().equals(user.getId())) {
 			error = "用户名输入有误！";
 			return INPUT;
 		}
 
-		if (!oldUser.getPassword().equals(new MD5(user.getPassword()).compute())) {
+		if (!oldUser.getPassword()
+				.equals(new MD5(user.getPassword()).compute())) {
 			error = "用户密码输入有误！";
 			return INPUT;
 		}
@@ -49,38 +55,56 @@ public class CheckLoginAction extends BaseActionSupport {
 
 		return SUCCESS;
 	}
-	
-	public String Register(){
-		
+
+	private static int minInt = 3;
+	private static int maxInt = 20;
+	private static String[] fobiddenWords = { "admin", "abc", "administrator",
+			"super", "forshare", "gameye", "123" };
+	private static Set<String> forbiddenWords = new HashSet<String>(Arrays
+			.asList(fobiddenWords));
+
+	public String Register() {
+
 		if (user == null) {
 			error = "传输对象有误！";
 			return INPUT;
 		}
-		if (StringUtils.isEmpty(user.getName())) {
+		if (StringUtils.isEmpty(user.getId())) {
 			error = "用户名不能为空！";
 			return INPUT;
 		}
-		if (!StringHelper.VerifyUserName(user.getName())) {
+		if (!StringHelper.VerifyUserName(user.getId())) {
 			error = "用户名输入格式有误！";
 			return INPUT;
 		}
+
+		if (user.getId().length() < maxInt || user.getId().length() > maxInt) {
+			error = "用户名长度有误！";
+			return INPUT;
+		}
+
+		if (forbiddenWords.contains(user.getId())) {
+			error = "当前用户名已经存在！";
+			return INPUT;
+		}
+
 		if (StringUtils.isEmpty(user.getPassword())) {
 			error = "用户密码不能为空！";
 			return INPUT;
 		}
-		
+
 		if (StringUtils.isEmpty(password2)) {
 			error = "确认密码不能为空！";
 			return INPUT;
 		}
-		
+
 		if (!user.getPassword().equals(password2)) {
 			error = "您的两次密码输入不一致！";
 			return INPUT;
 		}
-		
-		//检测用户邮箱
-		
+
+		// 检测用户邮箱
+
 		if (StringUtils.isEmpty(user.getMail())) {
 			error = "电子邮箱不能为空！";
 			return INPUT;
@@ -90,14 +114,14 @@ public class CheckLoginAction extends BaseActionSupport {
 			return INPUT;
 		}
 
-		User oldUser = userService.getUserByName(user.getName());
-		if (oldUser != null ) {
+		User oldUser = userService.getById(user.getId());
+		if (oldUser != null) {
 			error = "当前用户名已经存在！";
 			return INPUT;
 		}
 
 		userService.add(user);
-		
+
 		return SUCCESS;
 	}
 
@@ -120,5 +144,5 @@ public class CheckLoginAction extends BaseActionSupport {
 	public void setPassword2(String password2) {
 		this.password2 = password2;
 	}
-	
+
 }

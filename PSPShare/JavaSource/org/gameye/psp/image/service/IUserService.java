@@ -6,7 +6,5 @@ public interface IUserService {
 
 	void add(User user);
 
-	User getById(Long id);
-
-	User getUserByName(String userName);
+	User getById(String userId);
 }

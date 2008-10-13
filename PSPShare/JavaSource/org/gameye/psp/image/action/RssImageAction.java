@@ -73,7 +73,7 @@ public class RssImageAction extends BaseActionSupport {
 
 			sb.append("<author>");
 			if (img.getUser() != null) {
-				sb.append(img.getUser().getName());
+				sb.append(img.getUser().getId());
 			}
 			sb.append("</author>");
 			// EEE, d MMM yyyy HH:mm:ss Z
@@ -146,7 +146,7 @@ public class RssImageAction extends BaseActionSupport {
 					"</pubDate>");
 			sb.append("<author>");
 			if (img.getUser() != null) {
-				sb.append(img.getUser().getName());
+				sb.append(img.getUser().getId());
 			}
 			sb.append("</author>");
 			sb.append("<link>").append(urlPrefix).append("</link>");
