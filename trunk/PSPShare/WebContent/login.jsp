@@ -27,7 +27,7 @@
     <td width="15%"></td>
     <td width="85%"><label>用户名：<br>
 
-    <input type="text" name="user.name">
+    <input type="text" name="user.id">
     </label></td>
   </tr>
   <tr>
