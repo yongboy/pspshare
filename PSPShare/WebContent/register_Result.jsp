@@ -7,6 +7,10 @@
 <title>注册成功！</title>
 </head>
 <body>
-注册成功啦！
+<div style="width:480px; height:272px; padding:30px auto auto 20px;">
+<h2>注册成功啦！</h2><br>
+<br>
+请返回到   <a href="login.jsp">登陆窗口</a> <strong>   :))
+</strong></div>
 </body>
 </html>

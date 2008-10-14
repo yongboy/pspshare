@@ -31,6 +31,8 @@
     <td>&nbsp;</td>
     <td><label><strong>密码：</strong><br>
       <input style=" width:120px;" type="password" name="user.password">
+      <br>
+      (3个到20个字符)
     </label></td>
     <td><strong>确认密码：</strong>
       <label>
