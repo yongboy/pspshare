@@ -12,8 +12,8 @@
  <span style="float:right;"><#if image.author! != '0'> ${image.author!}</#if>  ${image.date?string("yyyy-MM-dd HH:mm")}</span>
  <span style="float:left;">${image.title!}</span><br />
  
-<#if preImage ??> <a href="Image_Show.do?id=${preImage.id}&typeId=${typeId!}">上一张</a><#else>没啦</#if> 
-<#if nextImage ??> <a href="Image_Show.do?id=${nextImage.id}&typeId=${typeId!}">下一张</a><#else>没啦～</#if>
+<#if preImage ??> <a href="Image_Show.do?id=${preImage.id}">上一张</a><#else>没啦</#if> 
+<#if nextImage ??> <a href="Image_Show.do?id=${nextImage.id}">下一张</a><#else>没啦～</#if>
 </div>
 
 <#include "/WEB-INF/pages/image/OneImageInfoPart.html" />
