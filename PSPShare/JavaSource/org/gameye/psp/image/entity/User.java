@@ -3,6 +3,7 @@ package org.gameye.psp.image.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -14,11 +15,15 @@ public class User implements Serializable {
 	@Id
 	private String id;
 
+	@Column(nullable=false)
 	private long number;
 
 	private String nickName;
 
+	@Column(nullable=false)
 	private String password;
+	
+	@Column(nullable=false,unique=true)
 	private String mail;
 	// 所在国家
 	// private String country;

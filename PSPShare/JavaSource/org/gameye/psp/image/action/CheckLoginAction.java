@@ -78,7 +78,7 @@ public class CheckLoginAction extends BaseActionSupport {
 			return INPUT;
 		}
 
-		if (user.getId().length() < maxInt || user.getId().length() > maxInt) {
+		if (user.getId().length() < minInt || user.getId().length() > maxInt) {
 			error = "用户名长度有误！";
 			return INPUT;
 		}
@@ -119,7 +119,7 @@ public class CheckLoginAction extends BaseActionSupport {
 			error = "当前用户名已经存在！";
 			return INPUT;
 		}
-
+		
 		userService.add(user);
 
 		return SUCCESS;
