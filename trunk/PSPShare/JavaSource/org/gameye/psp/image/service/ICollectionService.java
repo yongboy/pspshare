@@ -9,5 +9,5 @@ public interface ICollectionService {
 	void add(Collection collection);
 
 	Map<Integer, List<Collection>> pagedImages(int page, int size,
-			Long userId, String order);
+			String userId, String order);
 }

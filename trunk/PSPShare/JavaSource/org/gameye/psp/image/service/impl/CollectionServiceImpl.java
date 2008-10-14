@@ -23,7 +23,7 @@ public class CollectionServiceImpl implements ICollectionService {
 	}
 
 	public Map<Integer, List<Collection>> pagedImages(int page, int size,
-			Long userId, String order) {
+			String userId, String order) {
 
 		if (page < 1)
 			page = 1;
@@ -34,7 +34,7 @@ public class CollectionServiceImpl implements ICollectionService {
 		int startIndex = (page - 1) * size;
 		int pageSize = size;
 
-		String hql = "from Collection where user.id =  ? order by date "
+		String hql = "from org.gameye.psp.image.entity.Collection where user.id =  ? order by date "
 				+ order;
 		Object[] values = { userId };
 
