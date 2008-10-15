@@ -70,6 +70,10 @@ public class MyImageSpaceAction extends BaseActionSupport {
 		return SUCCESS;
 	}
 
+	public String CustomAtom() {
+		return SUCCESS;
+	}
+
 	private Log log = LogFactory.getLog(MyImageSpaceAction.class);
 
 	private int page;

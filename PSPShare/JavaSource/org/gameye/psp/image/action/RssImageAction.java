@@ -20,12 +20,28 @@ public class RssImageAction extends BaseActionSupport {
 		return SUCCESS;
 	}
 
+	public void costomPSP() {
+		// 判断用户
+		// 判断数目
+
+		if (size < 1)
+			size = 10;
+		if (size > 50)
+			size = 50;
+		pspRss();
+	}
+
 	public void psp() {
 
 		if (size < 1)
 			size = 10;
 		if (size > 20)
 			size = 20;
+		pspRss();
+
+	}
+
+	private void pspRss() {
 		images = imageService.rssImages(size);
 
 		String urlPrefix = "http://" + getServletRequest().getServerName();
@@ -82,12 +98,13 @@ public class RssImageAction extends BaseActionSupport {
 							"EEE, d MMM yyyy HH:mm:ss Z", Locale.ENGLISH))
 					.append("</pubDate>");
 
-			imgUrl = urlPrefix + "images/" + img.getNowName();
+			imgUrl = urlPrefix + "images/" + img.getPath() + img.getNowName();
 			sb.append("<enclosure url=\"" + imgUrl + "\"");
 			// 图片的length 和 type可以不用输出
 			// sb.append("length="500000" type="image/jpeg" />";
 			sb.append(" />");
-			smallImgUrl = urlPrefix + "images/small/" + img.getNowName();
+			smallImgUrl = urlPrefix + "images/" + img.getPath() + "thumbnail/"
+					+ img.getNowName();
 			// media 可以不输出
 			sb.append("<media:thumbnail url = \"");
 			sb.append(smallImgUrl);
@@ -105,7 +122,6 @@ public class RssImageAction extends BaseActionSupport {
 		sb.append("</rss>");
 
 		printResponseMes(sb.toString());
-
 	}
 
 	public void pc() {
@@ -152,7 +168,7 @@ public class RssImageAction extends BaseActionSupport {
 			sb.append("<link>").append(urlPrefix).append("</link>");
 			sb.append("<description><![CDATA[").append(
 					"<a href=\"#\"><img src=\"").append(urlPrefix).append(
-					"images/").append(img.getNowName()).append(
+					"images/").append(img.getPath() + img.getNowName()).append(
 					"\" width=\"480px\" height=\"272px\" border=\"0\"></a>");
 
 			if (StringUtils.isNotEmpty(img.getDescription())

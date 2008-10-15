@@ -42,6 +42,7 @@ public class UploadImage extends BaseActionSupport {
 	public String ZipUpload() {
 		if (myFiles == null || myFiles.size() == 0)
 			return INPUT;
+		log.info("ZiP 格式 文件 contentType = " + contentTypes.get(0));
 		try {
 			ZipFile zipFile = new ZipFile(myFiles.get(0));
 			Enumeration e = zipFile.getEntries();
@@ -177,6 +178,7 @@ public class UploadImage extends BaseActionSupport {
 			}
 
 			images.add(image);
+			log.info("contentTypes = " + contentTypes.get(i));
 		}
 		// 批量更新图片属性信息
 		imageService.updateImages(images);
