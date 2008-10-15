@@ -21,7 +21,7 @@
 		<action name="UploadImage" class="org.gameye.psp.image.action.UploadImage">			
 			<!-- 验证上传文件的类型 -->
              <interceptor-ref name ="fileUpload">   
-                 <param name ="allowedTypes">image/bmp,image/png,image/x-png,image/gif,image/jpeg,image/jpg,image/pjpeg,application/octet-stream</param>
+                 <param name ="allowedTypes">image/bmp,image/png,image/x-png,image/gif,image/jpeg,image/jpg,image/pjpeg</param>
                  <!-- 1024*1024*5 = 5M -->
                  <param name="maximumSize">5242880</param>
              </interceptor-ref>   
@@ -31,10 +31,38 @@
              <result name="input">/WEB-INF/pages/image/upload.jsp</result>
              <result name="invalid.token">/WEB-INF/pages/image/upload.jsp</result>
 		</action>
+		
+		<action name="PSP_UploadImage" class="org.gameye.psp.image.action.UploadImage">			
+			<!-- 验证上传文件的类型 -->
+             <interceptor-ref name ="fileUpload">   
+                 <param name ="allowedTypes">application/octet-stream</param>
+                 <!-- 1024*1024*5 = 5M -->
+                 <param name="maximumSize">5242880</param>
+             </interceptor-ref>   
+             <interceptor-ref name ="token"/>
+             <!-- 如果加入了验证上传文件的类型,必须要加input -->  
+             <result name="success" type="freemarker">/WEB-INF/pages/image/upload_result.html</result>
+             <result name="input">/WEB-INF/pages/image/upload.jsp</result>
+             <result name="invalid.token">/WEB-INF/pages/image/upload.jsp</result>
+		</action>
+		
 		<action name="UploadZip" class="org.gameye.psp.image.action.UploadImage" method="ZipUpload">			
 			<!-- 验证上传文件的类型 -->
              <interceptor-ref name ="fileUpload">   
                  <param name ="allowedTypes">application/zip,application/x-zip-compressed</param>
+                 <!-- 1024*1024*5 = 5M -->
+                 <param name="maximumSize">5242880</param>
+             </interceptor-ref>   
+             <interceptor-ref name ="token"/>
+             <!-- 如果加入了验证上传文件的类型,必须要加input -->  
+             <result name="success" type="freemarker">/WEB-INF/pages/image/uploadZip_Result.html</result>
+             <result name="input">/WEB-INF/pages/image/uploadZip.jsp</result>
+             <result name="invalid.token">/WEB-INF/pages/image/uploadZip.jsp</result>
+		</action>
+		<action name="PSP_UploadZip" class="org.gameye.psp.image.action.UploadImage" method="ZipUpload">			
+			<!-- 验证上传文件的类型 -->
+             <interceptor-ref name ="fileUpload">   
+                 <param name ="allowedTypes">application/octet-stream</param>
                  <!-- 1024*1024*5 = 5M -->
                  <param name="maximumSize">5242880</param>
              </interceptor-ref>   
