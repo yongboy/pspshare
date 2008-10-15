@@ -10,15 +10,26 @@
 <link href="style/share.css" rel="stylesheet"></link>
 <script src="script/form.js"></script>
 </head>
+<%
+String url = "UploadImage.do";
+String version = "PC";
+String userAgent = request.getHeader("user-agent");
+if(userAgent.indexOf("PSP") != -1){
+	url = "PSP_UploadImage.do";
+	version = "PSP";
+}
+%>
+<body>
 <div class="div">
 <div style="color:red;"><s:fielderror /></div>
 <div style="margin-bottom:10px;"><span style="float:left">普通上传</span><span style="margin-left:20px;"><a href="uploadZip.do">ZIP 打包上传</a></span></div>
-<form class="form" name="upForm" method="post" enctype="multipart/form-data" action="UploadImage.do" style="margin:0;">
+<form class="form" name="upForm" method="post" enctype="multipart/form-data" action="<%=url %>" style="margin:0;">
 			  <div id="myFileDiv">
 			    <input name="myFile" size="42" type="file" class="btn"/>			   
-			    <input type="button" onClick="addUpFile()" value="增加文件" class="btn">
+			    <%if(!version.equals("PSP")){ %><input type="button" onClick="addUpFile()" value="增加文件" class="btn"><%} %>
 			    <br>
 			  <input name="myFile" size="42" type="file" class="btn"/><br />
+<input name="myFile" size="42" type="file" class="btn"/><br />
 <input name="myFile" size="42" type="file" class="btn"/><br />
 <input name="myFile" size="42" type="file" class="btn"/>
 			  </div>
