@@ -7,10 +7,18 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>上传图片</title>
 </head>
+<%
+String url = "UploadZip.do";
+String userAgent = request.getHeader("user-agent");
+if(userAgent.indexOf("PSP") != -1){
+	url = "PSP_UploadZip.do";
+}
+%>
+<body>
 <div class="div">
 <div style="color:red;"><s:fielderror /></div>
 <div style="margin-bottom:10px;"><span style="float:left"><a href="upload.do">普通上传</a></span><span style="margin-left:20px;">ZIP 打包上传</span></div>
-<form class="form" name="upForm" method="post" enctype="multipart/form-data" action="UploadZip.do" style="margin:0;">
+<form class="form" name="upForm" method="post" enctype="multipart/form-data" action="<%=url %>" style="margin:0;">
 			  <div id="myFileDiv">
               请选择PSP壁纸ZIP格式压缩包 :<br />
 			    <input name="myFile" size="42" type="file" class="btn"/>
