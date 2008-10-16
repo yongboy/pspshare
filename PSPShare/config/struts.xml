@@ -116,6 +116,11 @@
 		<action name="Welcome" class="org.gameye.psp.image.action.RssImageAction" method="Welcome">
 			<result name="success" type="freemarker">/WEB-INF/pages/rss/Welcome.html</result>
 		</action>	
-		<action name="*_rss" class="org.gameye.psp.image.action.RssImageAction" method="{1}"></action>
+		<action name="*_RSS" class="org.gameye.psp.image.action.RssImageAction" method="{1}">
+			<result name="success" type="freemarker">
+				<param name="location">/WEB-INF/pages/rss/{1}_RSS.html</param>
+				<param name="contentType">application/xml</param>
+			</result>			
+		</action>
 	</package>
 </struts>
