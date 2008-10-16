@@ -272,10 +272,20 @@ public class ImageHandle extends BaseActionSupport {
 	}
 
 	public String SaveMyPlace() {
+		
+		String lastPlace = getServletRequest().getHeader("referer");
+		log.info("获得用户最好浏览位置:\n" + lastPlace);
+		if(StringUtils.isEmpty(lastPlace)){
+			return INPUT;
+		}
+		
 		LastPlace place = new LastPlace();
 		place.setDate(new Date());
 		place.setIp(getServletRequest().getRemoteAddr());
-		place.setPlace(back);
+		
+		
+		place.setPlace(lastPlace);
+		
 		place.setUser(getCurrUser());
 
 		lastPlaceService.save(place);
