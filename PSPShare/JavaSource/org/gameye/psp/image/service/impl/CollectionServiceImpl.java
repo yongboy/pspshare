@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.gameye.psp.image.dao.ICollectionDao;
 import org.gameye.psp.image.entity.Collection;
+import org.gameye.psp.image.entity.User;
 import org.gameye.psp.image.service.ICollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class CollectionServiceImpl implements ICollectionService {
 	}
 
 	public Map<Integer, List<Collection>> pagedImages(int page, int size,
-			String userId, String order) {
+			User user, String order) {
 
 		if (page < 1)
 			page = 1;
@@ -34,9 +35,9 @@ public class CollectionServiceImpl implements ICollectionService {
 		int startIndex = (page - 1) * size;
 		int pageSize = size;
 
-		String hql = "from org.gameye.psp.image.entity.Collection where user.id =  ? order by date "
+		String hql = "from org.gameye.psp.image.entity.Collection where user =  ? order by id "
 				+ order;
-		Object[] values = { userId };
+		Object[] values = { user };
 
 		return collectionDao.pagedQuery(hql, startIndex, pageSize, values);
 	}

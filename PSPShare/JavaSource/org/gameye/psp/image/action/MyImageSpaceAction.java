@@ -38,7 +38,7 @@ public class MyImageSpaceAction extends BaseActionSupport {
 
 		User user = getCurrUser();
 		Map<Integer, List<Image>> imgMaps = imageService.oneUserImages(page,
-				size, user.getId(), order);
+				size, user, order);
 		if (imgMaps == null || imgMaps.keySet().size() == 0) {
 			total = 0;
 			return SUCCESS;
@@ -57,7 +57,7 @@ public class MyImageSpaceAction extends BaseActionSupport {
 
 		User user = getCurrUser();
 		Map<Integer, List<Collection>> imgMaps = collectionService.pagedImages(
-				page, size, user.getId(), order);
+				page, size, user, order);
 
 		if (imgMaps == null || imgMaps.keySet().size() == 0) {
 			total = 0;
