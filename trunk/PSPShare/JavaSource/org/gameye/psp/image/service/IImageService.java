@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.gameye.psp.image.entity.Image;
+import org.gameye.psp.image.entity.User;
 
 public interface IImageService {
 	void saveImage(Image image);
@@ -89,6 +90,6 @@ public interface IImageService {
 	 * @param order
 	 * @return
 	 */
-	Map<Integer, List<Image>> oneUserImages(int page, int size, String userId,
+	Map<Integer, List<Image>> oneUserImages(int page, int size, User user,
 			String order);
 }

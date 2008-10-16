@@ -8,6 +8,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.gameye.psp.image.dao.IImageDao;
 import org.gameye.psp.image.entity.Image;
+import org.gameye.psp.image.entity.User;
 import org.gameye.psp.image.service.IImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,7 +72,7 @@ public class ImageServiceImpl implements IImageService {
 
 	public Map<Integer, List<Image>> oneTypeImages(int page, int size,
 			int typeId, String order) {
-		if (typeId == 0 )
+		if (typeId == 0)
 			return pagedImages(page, size, order);
 
 		if (page < 1)
@@ -164,8 +165,8 @@ public class ImageServiceImpl implements IImageService {
 	}
 
 	public Map<Integer, List<Image>> oneUserImages(int page, int size,
-			String userId, String order) {
-		if (StringUtils.isEmpty(userId))
+			User user, String order) {
+		if (user == null)
 			return null;
 
 		if (page < 1)
@@ -179,8 +180,8 @@ public class ImageServiceImpl implements IImageService {
 		List<Object> params = new ArrayList<Object>();
 		StringBuilder sb = new StringBuilder();
 		sb.append("from org.gameye.psp.image.entity.Image where ");
-		sb.append("user.id = ? ");
-		params.add(userId);
+		sb.append("user = ? ");
+		params.add(user);
 		sb.append("order by id ");
 		sb.append(order);
 		return imageDao.pagedQuery(sb.toString(), startIndex, pageSize, params
