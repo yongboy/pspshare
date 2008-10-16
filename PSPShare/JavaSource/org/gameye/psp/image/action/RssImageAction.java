@@ -1,7 +1,9 @@
 package org.gameye.psp.image.action;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.gameye.psp.image.action.base.BaseActionSupport;
@@ -19,26 +21,29 @@ public class RssImageAction extends BaseActionSupport {
 	public String Welcome() {
 		return SUCCESS;
 	}
-
-	public void costomPSP() {
-		// 判断用户
-		// 判断数目
-
-		if (size < 1)
-			size = 10;
-		if (size > 50)
-			size = 50;
+	private static Set<Integer> allowInt = null;
+	public void forPSP() {
+		if(allowInt ==null){
+			allowInt = new HashSet<Integer>();
+			allowInt.add(20);
+			allowInt.add(30);
+			allowInt.add(50);
+		}
+		//获取请求的用户
+		String userId = getServletRequest().getParameter("user");
+		if(StringUtils.isEmpty(userId)){
+			return ;
+		}
+		if(!allowInt.contains(size)){
+			return;
+		}
+		
 		pspRss();
 	}
 
 	public void psp() {
-
-		if (size < 1)
-			size = 10;
-		if (size > 20)
-			size = 20;
+		size = 10;
 		pspRss();
-
 	}
 
 	private void pspRss() {
