@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+<title>PSP壁纸分享</title>
+<link>${urlPrefix!}</link>
+<description><![CDATA[PSP壁纸,壁纸分享,分享壁纸，为你为我]]></description>
+<language>zh-CN</language>
+<image>
+	<url>${urlPrefix}image/rss_image.png</url>
+	<title>Share Images For You!</title>
+</image>
+<copyright>&#xA9; 2008 Forshare.Org,Publicer Yongboy. All rights reserved.</copyright>
+
+
+<#list images as image>
+<item>
+<title><![CDATA[${image.title!}]]></title>
+<link>${urlPrefix}</link>
+<description><![CDATA[${image.description!}]]></description>
+<author><#if image.user??>${image.user.id!}</#if></author>
+<pubDate>${image.date?string("EEE, d MMM yyyy HH:mm:ss Z")}</pubDate>
+<enclosure url="${urlPrefix}images/${image.path}${image.nowName}" width="480px" height="272px"/>
+<media:thumbnail url = "${urlPrefix}images/${image.path}thumbnail/${image.nowName}" width="80" height="45" />
+</item>
+</#list>
+
+</channel>
+</rss>
