@@ -1,0 +1,5 @@
+生成xml形式的freemarker：
+<param name="contentType">application/xml</param>
+
+referer:
+http://www.ntsky.com/tech/java/opensource/template/2007-11-28/e9c5cd353f7accf1.html
