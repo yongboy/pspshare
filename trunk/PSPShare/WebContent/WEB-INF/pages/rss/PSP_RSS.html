@@ -18,7 +18,7 @@
 <link>${urlPrefix}</link>
 <description><![CDATA[${image.description!}]]></description>
 <author><#if image.user??>${image.user.id!}</#if></author>
-<pubDate>${image.date?string("EEE, d MMM yyyy HH:mm:ss Z")}</pubDate>
+<pubDate><#setting locale="en_US" />${image.date?string("EEE, d MMM yyyy HH:mm:ss Z")}</pubDate>
 <enclosure url="${urlPrefix}images/${image.path}${image.nowName}" width="480px" height="272px"/>
 <media:thumbnail url = "${urlPrefix}images/${image.path}thumbnail/${image.nowName}" width="80" height="45" />
 </item>
