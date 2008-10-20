@@ -39,4 +39,12 @@ public class Constants {
 	private static String imgSuffix = ".jpg,.jpeg,.png,.bmp,.gif";
 	public static final Set<String> allowImageSuffix = new HashSet<String>(
 			Arrays.asList(imgSuffix.split(",")));
+	
+	
+	
+	
+	private static String[] fobiddenWords = { "admin", "abc", "administrator",
+			"super", "forshare", "gameye", "123" };
+	public static Set<String> forbiddenWords = new HashSet<String>(Arrays
+			.asList(fobiddenWords));
 }

@@ -82,8 +82,8 @@ public class ImageHandle extends BaseActionSupport {
 
 		// 得到当前分类下 上一张图片ID以及下一张图片的ID
 		// 当前分类不为空情况下
-		preImage = imageService.getPreImage(typeId, image.getId());
-		nextImage = imageService.getNextImage(typeId, image.getId());
+		preImage = imageService.getPreImage(image.getId());
+		nextImage = imageService.getNextImage(image.getId());
 
 		return SUCCESS;
 	}
@@ -220,7 +220,8 @@ public class ImageHandle extends BaseActionSupport {
 			return;
 
 		try {
-			String filePath = Constants.getImgSavePath() + image.getPath() +image.getNowName();
+			String filePath = Constants.getImgSavePath() + image.getPath()
+					+ image.getNowName();
 			File file = new File(filePath);
 			FileInputStream is = new FileInputStream(file);
 			String fileName = image.getNowName();
@@ -272,20 +273,19 @@ public class ImageHandle extends BaseActionSupport {
 	}
 
 	public String SaveMyPlace() {
-		
+
 		String lastPlace = getServletRequest().getHeader("referer");
 		log.info("获得用户最好浏览位置:\n" + lastPlace);
-		if(StringUtils.isEmpty(lastPlace)){
+		if (StringUtils.isEmpty(lastPlace)) {
 			return INPUT;
 		}
-		
+
 		LastPlace place = new LastPlace();
 		place.setDate(new Date());
 		place.setIp(getServletRequest().getRemoteAddr());
-		
-		
+
 		place.setPlace(lastPlace);
-		
+
 		place.setUser(getCurrUser());
 
 		lastPlaceService.save(place);
@@ -383,6 +383,104 @@ public class ImageHandle extends BaseActionSupport {
 			total = i;
 			images = imgMaps.get(i);
 		}
+
+		return SUCCESS;
+	}
+
+	public String TypeShow() {
+		image = imageService.getImage(id);
+		// 获取当前图片对应的评论列表
+		if (image != null) {
+			Map<Integer, List<Commentary>> cmtMaps = commentaryService
+					.pagedImages(1, 3, image.getId(), order);
+			for (Integer i : cmtMaps.keySet()) {
+				totalComment = i;
+				commentaries = cmtMaps.get(i);
+			}
+		} else {
+			totalComment = 0;
+			commentaries = null;
+		}
+
+		// 得到当前分类下 上一张图片ID以及下一张图片的ID
+		// 当前分类不为空情况下
+		preImage = imageService.getPreImage(typeId, image.getId());
+		nextImage = imageService.getNextImage(typeId, image.getId());
+
+		return SUCCESS;
+	}
+
+	public String UploadShow() {
+		image = imageService.getImage(id);
+		// 获取当前图片对应的评论列表
+		if (image != null) {
+			Map<Integer, List<Commentary>> cmtMaps = commentaryService
+					.pagedImages(1, 3, image.getId(), order);
+			for (Integer i : cmtMaps.keySet()) {
+				totalComment = i;
+				commentaries = cmtMaps.get(i);
+			}
+		} else {
+			totalComment = 0;
+			commentaries = null;
+		}
+
+		String userId = getServletRequest().getParameter("userId");
+
+		// 得到当前分类下 上一张图片ID以及下一张图片的ID
+		// 当前分类不为空情况下
+		preImage = imageService.getPreImage(userId, image.getId());
+		nextImage = imageService.getNextImage(userId, image.getId());
+
+		return SUCCESS;
+	}
+
+	public String CollectionShow() {
+		
+		String collIdStr = getServletRequest().getParameter("collId");
+		long collId = -1;
+		try {
+			collId = Long.parseLong(collIdStr);
+		} catch (Exception e) {
+		}
+		
+		Collection coll = collectionService.getById(collId);
+		image = coll.getImage();
+		// 获取当前图片对应的评论列表
+		if (image != null) {
+			Map<Integer, List<Commentary>> cmtMaps = commentaryService
+					.pagedImages(1, 3, image.getId(), order);
+			for (Integer i : cmtMaps.keySet()) {
+				totalComment = i;
+				commentaries = cmtMaps.get(i);
+			}
+		} else {
+			totalComment = 0;
+			commentaries = null;
+		}
+
+		String userId = getServletRequest().getParameter("userId");
+//		String collIdStr = getServletRequest().getParameter("collId");
+//		long collId = -1;
+//		try {
+//			collId = Long.parseLong(collIdStr);
+//		} catch (Exception e) {
+//		}
+
+		// 得到当前分类下 上一张图片ID以及下一张图片的ID
+		// 当前分类不为空情况下
+		Collection preCollection = collectionService.getPreCollection(userId, collId);
+		if (preCollection != null) {
+			getServletRequest().setAttribute("preCollection", preCollection);
+		}
+		Collection nextCollection = collectionService.getNextCollection(userId, collId);
+		if(nextCollection != null){
+			getServletRequest().setAttribute("nextCollection", nextCollection);
+		}
+		
+//		if (tmpColl != null) {
+//			nextImage = tmpColl.getImage();
+//		}
 
 		return SUCCESS;
 	}

@@ -8,9 +8,11 @@ import org.apache.commons.logging.LogFactory;
 import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.entity.Collection;
 import org.gameye.psp.image.entity.Image;
+import org.gameye.psp.image.entity.LastPlace;
 import org.gameye.psp.image.entity.User;
 import org.gameye.psp.image.service.ICollectionService;
 import org.gameye.psp.image.service.IImageService;
+import org.gameye.psp.image.service.ILastPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class MyImageSpaceAction extends BaseActionSupport {
@@ -21,12 +23,20 @@ public class MyImageSpaceAction extends BaseActionSupport {
 	@Autowired
 	private ICollectionService collectionService;
 
+	@Autowired
+	private ILastPlaceService lastPlaceService;
+
 	/**
 	 * 进入my的空间首页
 	 * 
 	 * @return
 	 */
 	public String Welcome() {
+		// 检测用户是否有上次浏览记录
+		LastPlace lastPlace = lastPlaceService.getLastTimePlace(getCurrUser());
+		if (lastPlace != null) {
+			getServletRequest().setAttribute("lastPlace", lastPlace);
+		}
 		return SUCCESS;
 	}
 

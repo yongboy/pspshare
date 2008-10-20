@@ -18,8 +18,8 @@ public class LastPlaceServiceImpl implements ILastPlaceService {
 	private ILastPlaceDao lastPlaceDao;
 
 	public LastPlace getLastTimePlace(User user) {
-		String hql = "from LastPlace where user.id = ? order id desc";
-		Object[] o = { user.getId()};
+		String hql = "from org.gameye.psp.image.entity.LastPlace where user = ? order by id desc";
+		Object[] o = { user };
 		List<LastPlace> list = lastPlaceDao.pagedQueryList(hql, 0, 1, o);
 		if (list == null || list.size() == 0)
 			return null;

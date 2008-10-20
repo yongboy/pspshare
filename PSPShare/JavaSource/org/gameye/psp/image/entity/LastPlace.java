@@ -9,22 +9,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-@Entity(name="UserLastPlace")
+@Entity(name = "UserLastPlace")
 public class LastPlace implements Serializable {
 
+	private static final long serialVersionUID = 4739675563466023957L;
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-	
+
 	@ManyToOne
 	private User user;
-	
+
 	private String place;
-	
+
 	private String other;
-	
+
 	private Date date;
-	
+
 	private String ip;
 
 	public long getId() {
@@ -74,6 +76,5 @@ public class LastPlace implements Serializable {
 	public void setIp(String ip) {
 		this.ip = ip;
 	}
-	
-	
+
 }
