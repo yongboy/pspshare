@@ -1,5 +1,6 @@
 package org.gameye.psp.image.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,10 @@ public class CollectionServiceImpl implements ICollectionService {
 		collectionDao.save(collection);
 	}
 
+	public Collection getById(long id) {
+		return collectionDao.load(id);
+	}
+
 	public Map<Integer, List<Collection>> pagedImages(int page, int size,
 			User user, String order) {
 
@@ -40,6 +45,46 @@ public class CollectionServiceImpl implements ICollectionService {
 		Object[] values = { user };
 
 		return collectionDao.pagedQuery(hql, startIndex, pageSize, values);
+	}
+
+	public Collection getNextCollection(String userId, long id) {
+		StringBuilder sb = new StringBuilder();
+		List<Object> params = new ArrayList<Object>();
+		sb.append("from org.gameye.psp.image.entity.Collection where id > ? ");
+		params.add(id);
+		if (StringUtils.isEmpty(userId)) {
+			sb.append(" and user = null ");
+		} else {
+			sb.append(" and user.id = ? ");
+			params.add(userId);
+		}
+		sb.append("order by id");
+
+		return getOneCollection(sb, params);
+	}
+
+	public Collection getPreCollection(String userId, long id) {
+		StringBuilder sb = new StringBuilder();
+		List<Object> params = new ArrayList<Object>();
+		sb.append("from org.gameye.psp.image.entity.Collection where id < ? ");
+		params.add(id);
+		if (StringUtils.isEmpty(userId)) {
+			sb.append(" and user = null ");
+		} else {
+			sb.append(" and user.id = ? ");
+			params.add(userId);
+		}
+		sb.append("order by id desc");
+
+		return getOneCollection(sb, params);
+	}
+
+	private Collection getOneCollection(StringBuilder sb, List<Object> params) {
+		List<Collection> list = collectionDao.pagedQueryList(sb.toString(), 0,
+				1, params.toArray());
+		if (list == null || list.size() == 0)
+			return null;
+		return list.get(0);
 	}
 
 }

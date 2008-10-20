@@ -1,11 +1,9 @@
 package test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.gameye.psp.image.dao.IImageDao;
-import org.gameye.psp.image.entity.Image;
+import org.gameye.psp.image.entity.LastPlace;
 import org.gameye.psp.image.entity.User;
+import org.gameye.psp.image.service.ILastPlaceService;
 import org.gameye.psp.image.service.IUserService;
 
 public class TestPagedImages {
@@ -27,23 +25,34 @@ public class TestPagedImages {
 		User user = userS.getById("yongboy");
 		System.out.println("user name :" + user.getId());
 		
+		ILastPlaceService lastPlaceService = (ILastPlaceService)Beans.getBean("lastPlaceService");
 		
+		LastPlace lastPlace = lastPlaceService.getLastTimePlace(user);
 		
-		List<Object> params = new ArrayList<Object>();
-		StringBuilder sb = new StringBuilder();
-		sb.append("from org.gameye.psp.image.entity.Image where ");
-		sb.append("user = ? ");
-		params.add(user);
-		Image img = null;
-		List<Image> imgs= imageDao.pagedQuery(sb.toString(),2, params	.toArray());
-		
-//		for(Integer inte : imgMap.keySet()){
-//			img = imgMap.get(inte);
-		System.out.println("all total : " +imgs.size()) ;
-		for(Image i : imgs){
-			System.out.println( i.getNowName());
+		if(lastPlace == null){
+			System.out.println( "lastPlace 为空 ~" );
+		}else{
+			System.out.println("lastPlace is not" +
+					" nlll");
 		}
-//	}
+		
+		
+		
+//		List<Object> params = new ArrayList<Object>();
+//		StringBuilder sb = new StringBuilder();
+//		sb.append("from org.gameye.psp.image.entity.Image where ");
+//		sb.append("user = ? ");
+//		params.add(user);
+//		Image img = null;
+//		List<Image> imgs= imageDao.pagedQuery(sb.toString(),2, params	.toArray());
+//		
+////		for(Integer inte : imgMap.keySet()){
+////			img = imgMap.get(inte);
+//		System.out.println("all total : " +imgs.size()) ;
+//		for(Image i : imgs){
+//			System.out.println( i.getNowName());
+//		}
+////	}
 		
 	}
 

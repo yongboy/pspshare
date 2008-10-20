@@ -1,17 +1,13 @@
 package org.gameye.psp.image.action;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.lang.StringUtils;
 import org.gameye.psp.image.action.base.BaseActionSupport;
+import org.gameye.psp.image.config.Constants;
 import org.gameye.psp.image.entity.User;
 import org.gameye.psp.image.service.IUserService;
 import org.gameye.psp.image.utils.MD5;
 import org.gameye.psp.image.utils.StringHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class CheckLoginAction extends BaseActionSupport {
 
@@ -58,10 +54,6 @@ public class CheckLoginAction extends BaseActionSupport {
 
 	private static int minInt = 3;
 	private static int maxInt = 20;
-	private static String[] fobiddenWords = { "admin", "abc", "administrator",
-			"super", "forshare", "gameye", "123" };
-	private static Set<String> forbiddenWords = new HashSet<String>(Arrays
-			.asList(fobiddenWords));
 
 	public String Register() {
 
@@ -83,7 +75,7 @@ public class CheckLoginAction extends BaseActionSupport {
 			return INPUT;
 		}
 
-		if (forbiddenWords.contains(user.getId())) {
+		if (Constants.forbiddenWords.contains(user.getId())) {
 			error = "当前用户名已经存在！";
 			return INPUT;
 		}
@@ -119,7 +111,7 @@ public class CheckLoginAction extends BaseActionSupport {
 			error = "当前用户名已经存在！";
 			return INPUT;
 		}
-		
+
 		userService.add(user);
 
 		return SUCCESS;

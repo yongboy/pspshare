@@ -11,13 +11,13 @@ public interface IImageService {
 	void saveImage(Image image);
 
 	void updateImage(Image image);
-	
+
 	void saveImages(Collection<Image> images);
 
 	void updateImages(Collection<Image> images);
 
 	Image getImage(long id);
-	
+
 	void delete(Image image);
 
 	/**
@@ -67,12 +67,30 @@ public interface IImageService {
 			String order);
 
 	/**
-	 * 得到当前图片的上一张图片
+	 * 得到当前图片的上一张图片（图片ID是自增长类型的）
 	 * 
 	 * @param currImageId
 	 * @return
 	 */
+	Image getPreImage(long currImgId);
+
+	/**
+	 * 得到当前类型下上一张图片，根据图片的id(自增长类型)
+	 * 
+	 * @param typeId
+	 * @param currImgId
+	 * @return
+	 */
 	Image getPreImage(int typeId, long currImgId);
+
+	/**
+	 * 得到用户上传的上一张图片
+	 * 
+	 * @param userId
+	 * @param currImgId
+	 * @return
+	 */
+	Image getPreImage(String userId, long currImgId);
 
 	/**
 	 * 得到当前图片的下一张图片
@@ -80,10 +98,29 @@ public interface IImageService {
 	 * @param currImageId
 	 * @return
 	 */
+	Image getNextImage(long currImgId);
+
+	/**
+	 * 得到当前类型下的图片
+	 * 
+	 * @param typeId
+	 * @param currImgId
+	 * @return
+	 */
 	Image getNextImage(int typeId, long currImgId);
-	
+
+	/**
+	 * 得到用户上传的下一张图片
+	 * 
+	 * @param userId
+	 * @param currImgId
+	 * @return
+	 */
+	Image getNextImage(String userId, long currImgId);
+
 	/**
 	 * 得到一个用户的所有图片
+	 * 
 	 * @param page
 	 * @param size
 	 * @param userId
