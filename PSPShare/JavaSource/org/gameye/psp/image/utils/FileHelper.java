@@ -150,14 +150,4 @@ public class FileHelper
 		in.close();
 	}
 
-	public static void main(String[] args) {
-		File[] files = FileHelper.getfiles("E:\\log\\*.txt");
-		// File[] files = FileHelper.getfiles("E:\\log\\");
-		if (files != null) {
-			for (int i = 0; i < files.length; i++) {
-				File f = files[i];
-			}
-		}
-	}
-
 }
