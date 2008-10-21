@@ -3,14 +3,35 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>我的~</title>
+<style>
+.myInfoDiv{ width:480px; height:272px; padding:20px auto auto 20px;}
+.myInfoDiv .historyDiv p{ margin:2px auto auto 10px;}
+.myInfoDiv .todoDiv p{margin:2px auto 1px 10px;}
+</style>
 </head>
 <body>
-<div style=" width:480px; height:272px; padding:20px auto auto 20px;">
+<div class="myInfoDiv">
   <h2>欢迎光临我的空间～</h2>
+ 	<div class="historyDiv">
+    <div>我的浏览历史 ......</div>
+    <p>
+    <#if lastPlace?exists>
+    	<a href="${lastPlace.place!}"> 还原我的上一次浏览记录</a> <br /> ${lastPlace.date?string("yyyy-MM-dd HH:mm")}
+    <#else>    
+        您暂时还没有上次浏览记录 <br /> 
+        如何还原最后一次浏览历史，继续查看剩下图片,请使用 <b>记录我的位置</b>功能。
+    </#if>
+    </p>
+  </div>
+  
+    <div class="todoDiv">
+    <div>您可以 ......</div>
   <p><a href="MyCollection.do">我的收藏</a></p>
   <p><a href="MyUpload.do">我的上传</a></p>
   <p><a href="/upload.do">上传图片</a></p>
   <p><a href="CustomAtom.do" title="定制PSP专用的RSS~">定制RSS</a></p>
+  <p><a href="/Image_List.do" title="定制PSP专用的RSS~">全部上传</a></p>
+  </div>
 </div>
 </body>
 </html>

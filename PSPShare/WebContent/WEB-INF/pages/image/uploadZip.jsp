@@ -16,7 +16,7 @@ if(userAgent.indexOf("PSP") != -1){
 %>
 <body>
 <div class="div">
-<div style="color:red;"><s:fielderror /></div>
+<div style="color:red;"><s:fielderror /><s:property value="typeError" /></div>
 <div style="margin-bottom:10px;"><span style="float:left"><a href="upload.do">普通上传</a></span><span style="margin-left:20px;">ZIP 打包上传</span></div>
 <form class="form" name="upForm" method="post" enctype="multipart/form-data" action="<%=url %>" style="margin:0;">
 			  <div id="myFileDiv">

@@ -20,13 +20,7 @@
 	<p class="STYLE1">您的收藏已经成功 ！</p>
 	<p>请选择 ： <br />
 	<a href="/my/">进入我的收藏空间</a> <br />
-	<#if back?? >
-	<a href="${back}">返回</a> <br />
-	<#else>	
-	  <a href="Image_List.do?page=${page}">返回</a> <br />
-	  <a href="Image_List.do?page=${page+1}">查看下一张</a><br />
-	</#if> 
-	  <a href="/">返回到首页</a></p>
+	<a href="${returnUrl!}">返回</a> <br />
 </div>
 </div>
 </body>
