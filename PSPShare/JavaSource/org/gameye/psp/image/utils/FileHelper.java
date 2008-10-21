@@ -92,13 +92,21 @@ public class FileHelper
 		return fileName.substring(0, fileName.lastIndexOf("."));
 	}
 
+	public static String getFileNameWithExt(String path) {
+		int index = path.lastIndexOf('\\');
+		if (index == -1) {
+			index = path.lastIndexOf('/');
+		}
+		return path.substring(index + 1);
+	}
+
 	public static void copy(File src, String target) {
 		copy(src, new File(target));
 	}
 
 	public static void copy(File src, File dst) {
 		// 判断上级目录是否为空，否则，直接创建目录
-		if(!dst.getParentFile().exists()){
+		if (!dst.getParentFile().exists()) {
 			dst.getParentFile().mkdirs();
 		}
 		try {
