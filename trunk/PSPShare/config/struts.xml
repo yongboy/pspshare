@@ -32,7 +32,7 @@
              <result name="invalid.token">/WEB-INF/pages/image/upload.jsp</result>
 		</action>
 		
-		<action name="PSP_UploadImage" class="org.gameye.psp.image.action.UploadImage">			
+		<action name="PSP_UploadImage" class="org.gameye.psp.image.action.UploadImage" method="PSPUpload">			
 			<!-- 验证上传文件的类型 -->
              <interceptor-ref name ="fileUpload">   
                  <param name ="allowedTypes">application/octet-stream</param>
@@ -59,7 +59,7 @@
              <result name="input">/WEB-INF/pages/image/uploadZip.jsp</result>
              <result name="invalid.token">/WEB-INF/pages/image/uploadZip.jsp</result>
 		</action>
-		<action name="PSP_UploadZip" class="org.gameye.psp.image.action.UploadImage" method="ZipUpload">			
+		<action name="PSP_UploadZip" class="org.gameye.psp.image.action.UploadImage" method="PSPZipUpload">			
 			<!-- 验证上传文件的类型 -->
              <interceptor-ref name ="fileUpload">   
                  <param name ="allowedTypes">application/octet-stream</param>
