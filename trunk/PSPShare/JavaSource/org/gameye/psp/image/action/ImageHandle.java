@@ -275,6 +275,9 @@ public class ImageHandle extends BaseActionSupport {
 	public String SaveMyPlace() {
 
 		String lastPlace = getServletRequest().getHeader("referer");
+		
+		lastPlace = lastPlace.replaceFirst(getSiteUrl(), ""); 
+		
 		log.info("获得用户最好浏览位置:\n" + lastPlace);
 		if (StringUtils.isEmpty(lastPlace)) {
 			return INPUT;
@@ -318,6 +321,9 @@ public class ImageHandle extends BaseActionSupport {
 		scoreHistory.setUser(getCurrUser());
 
 		scoreHistoryService.add(scoreHistory);
+		
+		String lastPlace = getServletRequest().getHeader("referer");
+		getServletRequest().setAttribute("returnUrl",lastPlace);
 
 		return SUCCESS;
 	}
@@ -340,6 +346,9 @@ public class ImageHandle extends BaseActionSupport {
 		collection.setUser(getCurrUser());
 
 		collectionService.add(collection);
+		
+		String lastPlace = getServletRequest().getHeader("referer");
+		getServletRequest().setAttribute("returnUrl",lastPlace);
 
 		return SUCCESS;
 	}
@@ -536,7 +545,7 @@ public class ImageHandle extends BaseActionSupport {
 	private Image nextImage;
 
 	// private String next;
-	private String back;
+//	private String back;
 
 	private List<String> tags;
 
@@ -632,13 +641,13 @@ public class ImageHandle extends BaseActionSupport {
 		return nextImage;
 	}
 
-	public String getBack() {
-		return back;
-	}
-
-	public void setBack(String back) {
-		this.back = back;
-	}
+//	public String getBack() {
+//		return back;
+//	}
+//
+//	public void setBack(String back) {
+//		this.back = back;
+//	}
 
 	public void setTags(List<String> tags) {
 		this.tags = tags;
