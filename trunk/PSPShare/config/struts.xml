@@ -123,4 +123,10 @@
 			</result>			
 		</action>
 	</package>
+	
+	<package name="blog" extends="struts-default" namespace="/blog">
+		<action name="*" class="org.gameye.psp.image.action.SiteBlogAction" method="{1}">
+			<result name="success" type="freemarker">/WEB-INF/pages/blog/{1}.html</result>
+		</action>
+	</package>
 </struts>
