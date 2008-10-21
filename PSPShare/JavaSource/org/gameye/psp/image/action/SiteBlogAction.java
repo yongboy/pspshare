@@ -1,5 +1,6 @@
 package org.gameye.psp.image.action;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -37,8 +38,23 @@ public class SiteBlogAction extends BaseActionSupport {
 
 		return SUCCESS;
 	}
+	
+	public String Go2Add(){
+		return SUCCESS;
+	}
+	
+	public String Add(){
+		blog.setDate(new Date());
+		blog.setAuthor(getCurrUser().getNickName());
+		
+		siteBlogService.addBlog(blog);
+		
+		return SUCCESS;
+	}
 
 	private List<SiteBlog> blogs;
+	
+	private SiteBlog blog;
 
 	private int total;
 
@@ -69,4 +85,11 @@ public class SiteBlogAction extends BaseActionSupport {
 		return total;
 	}
 
+	public SiteBlog getBlog() {
+		return blog;
+	}
+
+	public void setBlog(SiteBlog blog) {
+		this.blog = blog;
+	}
 }
