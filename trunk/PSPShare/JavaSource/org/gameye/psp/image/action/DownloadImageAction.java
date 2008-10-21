@@ -18,19 +18,19 @@ import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
 import org.gameye.psp.image.action.base.BaseActionSupport;
 import org.gameye.psp.image.utils.DateHelper;
+import org.gameye.psp.image.utils.FileHelper;
 
 public class DownloadImageAction extends BaseActionSupport {
 
 	private static final long serialVersionUID = 8384564394341339126L;
-	
+
 	private static Log log = LogFactory.getLog("DownloadImageAction");
 
 	public void downCompressedFiles() throws Exception {
 		String zipName = DateHelper.formatDate(new Date(), "yyyy-MM-dd");
-		
+
 	}
-	
-	
+
 	private void DownZipFiles(HttpServletResponse response, String zipName,
 			List<String> filePaths) {
 
@@ -64,7 +64,8 @@ public class DownloadImageAction extends BaseActionSupport {
 				FileInputStream fis = new FileInputStream(tempFile);
 				origin = new BufferedInputStream(fis, BUFFER);
 				// 为被读取的文件创建压缩条目
-				ZipEntry entry = new ZipEntry(path);
+				ZipEntry entry = new ZipEntry(FileHelper
+						.getFileNameWithExt(path));
 				byte data[] = new byte[BUFFER];
 				int count;
 				// 在向ZIP输出流写入数据之前，必须首先使用out.putNextEntry(entry); 方法安置压缩条目对象
