@@ -156,4 +156,14 @@ public class BaseActionSupport extends ActionSupport implements
 			// + "\n下载的文件ID为：" + sf.getId());
 		}
 	}
+	
+	public String getSiteUrl() {
+		String urlPrefix = "http://" + getServletRequest().getServerName();
+		if (getServletRequest().getServerPort() != 80) {
+			urlPrefix += ":" + getServletRequest().getServerPort();
+		}
+//		if (!urlPrefix.endsWith("/"))
+//			urlPrefix += "/";
+		return urlPrefix;
+	}
 }

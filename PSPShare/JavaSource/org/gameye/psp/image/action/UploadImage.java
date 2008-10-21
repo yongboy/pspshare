@@ -39,6 +39,16 @@ public class UploadImage extends BaseActionSupport {
 		return SUCCESS;
 	}
 
+	public String PSPZipUpload() {
+		if (!FileHelper.getFileExt(fileNames.get(0).toLowerCase()).endsWith(
+				Constants.zipPrefix)) {
+			getServletRequest().setAttribute("typeError", "您要上传的ZIP压缩文件类型不正确！");
+			return INPUT;
+		}
+
+		return ZipUpload();
+	}
+
 	public String ZipUpload() {
 		if (myFiles == null || myFiles.size() == 0)
 			return INPUT;
@@ -185,134 +195,22 @@ public class UploadImage extends BaseActionSupport {
 
 		return SUCCESS;
 	}
-	
-	
-	
-	/**
-	  * 过滤文件类型
-	  * @param types 系统所有允许上传的文件类型
-	  * @return 如果上传文件的文件类型允许上传，返回null，否则返回input字符串
-	  */
-	private String allowTypes;
-	 public String filterType(String[] types)
-	 {
-	  //取得上传文件的文件类型。
-	  String fileType = contentTypes.get(0);
-	  for (String type : types)
-	  {
-	   if (type.equals(fileType))
-	   {
-	    return null;
-	   }
-	  }
-	  return INPUT;
-	 }
-	 
-	 public String getAllowTypes()
-	 {
-	  return allowTypes;
-	 }
-	 public void setAllowTypes(String allowTypes)
-	 {
-	  this.allowTypes = allowTypes;
-	 }
-	
-	/**
-	 * 		<action name="DemoUpload" class="org.gameye.psp.image.action.UploadImage" method="DemoUpload">			
-			<!-- 验证上传文件的类型 -->
-			<param name="allowTypes">image/bmp,image/png,image/gif,image/jpeg</param>
-             <!-- 如果加入了验证上传文件的类型,必须要加input -->  
-             <result name="success" type="freemarker">/WEB-INF/pages/image/upload_result.html</result>
-             <result name="input">/WEB-INF/pages/image/upload.jsp</result>
-             <result name="invalid.token">/WEB-INF/pages/image/upload.jsp</result>
-		</action>
-	 * @return
-	 */
-	public String DemoUpload(){
 
+	/**
+	 * PSP上传使用
+	 */
+	public String PSPUpload() {
 		if (myFiles == null || myFiles.size() == 0)
 			return INPUT;
-		
-//		String s = filterType(".jpg,.png".split(","));
-//		if(s != null){
-//			
-//		}
-		log.info("goes here....:\n" + getAllowTypes());
-		//将允许上传文件类型的字符串以英文逗号（,）分解成字符串数组。
-		  //从而判断当前文件类型是否允许上传
-		  String filterResult = filterType(getAllowTypes().split(","));
-		  //如果当前文件类型不允许上传
-		  if (filterResult != null)
-		  {log.info("上传文件类型有误！");
-		   getServletRequest().setAttribute("typeError" , "您要上传的文件类型不正确！");
-		   return INPUT;
-		  }
-		
-		
-		// 处理多个文件上传操作...
-		String fileFix = null;
-		String nowName = null;
-		String descPath = null;
-		// 得到文件的相对路径
-		String imgDir = getImgDir();
-		// 得到文件的真实路径
-		String imgDirPath = Constants.getImgSavePath() + imgDir;
-		// 缩略图的真实路径
-		String imgSmallDirPath = imgDirPath
-				+ Constants.thumbnail.path.getValue();
-		String thumbnailPath = null;
-		images = new ArrayList<Image>();
-		Image image = null;
-		for (int i = 0; i < myFiles.size(); i++) {
-			fileFix = UploadTool.getFileExt(fileNames.get(i)).toLowerCase();
-			if (!Constants.allowImageSuffix.contains(fileFix))
-				continue;
-
-			// 保存缩略图
-			try {
-				// 有限保存image属性信息
-				image = doSaveInfo(nowName, fileNames.get(i), fileFix,
-						getServletRequest());
-				image.setLength(myFiles.get(i).length());
-				image.setContentType(contentTypes.get(i));
-				image.setPath(imgDir);
-				imageService.saveImage(image);
-
-				// 计算文件路径以及文件名称
-				nowName = image.getId() + fileFix;
-				descPath = imgDirPath + nowName;
-				thumbnailPath = imgSmallDirPath + nowName;
-
-				// 文件进行拷贝等操作
-				FileHelper.copy(myFiles.get(i), descPath);
-				// 文件进行缩略图制作
-				imageHandleService
-						.generate(myFiles.get(i).getPath(), thumbnailPath,
-								Integer.parseInt(Constants.thumbnail.width
-										.getValue()), Integer
-										.parseInt(Constants.thumbnail.height
-												.getValue()), false);
-				// 这里会自动更新
-				image.setNowName(nowName);
-			} catch (IOException ioe) {
-				log.fatal("文件进行操作时出现严重问题 ");
-				ioe.printStackTrace();
-				if (image == null) {
-					log.fatal("image对象为空！");
-				} else {
-					log.fatal("image 不为空！");
-					imageService.delete(image);
-				}
+		for (String s : fileNames) {
+			if (!Constants.allowImageSuffix.contains(FileHelper.getFileExt(s
+					.toLowerCase()))) {
+				getServletRequest().setAttribute("typeError", "您要上传的文件类型不正确！");
+				return INPUT;
 			}
-
-			images.add(image);
-			log.info("contentTypes = " + contentTypes.get(i));
 		}
-		// 批量更新图片属性信息
-		imageService.updateImages(images);
 
-		return SUCCESS;
-	
+		return execute();
 	}
 
 	private Image doSaveInfo(String nowName, String oldName, String fileFix,
@@ -331,7 +229,6 @@ public class UploadImage extends BaseActionSupport {
 
 		return image;
 	}
-
 
 	// 得到文件的相对路径 2008/10/13/23/
 	private String getImgDir() {

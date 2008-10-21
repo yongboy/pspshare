@@ -1,6 +1,5 @@
 package org.gameye.psp.image.config;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,10 +20,8 @@ public class Constants {
 	}
 
 	public enum thumbnail {
-		path("thumbnail/"),
-		realDir(getImgSavePath() + path),
-		width("80"),
-		height("45");
+		path("thumbnail/"), realDir(getImgSavePath() + path), width("80"), height(
+				"45");
 
 		private String value;
 
@@ -36,13 +33,13 @@ public class Constants {
 			return value;
 		}
 	}
+
 	private static String imgSuffix = ".jpg,.jpeg,.png,.bmp,.gif";
 	public static final Set<String> allowImageSuffix = new HashSet<String>(
 			Arrays.asList(imgSuffix.split(",")));
-	
-	
-	
-	
+
+	public static final String zipPrefix = ".zip";
+
 	private static String[] fobiddenWords = { "admin", "abc", "administrator",
 			"super", "forshare", "gameye", "123" };
 	public static Set<String> forbiddenWords = new HashSet<String>(Arrays

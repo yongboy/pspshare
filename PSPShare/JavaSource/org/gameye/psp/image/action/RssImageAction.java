@@ -27,6 +27,7 @@ public class RssImageAction extends BaseActionSupport {
 	public String ForPSP() {
 		if (allowInt == null) {
 			allowInt = new HashSet<Integer>();
+			allowInt.add(15);
 			allowInt.add(20);
 			allowInt.add(30);
 			allowInt.add(50);
