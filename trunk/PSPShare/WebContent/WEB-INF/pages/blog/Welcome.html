@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Site's Blog ~</title>
+<style>
+.blogDiv{ width:480px;}
+.blogDiv .oneBlog{width:480px;}
+</style>
+</head>
+<body>
+<div style="width:480px;">
+	<h2>Offical Blog </h2>
+    <#if Session?? && Session.user?? && Session.user.id ='yongboy' >
+    	<div style="float:right;"><a href="Go2Add.do">Add</a></div>
+    </#if>
+</div>
+<div class="blogDiv">
+<#list blogs as blog>
+	<div class="oneBlog">
+    	<div><a href="#">${blog.title}</a></div>
+        <div>${blog.content}</div>
+        <div style="float:right;">${blog.date?string("yyyy-MM-dd HH:mm")}</div>
+  </div>
+</#list>
+
+<div style=" margin-top:40px;">
+<#assign url  = "Welcome.do?page=" />
+<#if page < 1><#assign page=1 /></#if>
+<#assign pages = ((total-1)/size + 1)?int />
+<#if  1 < page><a href="${url}${page-1}">Pre</a></#if> <#if page < pages><a href="${url}${page+1}">Next</a></#if></div>
+
+</div>
+</body>
+</html>
