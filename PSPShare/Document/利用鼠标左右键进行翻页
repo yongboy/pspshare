@@ -1,0 +1,27 @@
+<script language=javascript> 
+
+document.onkeydown=nextpage; 
+
+var prevpage="前页地址"; 
+var nextpage="下页地址"; 
+
+function nextpage(event) 
+{ 
+
+event = event ? event : (window.event ? window.event : null); 
+
+if (event.keyCode==39) 
+{ 
+alert("Next Page!") 
+location=nextpage 
+} 
+
+if (event.keyCode==37) 
+{ 
+alert("Prevpage Page!"); 
+location=prevpage; 
+} 
+
+
+} 
+</script>
