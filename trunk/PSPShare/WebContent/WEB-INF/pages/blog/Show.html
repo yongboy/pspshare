@@ -5,6 +5,27 @@
 <title>BLOG -  ${blog.title}</title>
 </head>
 <body>
-
+<div style="width:480px;">
+	<div>Blog -> ${blog.title}</div>
+	<div>${blog.title}</div>
+	<div><pre>${blog.content}</pre></div>
+	<div style="float:right;">${blog.author} @ ${blog.date?string("yyyy-MM-dd HH:mm")}</div>
+	<div>&nbsp;</div>
+	<div>
+		<#list blog.replys as reply>
+			<div>
+				<span>${reply.date?string("yyyy-MM-dd HH:mm")} </span>
+				<pre>${reply.content}</pre>
+			</div>
+		</#list>
+	</div>
+	<div>
+	<form action="AddReply.do" method="post">
+	<input name="reply.blog.id" value="${blog.id}">
+	<textarea name="reply.content" cols="40" rows="10"></textarea><br />
+	<input type="submit" value="Submit">
+	</form>
+	</div>
+</div>
 </body>
 </html>
