@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="style/global.css" rel="stylesheet"></link>
 <link href="style/share.css" rel="stylesheet"></link>
+<script src="script/global.js"></script>
 </head>
 <body>
 <#list images as image>
@@ -13,7 +14,7 @@
 <div>
  <span style="float:right;"><#if image.user ??> ${image.user.name!}</#if>  ${image.date?string("yyyy-MM-dd HH:mm")}</span> 
  <span style="float:left;">${image.title!}</span><br>
- <#if 1 < page><a href="Image_List.do?page=1">第一张</a> <a href="Image_List.do?page=${page-1}">上一张</a></#if><#if page < total> <a href="Image_List.do?page=${page+1}">下一张</a> <a href="Image_List.do?page=${total}">最后一张</a></#if>
+ <#if 1 < page><a href="Image_List.do?page=1">第一张</a> <a href="Image_List.do?page=${page-1}">上一张</a><script>prevPage='Image_List.do?page=${page-1}';</script></#if><#if page < total> <a href="Image_List.do?page=${page+1}">下一张</a><script>nextPage='Image_List.do?page=${page+1}';</script> <a href="Image_List.do?page=${total}">最后一张</a></#if>
 </div>
 
 <#include "/WEB-INF/pages/image/OneImageInfoPart.html" />
