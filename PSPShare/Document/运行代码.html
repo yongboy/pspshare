@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script>
+function runCode(obj) {
+        var winname = window.open('', "_blank", '');
+        winname.document.open('text/html', 'replace');
+	winname.opener = null // 防止代码对论谈页面修改
+        winname.document.write(obj.value);
+        winname.document.close();
+}
+function saveCode(obj) {
+        var winname = window.open('', '_blank', 'top=10000');
+        winname.document.open('text/html', 'replace');
+        winname.document.write(obj.value);
+        winname.document.execCommand('saveas','','code.htm');
+        winname.close();
+}
+function copycode(obj) {
+	if(window.clipboardData && obj.style.display != 'none') {
+		var rng = document.body.createTextRange();
+		rng.moveToElementText(obj);
+		rng.scrollIntoView();
+		rng.select();
+		rng.execCommand("Copy");
+		rng.collapse(false);
+	}
+}
+</script>
+</head>
+
+<body>
+<div class="smalltxt" style="margin-top: 1em; margin-bottom: 1em; width:480px;">
+<span class="smalltxt" style="margin-top: 1em; margin-bottom: 1em">
+<textarea name="runcode0" rows="10" cols="55"style='font-family:"Courier New",Courier,monospace;'>fasdfasdf</textarea>
+</span><br>
+<input type="button" value="运行代码" style="border-left:1px solid #B1B4CD;border-right:1px solid #494D74;border-top:1px solid #B1B4CD;;border-bottom:1px solid #494D74;background:#696D81;color:#FFFFFF;" onclick="runCode(runcode0)"> <input type="button" style="border-left:1px solid #B1B4CD;border-right:1px solid #494D74;border-top:1px solid #B1B4CD;;border-bottom:1px solid #494D74;background:#696D81;color:#FFFFFF;"value="复制代码" onclick="copycode(runcode0)"> <input type="button" style="border-left:1px solid #B1B4CD;border-right:1px solid #494D74;border-top:1px solid #B1B4CD;;border-bottom:1px solid #494D74;background:#696D81;color:#FFFFFF;"value="另存代码" onclick="saveCode(runcode0)"><!-- &nbsp;提示：您可以先修改部分代码再运行--></div>
+</body>
+</html>
