@@ -1,33 +1,24 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="style/global.css" rel="stylesheet"></link>
-<link href="style/share.css" rel="stylesheet"></link>
 </head>
 <body>
-<div class="div"><span style="float:left;">对 <b>${image.title!}</b> 的评论</span>(共${totalComment}条 每页显示${size} 共${((totalComment-1)/size + 1 )?int}页) :   <br />
-  <#if comments??>
-  <#list comments as comment>
-  <div class="commentDiv">
-  Post at @ ${comment.date?string("yy-MM-dd HH:mm")}<br />
-  ${comment.content}
-  </div>
-  </#list>
-  </#if>
-  我来说几句：<br />
-  <!--评论添加区域--><!--label>保存一下我的位置(下次从这里开始)</labe>
-  <br>
-  我来说几句:<br>
-  <label>
-  <textarea name="textarea" id="textarea" cols="55" rows="8"></textarea>
-  </label-->  
-  <form method="post" action="Image_AddComment.do" style="margin:0;">
-  <input type="hidden" name="comment.image.id" value="${image.id}"/>
-  <textarea name="comment.content" cols="45" rows="5"></textarea>
-  <br />
-  <input type="submit" name="button" id="button" value="保存我的评论" />
-  </form>
+<div class="div"><span style="float: left;"> <b>${image.title!}</b>
+</span>(<@s.text name="image.reply.name" /> ${totalComment} <@s.text
+name="image.reply.page_size" />${size} <@s.text
+name="image.reply.page_size" />${((totalComment-1)/size + 1 )?int}) : <br />
+<#if comments??> <#list comments as comment>
+<div class="commentDiv">Post at @ ${comment.date?string("yy-MM-dd
+HH:mm")}<br />
+${comment.content}</div>
+</#list> </#if> <@s.text name="image.reply_title" /><br />
+<form method="post" action="Image_AddComment.do" style="margin: 0;">
+<input type="hidden" name="comment.image.id" value="${image.id}" /> <textarea
+	name="comment.content" cols="45" rows="5"></textarea> <br />
+<input type="submit" name="button" id="button" value="<@s.text
+name="image.reply_save" />" /> </form>
 </div>
 </body>
 </html>

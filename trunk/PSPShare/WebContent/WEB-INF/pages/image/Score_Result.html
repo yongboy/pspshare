@@ -1,8 +1,9 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>添加信息结果</title>
+<title><@s.text name= "image.score.result" /></title>
 <link href="style/global.css" rel="stylesheet" />
 <link href="style/share.css" rel="stylesheet" />
 <style type="text/css">
@@ -16,10 +17,10 @@
 </head>
 <body>
 <div class="div addInfoResult">
-	<p class="STYLE1">您的操作已成功 ！</p>
-	<p>请选择 ： <br />
-	<a href="${returnUrl!}">返回</a> <br />
-	  <a href="/">返回到首页</a></p>
+	<p class="STYLE1"><@s.text name= "image.score.result" /></p>
+	<p><@s.text name= "image.please" /> <br />
+	<a href="${returnUrl!}"><@s.text name= "image.return" /></a> <br />
+	  <a href="/"><@s.text name= "image.home_page" /></a></p>
 </div>
 </body>
 </html>

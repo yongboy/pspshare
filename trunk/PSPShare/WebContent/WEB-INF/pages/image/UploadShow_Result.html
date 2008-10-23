@@ -1,3 +1,4 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -10,8 +11,8 @@
  <span style="float:right;"><#if image.author! != '0'> ${image.author!}</#if>  ${image.date?string("yyyy-MM-dd HH:mm")}</span>
  <span style="float:left;">${image.title!}</span><br />
  
-<#if preImage ??> <a href="Image_UploadShow.do?id=${preImage.id}&userId=${Parameters.userId!}">上一张</a></#if> 
-<#if nextImage ??> <a href="Image_UploadShow.do?id=${nextImage.id}&userId=${Parameters.userId!}">下一张</a></#if>
+<#if preImage ??> <a href="Image_UploadShow.do?id=${preImage.id}&userId=${Parameters.userId!}"><@s.text name="image.pre_page" /></a></#if> 
+<#if nextImage ??> <a href="Image_UploadShow.do?id=${nextImage.id}&userId=${Parameters.userId!}"><@s.text name="image.next_page" /></a></#if>
 </div>
 
 <#include "/WEB-INF/pages/image/OneImageInfoPart.html" />

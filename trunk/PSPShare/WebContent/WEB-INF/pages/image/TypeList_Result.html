@@ -1,9 +1,8 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="style/global.css" rel="stylesheet"></link>
-<link href="style/share.css" rel="stylesheet"></link>
 </head>
 <body>
 <#assign width= 480/v />
@@ -17,12 +16,12 @@
 <a href="Image_TypeShow.do?id=${img.id}&typeId=${id!}"><img src="images/${img.path}thumbnail/${img.nowName}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
 </div>
 <div class="div">
- <#if 1 < page><a href="Image_TypeList.do?id=${id!}&v=${v}&page=1">第一页</a> <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page-1}">上一页</a>
+ <#if 1 < page><a href="Image_TypeList.do?id=${id!}&v=${v}&page=1"><@s.text name="image.first_page" /></a> <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page-1}"><@s.text name="image.pre_page" /></a>
  </#if>
  <#if page < total && 1< total >
- <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page+1}">下一页</a> 
- <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${total}">最后一页</a></#if>
-<br />  tip：点击图片，可以查看完整图像<br>
+ <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${page+1}"><@s.text name="image.next_page" /></a> 
+ <a href="Image_TypeList.do?id=${id!}&v=${v}&page=${total}"><@s.text name="image.last_page" /></a></#if>
+<br /><@s.text name="image.view_tip" /><br>
 </div>
 
 </body>

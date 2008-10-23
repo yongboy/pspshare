@@ -1,10 +1,9 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>收藏结果</title>
-<link href="style/global.css" rel="stylesheet" />
-<link href="style/share.css" rel="stylesheet" />
+<title><@s.text name="image.fav_result" /></title>
 <style type="text/css">
 <!--
 .STYLE1 {
@@ -17,10 +16,10 @@
 <body>
 <div class="topdiv">
 <div class="div addInfoResult">
-	<p class="STYLE1">您的收藏已经成功 ！</p>
-	<p>请选择 ： <br />
-	<a href="/my/">进入我的收藏空间</a> <br />
-	<a href="${returnUrl!}">返回</a> <br />
+	<p class="STYLE1"><@s.text name="image.fav_result" /></p>
+	<p><@s.text name="image.please" /> <br />
+	<a href="/my/"><@s.text name="image.enter_my_space" /></a> <br />
+	<a href="${returnUrl!}"><@s.text name="image.enter" /></a> <br />
 </div>
 </div>
 </body>
