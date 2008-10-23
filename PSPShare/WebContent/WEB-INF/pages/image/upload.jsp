@@ -5,9 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>上传图片</title>
-<link href="style/global.css" rel="stylesheet"></link>
-<link href="style/share.css" rel="stylesheet"></link>
+<title><s:text name="upload.title1" /></title>
 <script src="script/form.js"></script>
 </head>
 <%
@@ -22,11 +20,11 @@ if(userAgent.indexOf("PSP") != -1){
 <body>
 <div class="div">
 <div style="color:red;"><s:fielderror /><s:property value="typeError" /></div>
-<div style="margin-bottom:10px;"><span style="float:left">普通上传</span><span style="margin-left:20px;"><a href="uploadZip.do">ZIP 打包上传</a></span></div>
+<div style="margin-bottom:10px;"><span style="float:left"><s:text name="upload.tip_title1" /></span><span style="margin-left:20px;"><a href="uploadZip.do"><s:text name="upload.tip_title2" /></a></span></div>
 <form class="form" name="upForm" method="post" enctype="multipart/form-data" action="<%=url %>" style="margin:0;">
 			  <div id="myFileDiv">
 			    <input name="myFile" size="42" type="file" class="btn"/>			   
-			    <%if(!version.equals("PSP")){ %><input type="button" onClick="addUpFile()" value="增加文件" class="btn"><%} %>
+			    <%if(!version.equals("PSP")){ %><input type="button" onClick="addUpFile()" value="<s:text name="upload.add_file" />" class="btn"><%} %>
 			    <br>
 			  <input name="myFile" size="42" type="file" class="btn"/><br />
 <input name="myFile" size="42" type="file" class="btn"/><br />
@@ -34,9 +32,9 @@ if(userAgent.indexOf("PSP") != -1){
 <input name="myFile" size="42" type="file" class="btn"/>
 			  </div>
 			  <p><span >
-			    <input name="submit" type="submit" class="btn" id="submitBtn" value="选择完毕，开始上传" />
+			    <input name="submit" type="submit" class="btn" value="<s:text name="upload.submit" />" />
 			  </span> 
-			    <input name="reset" type="reset"  class="btn" value=" 重置 " />
+			    <input name="reset" type="reset"  class="btn" value=" <s:text name="button.reset" />  " />
 			  </p>
 <s:token />
   </form>

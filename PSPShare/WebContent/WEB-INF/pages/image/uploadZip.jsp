@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>上传图片</title>
+<title><s:text name="upload.title2" /></title>
 </head>
 <%
 String url = "UploadZip.do";
@@ -17,16 +17,16 @@ if(userAgent.indexOf("PSP") != -1){
 <body>
 <div class="div">
 <div style="color:red;"><s:fielderror /><s:property value="typeError" /></div>
-<div style="margin-bottom:10px;"><span style="float:left"><a href="upload.do">普通上传</a></span><span style="margin-left:20px;">ZIP 打包上传</span></div>
+<div style="margin-bottom:10px;"><span style="float:left"><a href="upload.do"><s:text name="upload.tip_title1" /></a></span><span style="margin-left:20px;"><s:text name="upload.tip_title1" /></span></div>
 <form class="form" name="upForm" method="post" enctype="multipart/form-data" action="<%=url %>" style="margin:0;">
 			  <div id="myFileDiv">
-              请选择PSP壁纸ZIP格式压缩包 :<br />
+              <s:text name="upload.zip_tip" /><br />
 			    <input name="myFile" size="42" type="file" class="btn"/>
 			  </div>
 			  <p><span >
-			    <input name="submit" type="submit" class="btn" id="submitBtn" value="选择完毕，开始上传" />
+			    <input name="submit" type="submit" class="btn" id="submitBtn" value="<s:text name="upload.submit" />" />
 			  </span> 
-			    <input name="reset" type="reset"  class="btn" value=" 重置 " />
+			    <input name="reset" type="reset"  class="btn" value=" <s:text name="button.reset" />  " />
 			  </p>
 <s:token />
   </form>

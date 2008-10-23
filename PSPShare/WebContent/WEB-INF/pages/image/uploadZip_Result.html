@@ -20,7 +20,9 @@
       <tr>
         <td>通用标题:</td>
         <td>
-        <input type="hidden" name="images[0].postfix" value="<#list images as img>${img.id}<#if img_has_next>,</#if></#list>" />
+        <#assign ids = "" />
+        <#list images as img><#assign ids += img.id /><#if img_has_next><#assign ids += ',' /></#if></#list>
+        <input type="hidden" name="images[0].postfix" value="${ids!}" />
         <input type="text" name="images[0].title" value="${fileNames[0]!}"/></td>
       </tr>
       <tr>
@@ -54,5 +56,14 @@
   </label>
 </div>
 </form>
+<div style="width:480px">
+	<form class="infoform" action="Image_GetImagesLink.do" method="post" style="padding:0;">
+		<p>粘贴到论坛或博客 ...</p>
+		<p><input type="hidden" name="images.postfix" value="${ids!}" />
+		<input type="radio" name="withLink" value="y" checked="checked"/>带链接
+<input type="radio" name="withLink" value="n" />无连接</p>
+		<p><input type="submit" value=" 生成链接 " style="height:23px;"/></p>
+	</form>
+</div>
 </body>
 </html>
