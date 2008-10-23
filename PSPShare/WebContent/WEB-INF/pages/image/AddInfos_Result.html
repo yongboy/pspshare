@@ -1,8 +1,9 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>添加信息结果</title>
+<title><@s.text name="image.addinfo_result" /></title>
 <link href="style/global.css" rel="stylesheet" />
 <link href="style/share.css" rel="stylesheet" />
 <style type="text/css">
@@ -17,11 +18,11 @@
 <body>
 <div class="topdiv">
 <div class="div addInfoResult">
-	<p class="STYLE1">添加成功 ！</p>
-	<p>请选择 ： <br />
-	  <a href="upload.do">继续上传</a> <br />
-	  <a href="Image_List.do">查看上传图片</a><br />
-	  <a href="/">返回到首页</a></p>
+	<p class="STYLE1"><@s.text name="image.addinfo_result" /></p>
+	<p><@s.text name="image.please" /><br />
+	  <a href="upload.do"><@s.text name="image.go_on_upload" /></a> <br />
+	  <a href="Image_List.do"><@s.text name="image.view_upload" /></a><br />
+	  <a href="/"><@s.text name="image.home_page" /></a></p>
 </div>
 </div>
 </body>

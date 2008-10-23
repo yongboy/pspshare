@@ -1,19 +1,19 @@
 <div class="div">
- 分类 :  <#if image.type?? ><a href="Image_TypeList.do?id=${image.type.id}">${image.type.title!}</a><#else><a href="Image_TypeList.do?id=0">未分类</a></#if><br>
- 标签 :  <#if 0 < image.tags?size >
+ <@s.text name="image.class_name" /> :  <#if image.type?? ><a href="Image_TypeList.do?id=${image.type.id}">${image.type.title!}</a><#else><a href="Image_TypeList.do?id=0"><@s.text name="image.un_class_name" /></a></#if><br>
+ <@s.text name="image.tag_name" /> :  <#if 0 < image.tags?size >
  <#list image.tags as tag>
 <!--a href="Image_OneTagList.do?tid=${tag.id}"--> ${tag.name!}<!-- /a-->&nbsp;&nbsp;
  </#list>
  <#else>
- 	<!-- a href="Image_TagList.do?id=0">未标注</a-->未标注
+ 	<!-- a href="Image_TagList.do?id=0">未标注</a--><@s.text name="image.un_tag_name" />
  </#if><br />
-动作 :  <a href="Image_Score.do?id=${image.id}&page=${page}" title="壁纸不错，评一分吧~">顶一下</a> (${image.score!})<span style="padding-left:5px;"></span>| <a href="Image_Download.do?id=${image.id}" title="下载原图到小P里面~">下载</a> (${image.down!})  | <a href="Image_Collect.do?id=${image.id}&page=${page}" title="收藏一下，方便收藏整理、打包下载">收藏</a> (${image.collect!})  |  <a href="Image_SaveMyPlace.do" title="下次访问，继续我的浏览~">记录我的位置</a><br />
-描述 :  <#if image.description! = ''>无<#else><br />
+<@s.text name="image.action_name" /> :  <a href="Image_Score.do?id=${image.id}&page=${page}" title="<@s.text name="image.score_title" />"><@s.text name="image.score_name" /></a> (${image.score!})<span style="padding-left:5px;"></span>| <a href="Image_Download.do?id=${image.id}" title="<@s.text name="image.down_a_title" />"><@s.text name="image.down_a_name" /></a> (${image.down!})  | <a href="Image_Collect.do?id=${image.id}&page=${page}" title="<@s.text name="image.fav_a_title" />"><@s.text name="image.fav_a_name" /></a> (${image.collect!})  |  <a href="Image_SaveMyPlace.do" title="<@s.text name="image.place_a_title" />"><@s.text name="image.place_a_name" /></a><br />
+<@s.text name="image.description" /> :  <#if image.description! = ''><@s.text name="image.no_description" /><#else><br />
 		<span style="margin:0px; width:100%;font-style:inherit; border-bottom:thin; border-bottom-color:#CCCCCC; border-bottom-style:dotted;">
         	<pre style="margin:0px;">${image.description!}</pre>     	
         	</#if>        </span>
   <br />
-  评论 <#if 0 < totalComment >(共 ${totalComment} &nbsp;&nbsp;最新 <#if comments??>${comments?size}&nbsp;&nbsp;&nbsp;&nbsp;<a href="Image_ListComment.do?id=${image.id}">所有</a><#else>0</#if> ) </#if>:
+<@s.text name="image.reply.name" /><#if 0 < totalComment >( ${totalComment} &nbsp;&nbsp;<@s.text name="image.reply.now" /> <#if comments??>${comments?size}&nbsp;&nbsp;&nbsp;&nbsp;<a href="Image_ListComment.do?id=${image.id}"><@s.text name="image.reply.all" /></a><#else>0</#if> ) </#if>:
   <#if comments?? && (0< comments?size) >
   <div class="commentDiv">
   <#list comments as comment>
