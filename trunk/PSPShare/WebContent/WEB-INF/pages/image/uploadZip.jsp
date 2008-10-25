@@ -20,8 +20,15 @@ if(userAgent.indexOf("PSP") != -1){
 <div style="margin-bottom:10px;"><span style="float:left"><a href="upload.do"><s:text name="upload.tip_title1" /></a></span><span style="margin-left:20px;"><s:text name="upload.tip_title1" /></span></div>
 <form class="form" name="upForm" method="post" enctype="multipart/form-data" action="<%=url %>" style="margin:0;">
 			  <div id="myFileDiv">
-              <s:text name="upload.zip_tip" /><br />
-			    <input name="myFile" size="42" type="file" class="btn"/>
+              <s:text name="upload.zip_tip" />
+              <p><br />
+                <input name="myFile" size="42" type="file" class="btn"/>
+              </p>
+              <p>
+                <label>
+                <input type="checkbox" name="type" value="bbs"/>
+                </label>
+                张贴到论坛、博客~</p>
 			  </div>
 			  <p><span >
 			    <input name="submit" type="submit" class="btn" id="submitBtn" value="<s:text name="upload.submit" />" />

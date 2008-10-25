@@ -13,7 +13,7 @@
 <#if page < 1><#assign page= 1 /></#if>
 <div class="div">
 <#list collections as coll>
-<a href="/Image_CollectionShow.do?id=${coll.image.id}&userId=${coll.user.id!}&collId=${coll.id}"><img src="/images/${coll.image.path}thumbnail/${coll.image.nowName}" width="${width}" height="${height}" border="0" /></a><#if (coll_index+1)%v == 0><br /></#if></#list>
+<a href="/CollectionShow.do?id=${coll.image.id}&userId=${coll.user.id!}&collId=${coll.id}"><img src="/images/${coll.image.path}thumbnail/${coll.image.nowName}" width="${width}" height="${height}" border="0" /></a><#if (coll_index+1)%v == 0><br /></#if></#list>
 </div>
 <div class="div">
  <#if 1 < page><a href="MyCollection.do?v=${v}&page=1"><@s.text name="image.first_page" /></a> <a href="MyCollection.do?v=${v}&page=${page-1}"><@s.text name="image.pre_page" /></a>

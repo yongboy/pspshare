@@ -14,7 +14,7 @@ name="image.reply.page_size" />${((totalComment-1)/size + 1 )?int}) : <br />
 HH:mm")}<br />
 ${comment.content}</div>
 </#list> </#if> <@s.text name="image.reply_title" /><br />
-<form method="post" action="Image_AddComment.do" style="margin: 0;">
+<form method="post" action="AddComment.do" style="margin: 0;">
 <input type="hidden" name="comment.image.id" value="${image.id}" /> <textarea
 	name="comment.content" cols="45" rows="5"></textarea> <br />
 <input type="submit" name="button" id="button" value="<@s.text

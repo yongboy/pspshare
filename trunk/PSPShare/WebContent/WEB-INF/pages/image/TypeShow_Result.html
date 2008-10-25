@@ -6,13 +6,13 @@
 </head>
 <body>
 <div class="div">
-<img src="images/${image.path}${image.id}${image.postfix}" width="480px" height="272px" border="0"></div>
+<img src="../images/${image.path}${image.id}${image.postfix}" width="480px" height="272px" border="0"></div>
 <div>
  <span style="float:right;"><#if image.author! != '0'> ${image.author!}</#if>  ${image.date?string("yyyy-MM-dd HH:mm")}</span>
  <span style="float:left;">${image.title!}</span><br />
  
-<#if preImage ??> <a href="Image_TypeShow.do?id=${preImage.id}&typeId=${typeId!}"><@s.text name="image.pre_page" /></a></#if> 
-<#if nextImage ??> <a href="Image_TypeShow.do?id=${nextImage.id}&typeId=${typeId!}"><@s.text name="image.next_page" /></a></#if>
+<#if preImage ??> <a href="TypeShow.do?id=${preImage.id}&typeId=${typeId!}"><@s.text name="image.pre_page" /></a></#if> 
+<#if nextImage ??> <a href="TypeShow.do?id=${nextImage.id}&typeId=${typeId!}"><@s.text name="image.next_page" /></a></#if>
 </div>
 
 <#include "/WEB-INF/pages/image/OneImageInfoPart.html" />

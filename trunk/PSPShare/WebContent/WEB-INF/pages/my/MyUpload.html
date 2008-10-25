@@ -3,8 +3,6 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="style/global.css" rel="stylesheet"></link>
-<link href="style/share.css" rel="stylesheet"></link>
 </head>
 <body>
 <#assign width= 480/v />
@@ -15,7 +13,7 @@
 <#if page < 1><#assign page= 1 /></#if>
 <div class="div">
 <#list images as img>
-<a href="/Image_UploadShow.do?id=${img.id}&userId=${img.user.id!}"><img src="/images/${img.path}thumbnail/${img.nowName}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
+<a href="/UploadShow.do?id=${img.id}&userId=${img.user.id!}"><img src="/images/${img.path}thumbnail/${img.id}${img.postfix}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
 </div>
 <div class="div">
  <#if 1 < page><a href="MyUpload.do?v=${v}&page=1"><@s.text name="image.first_page" /></a> <a href="MyUpload.do?v=${v}&page=${page-1}"><@s.text name="image.pre_page" /></a>
@@ -27,7 +25,7 @@
 <a href="Welcome.do">My</a> &gt;&gt; <@s.text name="my.upload" /><br />
 <br />
 <a href="DownMyUploadZip.do?v=${v}&page=${page}">
-<@s.text name="my.down.zip" />
+<@s.text name="my.down.zip">
 	<@s.param>${images?size}</@s.param>
 </@s.text>
 </a><br /><br />

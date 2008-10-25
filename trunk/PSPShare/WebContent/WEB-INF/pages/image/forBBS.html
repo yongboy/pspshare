@@ -1,0 +1,51 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><@s.text name="upload.forbbs.title" /></title>
+<script>
+function runCode(obj) {
+        var winname = window.open('', "_blank", '');
+        winname.document.open('text/html', 'replace');
+	winname.opener = null // 防止代码对论谈页面修改
+        winname.document.write(obj.value);
+        winname.document.close();
+}
+function saveCode(obj) {
+        var winname = window.open('', '_blank', 'top=10000');
+        winname.document.open('text/html', 'replace');
+        winname.document.write(obj.value);
+        winname.document.execCommand('saveas','','code.htm');
+        winname.close();
+}
+function copycode(obj) {
+	if(window.clipboardData && obj.style.display != 'none') {
+		var rng = document.body.createTextRange();
+		rng.moveToElementText(obj);
+		rng.scrollIntoView();
+		rng.select();
+		rng.execCommand("Copy");
+		rng.collapse(false);
+	}
+}
+</script>
+</head>
+
+<body>
+<div class="smalltxt" style="margin-top: 0em; margin-bottom: 1em; width:480px;"><@s.text name="upload.forbbs.title" /><span class="smalltxt" style="margin-top: 1em; margin-bottom: 1em"> <br />
+<textarea name="runcode0" rows="10" cols="55"style='font-family:"Courier New",Courier,monospace;'>
+<#list images as image>
+<a href="${siteUrl!}/image/Show.do?id=${image.id}"><img
+	src="${siteUrl!}/images/${image.path}${image.id}${image.postfix}" width="480px" height="272px"
+	border="0"></a>
+<#if image_has_next><br /></#if>
+</#list>
+</textarea>
+  </span><br>
+  <input type="button" value="<@s.text name="upload.forbbs.run" />" style="border-left:1px solid #B1B4CD;border-right:1px solid #494D74;border-top:1px solid #B1B4CD;;border-bottom:1px solid #494D74;background:#696D81;color:#FFFFFF;" onclick="runCode(runcode0)"> 
+  <input type="button" style="border-left:1px solid #B1B4CD;border-right:1px solid #494D74;border-top:1px solid #B1B4CD;;border-bottom:1px solid #494D74;background:#696D81;color:#FFFFFF;"value="<@s.text name="upload.forbbs.run" />" onclick="copycode(runcode0)">
+  <input type="button" style="border-left:1px solid #B1B4CD;border-right:1px solid #494D74;border-top:1px solid #B1B4CD;;border-bottom:1px solid #494D74;background:#696D81;color:#FFFFFF;"value="<@s.text name="upload.forbbs.save" />" onclick="saveCode(runcode0)"><!-- &nbsp;提示：您可以先修改部分代码再运行-->
+</div>
+</body>
+</html>
