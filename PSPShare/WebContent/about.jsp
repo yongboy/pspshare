@@ -5,8 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>关于我们</title>
-<link href="style/global.css" rel="stylesheet"  />
-<link href="style/share.css" rel="stylesheet"  />
 <style type="text/css">
 <!--
 .STYLE1 {
