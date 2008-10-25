@@ -3,7 +3,7 @@
         "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
 	<!--package name="image" namespace="/image" extends="struts-default"-->
-	<package name="image" extends="struts-default">
+	<package name="main" extends="struts-default">
 		
 		 <interceptors>
 			<interceptor-stack name="token">
@@ -16,7 +16,7 @@
 			<result>/WEB-INF/pages/image/upload.jsp</result>
 		</action>
 		<action name="uploadZip" class="org.gameye.psp.image.action.ImageHandle" method="uploadZip">
-			<result>/WEB-INF/pages/image/uploadZip.jsp</result>
+			<result name="success">/WEB-INF/pages/image/uploadZip.jsp</result>			
 		</action>
 		<action name="UploadImage" class="org.gameye.psp.image.action.UploadImage">			
 			<!-- 验证上传文件的类型 -->
@@ -57,6 +57,7 @@
              <!-- 如果加入了验证上传文件的类型,必须要加input -->  
              <result name="success" type="freemarker">/WEB-INF/pages/image/uploadZip_Result.html</result>
              <result name="input">/WEB-INF/pages/image/uploadZip.jsp</result>
+             <result name="forbbs" type="freemarker">/WEB-INF/pages/image/forBBS.html</result>
              <result name="invalid.token">/WEB-INF/pages/image/uploadZip.jsp</result>
 		</action>
 		<action name="PSP_UploadZip" class="org.gameye.psp.image.action.UploadImage" method="PSPZipUpload">			
@@ -74,12 +75,12 @@
 		</action>
 		
 		
-		<action name="Image_*" class="org.gameye.psp.image.action.ImageHandle" method="{1}">
+		<!--action name="Image_*" class="org.gameye.psp.image.action.ImageHandle" method="{1}">
 			<result name="success" type="freemarker">/WEB-INF/pages/image/{1}_Result.html</result>
 			<result name="failure" type="freemarker">/WEB-INF/pages/image/Failure.html</result>
 			<result name="input" type="redirect">upload.do</result>
 			<result name="psprss">/WEB-INF/pages/image/Rss_Result.jsp</result>
-		</action>
+		</action-->
 		
 		<action name="CheckLogin" class="org.gameye.psp.image.action.CheckLoginAction">
 			<result name="input">login.jsp</result>
@@ -91,6 +92,15 @@
 		</action>
 	</package>
 	
+	
+	<package name="image" extends="struts-default" namespace="/image">
+		<action name="*" class="org.gameye.psp.image.action.ImageHandle" method="{1}">
+			<result name="success" type="freemarker">/WEB-INF/pages/image/{1}_Result.html</result>
+			<result name="failure" type="freemarker">/WEB-INF/pages/image/Failure.html</result>
+			<result name="input" type="redirect">/upload.do</result>
+			<result name="psprss">/WEB-INF/pages/image/Rss_Result.jsp</result>
+		</action>
+	</package>
 	
 	<package name="my" extends="struts-default" namespace="/my">
 		<action name="Welcome" class="org.gameye.psp.image.action.MyImageSpaceAction" method="Welcome">
