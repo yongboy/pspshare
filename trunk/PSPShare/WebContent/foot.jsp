@@ -5,7 +5,7 @@
 <div><a href="/"><s:text name="foot.homepage" /></a> | <a
 	href="/login.jsp"><s:text name="foot.login" /></a> | <a
 	href="/upload.do"><s:text name="foot.upload" /></a> | <a
-	href="/Image_List.do"><s:text name="foot.allpic" /></a> | <a
+	href="/image/List.do"><s:text name="foot.allpic" /></a> | <a
 	href="/my/"><s:text name="foot.my" /></a> | <a href="/atom/Welcome.do"><s:text
 	name="foot.rss" /></a> | <a href="/suggestion/Welcome.do"><s:text
 	name="foot.suggest" /></a> | <a href="/blog/Welcome.do"><s:text
