@@ -13,7 +13,7 @@
 
 <table width="480" border="0" cellpadding="0" cellspacing="0">
   <tr>
-    <td height="152" valign="top"><span style="float:left;"><a href="Image_List.do"><img src="image/home_explore.jpg" width="230" height="152"></a></span></td>
+    <td height="152" valign="top"><span style="float:left;"><a href="image/List.do"><img src="image/home_explore.jpg" width="230" height="152"></a></span></td>
     <td valign="top"><span style="float:right;"><a href="upload.do"><img src="image/home_upload.jpg" width="230" height="152"></a></span></td>
   </tr>
   <tr>
