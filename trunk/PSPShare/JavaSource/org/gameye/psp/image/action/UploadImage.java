@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.zip.ZipEntry;
@@ -123,6 +124,13 @@ public class UploadImage extends BaseActionSupport {
 			// imageService.updateImages(images);
 		} catch (Exception ex) {
 			System.out.println("异常：" + ex.getMessage());
+		}
+		
+		String type = getServletRequest().getParameter("type");
+		log.info("type : \n" + (type==null?"is null":type));
+		if(StringUtils.isNotEmpty(type)){
+			getServletRequest().setAttribute("siteUrl", getSiteUrl());
+			return "forbbs";
 		}
 		return SUCCESS;
 	}
