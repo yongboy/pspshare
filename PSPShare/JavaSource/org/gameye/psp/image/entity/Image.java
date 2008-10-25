@@ -38,7 +38,7 @@ public class Image implements Serializable {
 
 	private String title;
 	/**
-	 * 上传后所保存的文件名
+	 * 若当前图片小于指定图片大小，则为空；否则将在压缩后保存原图的文件名
 	 */
 	private String nowName;
 	/**
@@ -95,19 +95,17 @@ public class Image implements Serializable {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Type type;
-	
-//	@JoinTable(name = "Image_Tag_Reffer", 
-//	joinColumns = { @JoinColumn(name = "image_id", referencedColumnName = "id") },
-//	inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName = "id")
-//	}
-//)
-	
-	@ManyToMany(cascade = { CascadeType.PERSIST,CascadeType.MERGE }, fetch = FetchType.LAZY)
-	@JoinTable(name = "Image_Tag_Reffer", 
-		joinColumns = { @JoinColumn(name = "image_id") },
-		inverseJoinColumns = { @JoinColumn(name = "tag_id")
-		}
-	)	
+
+	// @JoinTable(name = "Image_Tag_Reffer",
+	// joinColumns = { @JoinColumn(name = "image_id", referencedColumnName =
+	// "id") },
+	// inverseJoinColumns = { @JoinColumn(name = "tag_id", referencedColumnName
+	// = "id")
+	// }
+	// )
+
+	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
+	@JoinTable(name = "Image_Tag_Reffer", joinColumns = { @JoinColumn(name = "image_id") }, inverseJoinColumns = { @JoinColumn(name = "tag_id") })
 	private List<Tag> tags;
 
 	//

@@ -14,6 +14,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.tools.zip.ZipEntry;
@@ -113,11 +114,20 @@ public class MyImageSpaceAction extends BaseActionSupport {
 
 		List<String> filePaths = new ArrayList<String>();
 		List<String> fileNames = new ArrayList<String>();
-		String filePath = null;
+		// String filePath = null;
+		StringBuilder sb = null;
 		for (Image image : images) {
-			filePath = Constants.getImgSavePath() + image.getPath()
-					+ image.getNowName();
-			filePaths.add(filePath);
+			sb = new StringBuilder();
+			sb.append(Constants.getImgSavePath());
+			sb.append(image.getPath());
+			if (StringUtils.isNotEmpty(image.getNowName())
+					&& image.getNowName().indexOf('.') != -1) {
+				sb.append(image.getNowName());
+			} else {
+				// 当前图片小于系统制定长度，或还未来得及压缩图片一样可以下载到原图
+				sb.append(image.getId()).append(image.getPostfix());
+			}
+			filePaths.add(sb.toString());
 			fileNames.add(image.getNowName());
 		}
 
@@ -140,11 +150,23 @@ public class MyImageSpaceAction extends BaseActionSupport {
 		}
 		List<String> filePaths = new ArrayList<String>();
 		List<String> fileNames = new ArrayList<String>();
-		String filePath = null;
+		// String filePath = null;
+		StringBuilder sb = null;
 		for (Collection coll : collections) {
-			filePath = Constants.getImgSavePath() + coll.getImage().getPath()
-					+ coll.getImage().getNowName();
-			filePaths.add(filePath);
+			sb = new StringBuilder();
+			sb.append(Constants.getImgSavePath());
+			sb.append(coll.getImage().getPath());
+			if (StringUtils.isNotEmpty(coll.getImage().getNowName())
+					&& coll.getImage().getNowName().indexOf('.') != -1) {
+				sb.append(coll.getImage().getNowName());
+			} else {
+				// 当前图片小于系统制定长度，或还未来得及压缩图片一样可以下载到原图
+				sb.append(coll.getImage().getId()).append(
+						coll.getImage().getPostfix());
+			}
+			// filePath = Constants.getImgSavePath() + coll.getImage().getPath()
+			// + coll.getImage().getNowName();
+			filePaths.add(sb.toString());
 			fileNames.add(coll.getImage().getNowName());
 		}
 		String zipName = DateHelper.formatDate(new Date(), "yyyy-MM-dd");
