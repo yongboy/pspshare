@@ -13,7 +13,7 @@
 <#if page < 1><#assign page= 1 /></#if>
 <div class="div">
 <#list images as img>
-<a href="TypeShow.do?id=${img.id}&typeId=${id!}"><img src="../images/${img.path}thumbnail/${img.nowName}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
+<a href="TypeShow.do?id=${img.id}&typeId=${id!}"><img src="../images/${img.path}thumbnail/${img.id}${img.postfix}" width="${width}" height="${height}" border="0" /></a><#if (img_index+1)%v == 0><br /></#if></#list>
 </div>
 <div class="div">
  <#if 1 < page><a href="TypeList.do?id=${id!}&v=${v}&page=1"><@s.text name="image.first_page" /></a> <a href="TypeList.do?id=${id!}&v=${v}&page=${page-1}"><@s.text name="image.pre_page" /></a>

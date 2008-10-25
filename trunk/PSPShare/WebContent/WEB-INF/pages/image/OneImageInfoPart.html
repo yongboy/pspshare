@@ -1,3 +1,11 @@
+<script>
+function getImgHtml(id, path){
+	var host = 'http://' + document.domain + '/';
+	var html = '<a href="'+host+'image/Show.do?id='+ id+'"><img src="' + host + path + '" width="480px" height="272px" border="0"></a>';
+	clipboardData.setData("text",html);
+	alert("<@s.text name="image.html_copy_result" />");	
+}
+</script>
 <div class="div">
  <@s.text name="image.class_name" /> :  <#if image.type?? ><a href="TypeList.do?id=${image.type.id}">${image.type.title!}</a><#else><a href="TypeList.do?id=0"><@s.text name="image.un_class_name" /></a></#if><br>
  <@s.text name="image.tag_name" /> :  <#if 0 < image.tags?size >
@@ -7,7 +15,7 @@
  <#else>
  	<!-- a href="TagList.do?id=0">未标注</a--><@s.text name="image.un_tag_name" />
  </#if><br />
-<@s.text name="image.action_name" /> :  <a href="Score.do?id=${image.id}&page=${page}" title="<@s.text name="image.score_title" />"><@s.text name="image.score_name" /></a> (${image.score!})<span style="padding-left:5px;"></span>| <a href="Download.do?id=${image.id}" title="<@s.text name="image.down_a_title" />"><@s.text name="image.down_a_name" /></a> (${image.down!})  | <a href="Collect.do?id=${image.id}&page=${page}" title="<@s.text name="image.fav_a_title" />"><@s.text name="image.fav_a_name" /></a> (${image.collect!})  |  <a href="SaveMyPlace.do" title="<@s.text name="image.place_a_title" />"><@s.text name="image.place_a_name" /></a><br />
+<@s.text name="image.action_name" /> :  <a href="Score.do?id=${image.id}&page=${page}" title="<@s.text name="image.score_title" />"><@s.text name="image.score_name" /></a> (${image.score!})<span style="padding-left:5px;"></span>| <a href="Download.do?id=${image.id}" title="<@s.text name="image.down_a_title" />"><@s.text name="image.down_a_name" /></a> (${image.down!})  | <a href="Collect.do?id=${image.id}&page=${page}" title="<@s.text name="image.fav_a_title" />"><@s.text name="image.fav_a_name" /></a> (${image.collect!})  |  <a href="SaveMyPlace.do" title="<@s.text name="image.place_a_title" />"><@s.text name="image.place_a_name" /></a>  |  <a href="#" onclick="getImgHtml('${image.id}','images/${image.path}${image.id}${image.postfix}')" title="<@s.text name="image.html_code_tip" />"><@s.text name="image.html_code" /></a><br />
 <@s.text name="image.description" /> :  <#if image.description! = ''><@s.text name="image.no_description" /><#else><br />
 		<span style="margin:0px; width:100%;font-style:inherit; border-bottom:thin; border-bottom-color:#CCCCCC; border-bottom-style:dotted;">
         	<pre style="margin:0px;">${image.description!}</pre>     	

@@ -3,16 +3,21 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script src="../script/global.js"></script>
 </head>
 <body>
 <div class="div">
-<img src="../images/${image.path}${image.id}${image.postfix}" width="480px" height="272px" border="0"></div>
+<img src="../images/${image.path}${image.id}${image.postfix}" alt="${image.title} ${image.description!?replace("<.*?>","","r")}" width="480px" height="272px" border="0"></div>
 <div>
  <span style="float:right;"><#if image.author! != '0'> ${image.author!}</#if>  ${image.date?string("yyyy-MM-dd HH:mm")}</span>
  <span style="float:left;">${image.title!}</span><br />
  
-<#if preImage ??> <a href="UploadShow.do?id=${preImage.id}&userId=${Parameters.userId!}"><@s.text name="image.pre_page" /></a></#if> 
-<#if nextImage ??> <a href="UploadShow.do?id=${nextImage.id}&userId=${Parameters.userId!}"><@s.text name="image.next_page" /></a></#if>
+<#if preImage ??> <a href="UploadShow.do?id=${preImage.id}&userId=${Parameters.userId!}"><@s.text name="image.pre_page" /></a><script>
+	prevPage = 'UploadShow.do?id=${preImage.id}&userId=${Parameters.userId!}';
+</script></#if> 
+<#if nextImage ??> <a href="UploadShow.do?id=${nextImage.id}&userId=${Parameters.userId!}"><@s.text name="image.next_page" /></a><script>
+	nextPage = 'UploadShow.do?id=${nextImage.id}&userId=${Parameters.userId!}';
+</script></#if>
 </div>
 
 <#include "/WEB-INF/pages/image/OneImageInfoPart.html" />
