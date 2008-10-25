@@ -24,11 +24,13 @@ if(userAgent.indexOf("PSP") != -1){
               <p><br />
                 <input name="myFile" size="42" type="file" class="btn"/>
               </p>
+<%if(userAgent.indexOf("PSP") == -1){ %>
               <p>
                 <label>
                 <input type="checkbox" name="type" value="bbs"/>
                 </label>
                 张贴到论坛、博客~</p>
+<%} %>
 			  </div>
 			  <p><span >
 			    <input name="submit" type="submit" class="btn" id="submitBtn" value="<s:text name="upload.submit" />" />
