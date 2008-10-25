@@ -1,12 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="style/global.css" rel="stylesheet"></link>
 <link href="style/share.css" rel="stylesheet"></link>
-<title>PSP 图片分享</title>
+<title><s:text name="index.title" /></title>
 </head>
 <body>
 
@@ -18,7 +19,7 @@
   <tr>
     <td valign="middle" align="right">    
       <a href="about.jsp"><img src="image/home_tour_button.png" width="195" height="39"></a>   </td>
-   <td><div style="font-size:9px; margin-left:5px;">浏览一下有关分享的创意，或许您有更好的建议，或许您也想参与进来，为他人，为乐趣 :))</div></td>
+   <td><div style="font-size:9px; margin-left:5px;"><s:text name="index.tip" /></div></td>
   </tr>
 </table>
 </body>

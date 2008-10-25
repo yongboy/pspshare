@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>登录中心</title>
+<title><s:text name="login.title" /></title>
 <style>
 .login{width:480px;height:272px;}
 .login input{ width:160px;height:18px;}
@@ -26,14 +26,14 @@
   <s:if test="#session.user == null">
   <tr>
     <td width="15%"></td>
-    <td width="85%"><label>用户名：<br>
+    <td width="85%"><label><s:text name="login.name" /><br>
 
     <input type="text" name="user.id">
     </label></td>
   </tr>
   <tr>
     <td></td>
-    <td><label>密&nbsp;&nbsp;&nbsp;&nbsp;码：<br>
+    <td><label><s:text name="login.pass" /><br>
 
       <input class="password" type="password" name="user.password">
     </label></td>
@@ -44,7 +44,7 @@
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td><input type="submit" value=" 登录 " style="width:90px; height:25px;"></td>
+    <td><input type="submit" value="<s:text name="login.button" />" style="width:90px; height:25px;"></td>
   </tr> 
     <tr>
     <td>&nbsp;</td>
@@ -60,17 +60,13 @@
   </tr>
     <tr>
     <td>&nbsp;</td>
-    <td><label>没有帐号 ？<br>
-    花费您半分钟时间就可 <a href="register.jsp">注册一个</a> ~</label></td>
+    <td><label><s:text name="register.tip" /></label></td>
   </tr>
    </s:if>
   <s:else>
   	<tr>
     <td></td>
-    <td><label>您已经登陆啦 ~ <br>
-
-      进入 <a href="/my/">My</a> ......
-    </label></td>
+    <td><label><s:text name="login.enter" /></label></td>
   </tr>
   </s:else>
 </table>
