@@ -1,3 +1,4 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -7,13 +8,13 @@
 </head>
 <body>
 <div class="div">
-<img src="images/${image.path}${image.nowName}" width="480px" height="272px" border="0"></div>
+<img src="images/${image.path}${image.id}${image.postfix}" width="480px" height="272px" border="0"></div>
 <div>
  <span style="float:right;">  ${image.date?string("yyyy-MM-dd HH:mm")}</span>
  <span style="float:left;">${image.title!}</span><br />
  
-<#if preCollection ??> <a href="Image_CollectionShow.do?userId=${image.user.id}&collId=${preCollection.id!}">上一张</a><#else>没啦</#if> 
-<#if nextCollection ??> <a href="Image_CollectionShow.do?userId=${image.user.id}&collId=${nextCollection.id!}">下一张</a><#else>没啦～</#if>
+<#if preCollection ??> <a href="Image_CollectionShow.do?userId=${image.user.id}&collId=${preCollection.id!}"><@s.text name="image.pre_page" /></a></#if> 
+<#if nextCollection ??> <a href="Image_CollectionShow.do?userId=${image.user.id}&collId=${nextCollection.id!}"><@s.text name="image.next_page" /></a></#if>
 </div>
 
 <#include "/WEB-INF/pages/image/OneImageInfoPart.html" />

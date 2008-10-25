@@ -1,3 +1,4 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -7,7 +8,7 @@
 <div class="div">
 <#list suggestions as s>
  <div class="suggestDiv">
-  <#if s.name??>${s.name}<#else>匿名者</#if> Post @ ${s.date?string("yy-MM-dd HH:mm")}<br />
+  <#if s.name??>${s.name}<#else><@s.text name="suggest.form.noboby" /></#if> Post @ ${s.date?string("yy-MM-dd HH:mm")}<br />
   ${s.content}
   </div>
   </#list>
@@ -15,21 +16,21 @@
 <br />
 <div class="div">
  <form method="post" action="Add.do" style="margin:0;">
-  提一下我的建议啦<br />
-  姓名：<br />
+ <@s.text name="suggest.form.title" /><br />
+ <@s.text name="suggest.form.name" /><br />
   <label>
   <input type="text" name="suggestion.name" id="textfield" />
   </label>
   <br />
-  邮箱：<br />
+  <@s.text name="suggest.form.mail" /><br />
   <label>
   <input type="text" name="suggestion.mail" id="textfield2" />
   </label>
   <br />
-  内容：<br />  
+  <@s.text name="suggest.form.content" /><br />  
   <textarea name="suggestion.content" cols="32" rows="6"></textarea>
   <br />
-  <input type="submit" name="button" id="button" value=" 提 交 " />
+  <input type="submit" name="button" id="button" value=" <@s.text name="image.submit.value" /> " />
   </form>
 </div>
 

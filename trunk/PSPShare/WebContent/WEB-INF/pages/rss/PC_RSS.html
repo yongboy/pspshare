@@ -1,15 +1,16 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-<title>PSP壁纸分享</title>
+<title><@s.text name="rss.xml.title" /></title>
 <link>${urlPrefix!}</link>
-<description><![CDATA[PSP壁纸,壁纸分享,分享壁纸，为你为我]]></description>
-<language>zh-CN</language>
+<description><![CDATA[<@s.text name="rss.xml.desc" />]]></description>
+<language><@s.text name="rss.xml.lang" /></language>
 <#list images as image>
 <item>
 	<title><![CDATA[${image.title!}]]></title>
 	<link>${urlPrefix}Image_Show.do?id=${image.id}</link>
-	<description><![CDATA[<a href="#"><img src="${urlPrefix}/images/${image.path}${image.nowName}" width="480px" height="272px" border="0"></a><#if image.description??><br />${image.description!}</#if>]]></description>
+	<description><![CDATA[<a href="#"><img src="${urlPrefix}/images/${image.path}${image.id}${image.postfix}" width="480px" height="272px" border="0"></a><#if image.description??><br />${image.description!}</#if>]]></description>
 	<author><#if image.user??>${image.user.id!}</#if></author>
 	<pubDate>${image.date?string("yyyy-MM-dd HH:mm")}</pubDate>
 </item>
