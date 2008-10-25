@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>用户注册</title>
+<title><s:text name="register.title" /></title>
 <style>
 .login{width:480px;height:272px;}
 .login input{ width:160px;height:18px;}
@@ -15,7 +15,7 @@
 <body>
 <form method="post" action="Register.do">
 <div class="login">
-<span>用户注册</span>
+<span><s:text name="register.title" /></span>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
     <td>&nbsp;</td>
@@ -23,18 +23,18 @@
   </tr>
   <tr>
     <td width="15%">&nbsp;</td>
-    <td width="85%" colspan="2"><label>    <strong>用户名：</strong><br>
+    <td width="85%" colspan="2"><label>    <strong><s:text name="login.name" /></strong><br>
     <input type="text" name="user.id">
-    (3个到20个字符)</label></td>
+    <s:text name="register.name.tip" /></label></td>
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td><label><strong>密码：</strong><br>
+    <td><label><strong><s:text name="login.pass" /></strong><br>
       <input style=" width:120px;" type="password" name="user.password">
       <br>
-      (3个到20个字符)
+      <s:text name="register.pass.tip" />
     </label></td>
-    <td><strong>确认密码：</strong>
+    <td><strong><s:text name="register.pass2" /></strong>
       <label>
       <br>
       <input style=" width:120px;" type="password" name="password2">
@@ -43,7 +43,7 @@
   </tr>
   <tr>
     <td>&nbsp;</td>
-    <td colspan="2"><label><strong>电子信箱：
+    <td colspan="2"><label><strong><s:text name="register.mail" />
         </strong><br>
         <input type="text" name="user.mail">        
         <br>
@@ -52,7 +52,7 @@
     <tr>
     <td>&nbsp;</td>
     <td colspan="2"><label>
-      <input type="submit" value=" 注册 " style="width:90px; height:25px;">
+      <input type="submit" value="<s:text name="register.button" /> " style="width:90px; height:25px;">
     </label></td>
   </tr>
     <tr>

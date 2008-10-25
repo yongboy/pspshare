@@ -1,16 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@taglib prefix="s" uri="/struts-tags"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>注册成功！</title>
+<title><s:text name="register.result.title" /></title>
 </head>
 <body>
 <div style="width:480px; height:272px; padding:30px auto auto 20px;">
-<h2>注册成功啦！</h2><br>
-<br>
-请返回到   <a href="login.jsp">登陆窗口</a> <strong>   :))
-</strong></div>
+<h2><s:text name="register.result.ok" /></h2><br>
+<br><s:text name="register.result.return" /></div>
 </body>
 </html>
