@@ -10,22 +10,22 @@
 <body>
 <#list images as image>
 <div class="div"><#if page < total><a
-	href="Image_List.do?page=${page+1}"></#if><img
-	src="images/${image.path}${image.id}${image.postfix}" width="480px" height="272px"
+	href="List.do?page=${page+1}"></#if><img
+	src="../images/${image.path}${image.id}${image.postfix}" width="480px" height="272px"
 	border="0"><#if page < total></a></#if></div>
 <div><span style="float: right;"><#if image.user ??>
 ${image.user.name!}</#if> ${image.date?string("yyyy-MM-dd HH:mm")}</span> <span
 	style="float: left;">${image.title!}</span><br> <#if 1 < page>
-<a href="Image_List.do?page=1"><@s.text name="image.first_page" /></a> <a
-	href="Image_List.do?page=${page-1}"><@s.text name="image.pre_page"
+<a href="List.do?page=1"><@s.text name="image.first_page" /></a> <a
+	href="List.do?page=${page-1}"><@s.text name="image.pre_page"
 /></a><script>
-	prevPage = 'Image_List.do?page=${page-1}';
+	prevPage = 'List.do?page=${page-1}';
 </script></#if><#if
-page < total> <a href="Image_List.do?page=${page+1}"><@s.text
+page < total> <a href="List.do?page=${page+1}"><@s.text
 name="image.next_page" /></a><script>
-	nextPage = 'Image_List.do?page=${page+1}';
+	nextPage = 'List.do?page=${page+1}';
 </script>
-<a href="Image_List.do?page=${total}"><@s.text
+<a href="List.do?page=${total}"><@s.text
 name="image.last_page" /></a></#if></div>
 
 <#include "/WEB-INF/pages/image/OneImageInfoPart.html" /> </#list>

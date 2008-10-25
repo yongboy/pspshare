@@ -9,7 +9,7 @@
 <#list images as image>
 <item>
 	<title><![CDATA[${image.title!}]]></title>
-	<link>${urlPrefix}Image_Show.do?id=${image.id}</link>
+	<link>${urlPrefix}Show.do?id=${image.id}</link>
 	<description><![CDATA[<a href="#"><img src="${urlPrefix}/images/${image.path}${image.id}${image.postfix}" width="480px" height="272px" border="0"></a><#if image.description??><br />${image.description!}</#if>]]></description>
 	<author><#if image.user??>${image.user.id!}</#if></author>
 	<pubDate>${image.date?string("yyyy-MM-dd HH:mm")}</pubDate>
