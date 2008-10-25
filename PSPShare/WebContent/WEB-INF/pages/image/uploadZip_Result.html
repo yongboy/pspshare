@@ -19,7 +19,7 @@
         <td><@s.text name="image.upload.zip.cmtitle" /></td>
         <td>
         <#assign ids = "" />
-        <#list images as img><#assign ids += img.id /><#if img_has_next><#assign ids += ',' /></#if></#list>
+        <#list images as img><#assign ids = ids + img.id /><#if img_has_next><#assign ids = ids + ',' /></#if></#list>
         <input type="hidden" name="images[0].postfix" value="${ids!}" />
         <input type="text" name="images[0].title" value="${fileNames[0]!}"/></td>
       </tr>

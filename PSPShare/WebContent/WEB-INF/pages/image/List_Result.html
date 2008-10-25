@@ -11,7 +11,7 @@
 <#list images as image>
 <div class="div"><#if page < total><a
 	href="Image_List.do?page=${page+1}"></#if><img
-	src="images/${image.path}${image.nowName}" width="480px" height="272px"
+	src="images/${image.path}${image.id}${image.postfix}" width="480px" height="272px"
 	border="0"><#if page < total></a></#if></div>
 <div><span style="float: right;"><#if image.user ??>
 ${image.user.name!}</#if> ${image.date?string("yyyy-MM-dd HH:mm")}</span> <span

@@ -1,3 +1,4 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -15,16 +16,19 @@
 <a href="/Image_CollectionShow.do?id=${coll.image.id}&userId=${coll.user.id!}&collId=${coll.id}"><img src="/images/${coll.image.path}thumbnail/${coll.image.nowName}" width="${width}" height="${height}" border="0" /></a><#if (coll_index+1)%v == 0><br /></#if></#list>
 </div>
 <div class="div">
- <#if 1 < page><a href="MyCollection.do?v=${v}&page=1">第一页</a> <a href="MyCollection.do?v=${v}&page=${page-1}">上一页</a>
+ <#if 1 < page><a href="MyCollection.do?v=${v}&page=1"><@s.text name="image.first_page" /></a> <a href="MyCollection.do?v=${v}&page=${page-1}"><@s.text name="image.pre_page" /></a>
  </#if>
  <#if page < total && 1< total >
- <a href="MyCollection.do?v=${v}&page=${page+1}">下一页</a> <a href="MyCollection.do?v=${v}&page=${total}">最后一页</a></#if>
+ <a href="MyCollection.do?v=${v}&page=${page+1}"><@s.text name="image.next_page" /></a> <a href="MyCollection.do?v=${v}&page=${total}"><@s.text name="image.last_page" /></a></#if>
 <br />
-当前位置：<br />
-<a href="Welcome.do">My</a> &gt;&gt; 我的收藏<br />
+<@s.text name="image.curr_place" /><br />
+<a href="Welcome.do">My</a> &gt;&gt; <@s.text name="my.fav" /><br />
 <br />
-<a href="DownCollectionZip.do?v=${v}&page=${page}">打包下载当前<b>${collections?size}</b>张图片</a><br /><br />
-tip：点击图片，可以查看完整图像<br>
+<a href="DownCollectionZip.do?v=${v}&page=${page}">
+<@s.text name="my.down.zip">
+	<@s.param>${collections?size}</@s.param>
+</@s.text></a><br /><br />
+<@s.text name="image.view_tip" /><br>
 </div>
 
 </body>
