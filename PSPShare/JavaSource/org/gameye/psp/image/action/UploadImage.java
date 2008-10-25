@@ -85,11 +85,11 @@ public class UploadImage extends BaseActionSupport {
 					continue;
 
 				try {
-					image = doSaveInfo(nowName, zipEntry.getName(), fileFix,
+					image = doSaveInfo( zipEntry.getName(), fileFix,
 							getServletRequest());
 					image.setLength(zipEntry.getSize());
 					// 得到文件类型，此时可能不是很准确
-					image.setContentType("image/" + fileFix);
+					image.setContentType("image/" + fileFix.replaceFirst(".", ""));
 					image.setPath(imgDir);
 					imageService.saveImage(image);
 
@@ -105,7 +105,7 @@ public class UploadImage extends BaseActionSupport {
 									.parseInt(Constants.thumbnail.height
 											.getValue()), false);
 					// 这里会自动更新
-					image.setNowName(nowName);
+//					image.setNowName(nowName);
 				} catch (IOException ioe) {
 					log.fatal("文件进行操作时出现严重问题 ");
 					ioe.printStackTrace();
@@ -153,7 +153,7 @@ public class UploadImage extends BaseActionSupport {
 			// 保存缩略图
 			try {
 				// 有限保存image属性信息
-				image = doSaveInfo(nowName, fileNames.get(i), fileFix,
+				image = doSaveInfo(fileNames.get(i), fileFix,
 						getServletRequest());
 				image.setLength(myFiles.get(i).length());
 				image.setContentType(contentTypes.get(i));
@@ -175,7 +175,7 @@ public class UploadImage extends BaseActionSupport {
 										.parseInt(Constants.thumbnail.height
 												.getValue()), false);
 				// 这里会自动更新
-				image.setNowName(nowName);
+//				image.setNowName(nowName);
 			} catch (IOException ioe) {
 				log.fatal("文件进行操作时出现严重问题 ");
 				ioe.printStackTrace();
@@ -213,7 +213,7 @@ public class UploadImage extends BaseActionSupport {
 		return execute();
 	}
 
-	private Image doSaveInfo(String nowName, String oldName, String fileFix,
+	private Image doSaveInfo(String oldName, String fileFix,
 			HttpServletRequest request) {
 		Image image = new Image();
 		image.setUser(getCurrUser());
@@ -221,7 +221,7 @@ public class UploadImage extends BaseActionSupport {
 		image.setDate(new Date());
 		// image.setId(new SequenceCreator().getUID());
 		image.setIp(request.getRemoteAddr());
-		image.setNowName(nowName);
+//		image.setNowName(nowName);
 		image.setOldName(oldName);
 		// 默认情况下，使用原始文件名
 		image.setTitle(oldName);
