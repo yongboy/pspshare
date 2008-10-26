@@ -13,6 +13,10 @@ String userAgent = request.getHeader("user-agent");
 if(userAgent.indexOf("PSP") != -1){
 	url = "PSP_UploadZip.do";
 }
+
+	if(session.getAttribute("user") == null){
+		url = "UnLogin_" + url;
+	}
 %>
 <body>
 <div class="div">
@@ -21,7 +25,14 @@ if(userAgent.indexOf("PSP") != -1){
 <form class="form" name="upForm" method="post" enctype="multipart/form-data" action="<%=url %>" style="margin:0;">
 			  <div id="myFileDiv">
               <s:text name="upload.zip_tip" />
-              <p><br />
+              <br />
+              <s:if test = "#session.user == null">
+              	<s:text name="upload.zip.unlogin_size" />
+              </s:if>
+              <s:else>
+              	<s:text name="upload.zip.size" />
+              </s:else>
+              <p>
                 <input name="myFile" size="42" type="file" class="btn"/>
               </p>
 <%if(userAgent.indexOf("PSP") == -1){ %>
@@ -29,7 +40,7 @@ if(userAgent.indexOf("PSP") != -1){
                 <label>
                 <input type="checkbox" name="type" value="bbs"/>
                 </label>
-                张贴到论坛、博客~</p>
+                <s:text name="upload.forbbs.title" /></p>
 <%} %>
 			  </div>
 			  <p><span >
