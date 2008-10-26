@@ -20,12 +20,12 @@
         <td>
         <#assign ids = "" />
         <#list images as img><#assign ids = ids + img.id /><#if img_has_next><#assign ids = ids + ',' /></#if></#list>
-        <input type="hidden" name="../images[0].postfix" value="${ids!}" />
-        <input type="text" name="../images[0].title" value="${fileNames[0]!}"/></td>
+        <input type="hidden" name="images[0].postfix" value="${ids!}" />
+        <input type="text" name="images[0].title" value="${fileNames[0]!?replace("\\..*","","r")}"/></td>
       </tr>
       <tr>
         <td><@s.text name="image.upload.zip.cmclass" /></td>
-        <td><select name="../images[0].type.id">
+        <td><select name="images[0].type.id">
           <option value="0" selected="selected">未分类</option>
           <option value="1">风景</option>
           <option value="2">人物 </option>
@@ -39,17 +39,18 @@
       </tr>
       <tr>
         <td><@s.text name="image.upload.zip.cmtag" /></td>
-        <td><input type="text" name="../images[0].tags[0].name" /></td>
+        <td><input type="text" name="images[0].tags[0].name" value="${fileNames[0]!?replace("\\..*","","r")}"/></td>
       </tr>
       <tr>
         <td valign="top"><@s.text name="image.upload.zip.cmdesc" /></td>
-        <td><textarea name="../images[0].description" id="textarea" cols="23"></textarea></td>
+        <td><textarea name="images[0].description" id="textarea" cols="23">${fileNames[0]!?replace("\\..*","","r")} ${images?size}
+        </textarea></td>
       </tr>      
     </table>
 </div>
 <!--提交区-->
 <div>
-  <label>
+  <label><br />
   <input type="submit" value=" <@s.text name="image.submit.value" /> " style="height:23px;"/>
   </label>
 </div>
