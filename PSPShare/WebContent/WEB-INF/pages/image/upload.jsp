@@ -20,7 +20,15 @@ if(userAgent.indexOf("PSP") != -1){
 <body>
 <div class="div">
 <div style="color:red;"><s:fielderror /><s:property value="typeError" /></div>
-<div style="margin-bottom:10px;"><span style="float:left"><s:text name="upload.tip_title1" /></span><span style="margin-left:20px;"><a href="uploadZip.do"><s:text name="upload.tip_title2" /></a></span></div>
+<div style="margin-bottom:10px;"><span style="float:left"><s:text name="upload.tip_title1" /></span><span style="margin-left:20px;"><a href="uploadZip.do"><s:text name="upload.tip_title2" /></a>
+<br />
+              <s:if test = "#session.user == null">
+              	<s:text name="upload.multi.unlogin_size" />
+              </s:if>
+              <s:else>
+              	<s:text name="upload.multi.size" />
+              </s:else>
+</span></div>
 <form class="form" name="upForm" method="post" enctype="multipart/form-data" action="<%=url %>" style="margin:0;">
 			  <div id="myFileDiv">
 			    <input name="myFile" size="42" type="file" class="btn"/>			   
