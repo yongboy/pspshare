@@ -132,6 +132,9 @@ public class UploadImage extends BaseActionSupport {
 			getServletRequest().setAttribute("siteUrl", getSiteUrl());
 			return "forbbs";
 		}
+		//删除上传的文件
+		deleteFile(myFiles);
+		
 		return SUCCESS;
 	}
 
@@ -201,6 +204,8 @@ public class UploadImage extends BaseActionSupport {
 		// 批量更新图片属性信息
 		imageService.updateImages(images);
 
+		//删除上传的文件
+		deleteFile(myFiles);
 		return SUCCESS;
 	}
 
@@ -248,6 +253,16 @@ public class UploadImage extends BaseActionSupport {
 			sb.append("0");
 		sb.append("/");
 		return sb.toString();
+	}
+	
+	private void deleteFile(List<File> myFiles) {
+		// 删除上传文件本身
+		try {
+			for (File f : myFiles) {
+				f.delete();
+			}
+		} catch (Exception e) {
+		}
 	}
 
 	private List<File> myFiles;
