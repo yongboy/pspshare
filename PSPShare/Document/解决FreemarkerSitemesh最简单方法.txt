@@ -1,0 +1,13 @@
+在 web.xml  中加入以下脚本
+
+	<mime-mapping>     
+      <extension>htm</extension>     
+      <mime-type>text/html;charset=utf-8</mime-type>     
+    </mime-mapping>     
+    <mime-mapping>   
+      <extension>html</extension>     
+      <mime-type>text/html;charset=utf-8</mime-type>     
+    </mime-mapping>
+    
+    
+这样sitemesh修饰html静态页面就不会出现乱码了    
