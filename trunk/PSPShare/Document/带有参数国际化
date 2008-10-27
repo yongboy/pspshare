@@ -1,0 +1,8 @@
+{0},now is {1} !
+<s:text name="welcome">
+	<s:param></s:param>
+	<s:param> </s:param>
+</s:text>
+
+Struts2中允许用户自行选择程序语言 
+http://www.blogjava.net/accompy/articles/156470.html
