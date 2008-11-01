@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>管理上传</title>
+<link href="../style/custom.css" rel="stylesheet"></link>
+<script src="/script/use.js"></script>
+</head>
+<body>
+<div class="cont_Right">
+<ul class="cont_ul">
+<#list images as img>               
+<li>
+<div class="contBox">
+<div style="float:left;"><input type="checkbox" id="${img.id}" name="id" value="${img.id}" onClick="Item(this,'all');saveIntoCookie(this);"></div>
+  <div class="tim">
+<p><img src="../images/${img.path}thumbnail/${img.id}${img.postfix}" width="160" height="91"></p>
+</div>
+</div>
+</li>
+<script>
+ids += "${img.id};"
+</script>
+</#list>
+</ul>                 
+</div> 
+<div style="width:480px;">
+<#assign url = "Go2ManageMyUpload.do?page=" />
+ <#if 1 < page><a href="${url}1"><@s.text name="image.first_page" /></a> <a href="${url}${page-1}"><@s.text name="image.pre_page" /></a>
+ </#if>
+ <#assign total = ((total-1)/size +1)?int />
+ <#if page < total && 1< total >
+ <a href="${url}${page+1}"><@s.text name="image.next_page" /></a> <a href="${url}${total}"><@s.text name="image.last_page" /></a></#if>
+<br />
+
+  <label>
+  <input type="checkbox" id="all" onClick="All(this,'id');butchSelect(this,'id');">全选
+  </label><a href="Go2DownZipFile.do">打包下载</a> <a href="Go2ForBlog.do">张贴到论坛</a><br>
+
+<br />
+<@s.text name="image.curr_place" /><br />
+<a href="Welcome.do">My</a> &gt;&gt; <@s.text name="my.upload" /><br />
+<br />
+  <p>小提示 ：最多可选择36张图片</p>
+</div>
+<script>
+	//checkhasid//
+	ids = ids.substring(0,ids.length-1);
+	var iids = ids.split(";");
+	var chLen = 0;
+	for(var i=0; i < iids.length; i++){
+		if(checkhasid(iids[i])){
+			document.getElementById(iids[i]).checked = true;
+			chLen++;
+		}
+	}
+	if(chLen==iids.length){
+		document.getElementById('all').checked = true;
+	}
+</script>
+
+</body>
+</html>
