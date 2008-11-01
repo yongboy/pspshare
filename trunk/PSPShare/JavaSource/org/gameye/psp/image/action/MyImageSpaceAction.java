@@ -9,9 +9,13 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.StringTokenizer;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
@@ -63,18 +67,87 @@ public class MyImageSpaceAction extends BaseActionSupport {
 			v = 6;
 		size = v * v;
 
+		doUploadAction();
+		return SUCCESS;
+	}
+
+	private void doUploadAction() {
 		User user = getCurrUser();
 		Map<Integer, List<Image>> imgMaps = imageService.oneUserImages(page,
 				size, user, order);
 		if (imgMaps == null || imgMaps.keySet().size() == 0) {
 			total = 0;
-			return SUCCESS;
+			return;
 		}
 		for (Integer i : imgMaps.keySet()) {
 			total = i;
 			images = imgMaps.get(i);
 		}
+	}
+
+	public String Go2ManageMyUpload() {
+		if (page < 1)
+			page = 1;
+		size = 6;
+		doUploadAction();
 		return SUCCESS;
+	}
+
+	private static final int maxZipFiles = 36;
+
+	public String Go2DownZipFile() {
+		// 读取cookie
+		if (!checkUserChooseData()) {
+			return "OVERNUM";
+		}
+
+		imagesZipAction();
+
+		return SUCCESS;
+	}
+
+	private boolean checkUserChooseData() {
+		String chooseIds = getCookie("choose");
+		if (StringUtils.isEmpty(chooseIds)) {
+			message = "当前没有选择数据！";
+			return false;// "OVERNUM";
+		}
+
+		StringTokenizer token = new StringTokenizer(chooseIds, "|");
+		if (token.countTokens() > maxZipFiles) {
+			message = "当前您所选择数据已经超过系统制定上限 ：" + maxZipFiles;
+			return false;// "OVERNUM";
+		}
+		Set<String> idList = new HashSet<String>();
+		while (token.hasMoreTokens()) {
+			idList.add(token.nextToken());
+		}
+		images = imageService.getImageByIds(idList);
+		return true;
+	}
+
+	public String Go2ForBlog() {
+		if (!checkUserChooseData()) {
+			return "OVERNUM";
+		}
+		getServletRequest().setAttribute("siteUrl", getSiteUrl());
+		return "forbbs";
+	}
+
+	public String Go2ManageMyFav() {
+		size = 6;
+		collectionAction();
+		return SUCCESS;
+	}
+
+	private String getCookie(String cookieName) {
+		Cookie[] cookies = getServletRequest().getCookies();
+		for (Cookie c : cookies) {
+			if (c.getName().equals(cookieName)) {
+				return c.getValue();
+			}
+		}
+		return null;
 	}
 
 	public String MyCollection() {
@@ -82,19 +155,90 @@ public class MyImageSpaceAction extends BaseActionSupport {
 			v = 6;
 		size = v * v;
 
+		collectionAction();
+		return SUCCESS;
+	}
+
+	public String Go2DownFavZipFile() {
+
+		if (!checkUserFavChooseData()) {
+			return "OVERNUM";
+		}
+		imagesZipAction();
+
+		return SUCCESS;
+	}
+
+	public String Go2FavForBlog() {
+		if (!checkUserFavChooseData()) {
+			return "OVERNUM";
+		}
+		getServletRequest().setAttribute("siteUrl", getSiteUrl());
+		return "forbbs";
+	}
+	
+	public String DeleteCollection() {
+		String chooseIds = getCookie("choose");
+		if (StringUtils.isEmpty(chooseIds)) {
+			message = "当前没有选择数据！";
+			return "OVERNUM";
+		}
+
+		StringTokenizer token = new StringTokenizer(chooseIds, "|");
+		if (token.countTokens() > maxZipFiles) {
+			message = "当前您所选择数据已经超过系统制定上限 ：" + maxZipFiles;
+			return "OVERNUM";
+		}
+		Set<String> idList = new HashSet<String>();
+		while (token.hasMoreTokens()) {
+			idList.add(token.nextToken());
+		}
+		boolean result = collectionService.deleteCollectionByIds(idList);
+		if (result) {
+			message = "删除成功！";
+		} else {
+			message = "删除失败！";
+		}
+		return "OVERNUM";
+	}
+
+	private boolean checkUserFavChooseData() {
+		String chooseIds = getCookie("choose");
+		if (StringUtils.isEmpty(chooseIds)) {
+			message = "当前没有选择数据！";
+			return false;// "OVERNUM";
+		}
+
+		StringTokenizer token = new StringTokenizer(chooseIds, "|");
+		if (token.countTokens() > maxZipFiles) {
+			message = "当前您所选择数据已经超过系统制定上限 ：" + maxZipFiles;
+			return false;// "OVERNUM";
+		}
+		Set<String> idList = new HashSet<String>();
+		while (token.hasMoreTokens()) {
+			idList.add(token.nextToken());
+		}
+		List<Collection> colls = collectionService.getCollectionByIds(idList);
+		images = new ArrayList<Image>();
+		for (Collection coll : colls) {
+			images.add(coll.getImage());
+		}
+		return true;
+	}
+
+	private void collectionAction() {
 		User user = getCurrUser();
 		Map<Integer, List<Collection>> imgMaps = collectionService.pagedImages(
 				page, size, user, order);
 
 		if (imgMaps == null || imgMaps.keySet().size() == 0) {
 			total = 0;
-			return SUCCESS;
+			return;
 		}
 		for (Integer i : imgMaps.keySet()) {
 			total = i;
 			collections = imgMaps.get(i);
 		}
-		return SUCCESS;
 	}
 
 	public String CustomAtom() {
@@ -112,6 +256,10 @@ public class MyImageSpaceAction extends BaseActionSupport {
 			images = imgMaps.get(i);
 		}
 
+		imagesZipAction();
+	}
+
+	private void imagesZipAction() {
 		List<String> filePaths = new ArrayList<String>();
 		List<String> fileNames = new ArrayList<String>();
 		// String filePath = null;
@@ -123,12 +271,13 @@ public class MyImageSpaceAction extends BaseActionSupport {
 			if (StringUtils.isNotEmpty(image.getNowName())
 					&& image.getNowName().indexOf('.') != -1) {
 				sb.append(image.getNowName());
+				fileNames.add(image.getNowName());
 			} else {
 				// 当前图片小于系统制定长度，或还未来得及压缩图片一样可以下载到原图
 				sb.append(image.getId()).append(image.getPostfix());
+				fileNames.add(image.getId() + image.getPostfix());
 			}
 			filePaths.add(sb.toString());
-			fileNames.add(image.getNowName());
 		}
 
 		String zipName = DateHelper.formatDate(new Date(), "yyyy-MM-dd");
@@ -300,6 +449,7 @@ public class MyImageSpaceAction extends BaseActionSupport {
 			log.info(message);
 		} catch (Exception e) {
 			log.info("批量文件下载时，出现无法处理的异常：\n" + e.toString());
+			e.printStackTrace();
 		}
 	}
 
@@ -309,6 +459,7 @@ public class MyImageSpaceAction extends BaseActionSupport {
 	private int size;
 	private int total;
 	private String order;
+	private String message;
 
 	private List<Image> images;
 
@@ -354,6 +505,10 @@ public class MyImageSpaceAction extends BaseActionSupport {
 
 	public List<Collection> getCollections() {
 		return collections;
+	}
+
+	public String getMessage() {
+		return message;
 	}
 
 }

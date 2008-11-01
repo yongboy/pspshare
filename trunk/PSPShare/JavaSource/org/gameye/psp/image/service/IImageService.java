@@ -3,6 +3,7 @@ package org.gameye.psp.image.service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.gameye.psp.image.entity.Image;
 import org.gameye.psp.image.entity.User;
@@ -129,4 +130,12 @@ public interface IImageService {
 	 */
 	Map<Integer, List<Image>> oneUserImages(int page, int size, User user,
 			String order);
+
+	/**
+	 * 通过ID字符串集合，查询所有符合条件的image数组
+	 * 
+	 * @param ids
+	 * @return
+	 */
+	List<Image> getImageByIds(Set<String> ids);
 }

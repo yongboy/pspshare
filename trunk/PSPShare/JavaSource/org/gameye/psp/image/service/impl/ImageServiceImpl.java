@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.gameye.psp.image.dao.IImageDao;
 import org.gameye.psp.image.entity.Image;
 import org.gameye.psp.image.entity.User;
@@ -231,4 +234,26 @@ public class ImageServiceImpl implements IImageService {
 		return imageDao.pagedQuery(sb.toString(), startIndex, pageSize, params
 				.toArray());
 	}
+
+	public List<Image> getImageByIds(Set<String>ids) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("from org.gameye.psp.image.entity.Image where id in (");
+		for(String s : ids){
+			sb.append("'").append(s).append("',");
+		}
+		String hql = sb.toString();
+		if(hql.endsWith(",")){
+			hql = hql.substring(0,hql.length()-1);
+		}
+		hql += ")";
+//		log.info(hql);
+//		List <String>idList = new ArrayList<String>(ids);
+//		for(String id:idList){
+//		System.out.println("获取ID=" +id);	
+//		}
+		Object [] paras = {};
+		return imageDao.queryList(hql, paras);		
+	}
+	
+	private static Log log = LogFactory.getLog(ImageServiceImpl.class);
 }
