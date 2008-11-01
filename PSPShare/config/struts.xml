@@ -146,6 +146,8 @@
 		<action name="*" class="org.gameye.psp.image.action.MyImageSpaceAction" method="{1}">
 			<result name="success" type="freemarker">/WEB-INF/pages/my/{1}.html</result>
 			<result name="failure" type="freemarker">/WEB-INF/pages/my/Failure.html</result>
+			<result name="OVERNUM" type="freemarker">/WEB-INF/pages/my/OverNum.html</result>
+			<result name="forbbs" type="freemarker">/WEB-INF/pages/image/forBBS.html</result>
 		</action>
 	</package>
 	
