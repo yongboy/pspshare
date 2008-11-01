@@ -3,6 +3,7 @@ package org.gameye.psp.image.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.gameye.psp.image.dao.ICollectionDao;
@@ -85,6 +86,39 @@ public class CollectionServiceImpl implements ICollectionService {
 		if (list == null || list.size() == 0)
 			return null;
 		return list.get(0);
+	}
+
+	public List<Collection> getCollectionByIds(Set<String> ids) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("from org.gameye.psp.image.entity.Collection where id in (");
+		for (String id : ids) {
+			sb.append("'").append(id).append("',");
+		}
+		sb.append(")");
+		String hql = sb.toString();
+		hql = hql.replaceAll(",\\)", "\\)");
+		Object[] o = {};
+		return collectionDao.queryList(hql, o);
+	}
+
+	public boolean deleteCollectionByIds(Set<String> ids) {
+		StringBuilder sb = new StringBuilder();
+		sb
+				.append("delete org.gameye.psp.image.entity.Collection where id in (");
+		for (String id : ids) {
+			sb.append("'").append(id).append("',");
+		}
+		sb.append(")");
+		String hql = sb.toString();
+		hql = hql.replaceAll(",\\)", "\\)");
+		Object[] o = {};
+		try {
+			collectionDao.bulkUpdate(hql, o);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 }
