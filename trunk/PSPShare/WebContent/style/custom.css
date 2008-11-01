@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+.cont_Right{
+   width:480px;
+   float:left;
+   margin:0px; 
+   } 
+.tim{
+float:right;
+ margin:0px;
+ float:right;
+   }  
+    
+.cont_ul li{
+    width:230px;
+	margin-right:0px;
+	margin-bottom:0px;
+	float:right;
+}
+.cont_Right .contBox {
+   background:url(../images/cont_Bg.gif) no-repeat ;
+   width:230px;
+   height:91px !important;
+   height:91px;
+   float:right;
+}
