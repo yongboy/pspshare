@@ -20,8 +20,8 @@ public class Constants {
 	}
 
 	public enum thumbnail {
-		path("thumbnail/"), realDir(getImgSavePath() + path), width("80"), height(
-				"45");
+		path("thumbnail/"), realDir(getImgSavePath() + path), width("160"), height(
+				"91");
 
 		private String value;
 

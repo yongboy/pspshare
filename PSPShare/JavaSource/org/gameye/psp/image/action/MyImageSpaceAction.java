@@ -30,6 +30,7 @@ import org.gameye.psp.image.entity.Image;
 import org.gameye.psp.image.entity.LastPlace;
 import org.gameye.psp.image.entity.User;
 import org.gameye.psp.image.service.ICollectionService;
+import org.gameye.psp.image.service.IImageHandleService;
 import org.gameye.psp.image.service.IImageService;
 import org.gameye.psp.image.service.ILastPlaceService;
 import org.gameye.psp.image.utils.DateHelper;
@@ -46,6 +47,9 @@ public class MyImageSpaceAction extends BaseActionSupport {
 
 	@Autowired
 	private ILastPlaceService lastPlaceService;
+	
+	@Autowired
+	private IImageHandleService imageHandleService;
 
 	/**
 	 * 进入my的空间首页
@@ -451,6 +455,74 @@ public class MyImageSpaceAction extends BaseActionSupport {
 			log.info("批量文件下载时，出现无法处理的异常：\n" + e.toString());
 			e.printStackTrace();
 		}
+	}
+	
+	//转化图片
+	public void DoTranslateImage()throws Exception{
+		long s = System.currentTimeMillis();
+		int total = -1;
+		int size = 20;
+		int page = 1;
+		List<Image> list = null;
+		Map<Integer, List<Image>> imgMap = imageService.pagedImages(page, size,
+				null);
+		for (Integer i : imgMap.keySet()) {
+			total = i;
+			list = imgMap.get(i);
+		}
+
+		String imgSmallDirPath = Constants.thumbnail.path.getValue();
+
+		StringBuilder sb = null;
+		StringBuilder thSb = null;
+		for (Image image : list) {
+			 sb = new StringBuilder();
+			 thSb = new StringBuilder();
+			sb.append(Constants.getImgSavePath());
+			sb.append(image.getPath());
+			thSb.append(sb.toString());
+			thSb.append(imgSmallDirPath);
+			sb.append(image.getId()).append(image.getPostfix());
+			thSb.append(image.getId()).append(image.getPostfix());
+
+			imageHandleService.generate(sb.toString(), thSb.toString(), Integer
+					.parseInt(Constants.thumbnail.width.getValue()), Integer
+					.parseInt(Constants.thumbnail.height.getValue()), false);
+		}
+		
+		//计算分页函数
+		int pageNum =  (total-1)/size + 1;
+//		page =2;
+		for(page =2; page <=pageNum; page++){
+			imgMap = imageService.pagedImages(page, size,
+					null);
+			for (Integer i : imgMap.keySet()) {
+				total = i;
+				list = imgMap.get(i);
+			}
+
+//			String imgSmallDirPath = Constants.thumbnail.path.getValue();
+
+//			StringBuilder sb = null;
+//			StringBuilder thSb = null;
+			for (Image image : list) {
+				 sb = new StringBuilder();
+				 thSb = new StringBuilder();
+				sb.append(Constants.getImgSavePath());
+				sb.append(image.getPath());
+				thSb.append(sb.toString());
+				thSb.append(imgSmallDirPath);
+				sb.append(image.getId()).append(image.getPostfix());
+				thSb.append(image.getId()).append(image.getPostfix());
+
+				imageHandleService.generate(sb.toString(), thSb.toString(), Integer
+						.parseInt(Constants.thumbnail.width.getValue()), Integer
+						.parseInt(Constants.thumbnail.height.getValue()), false);
+			}
+		}
+		// for()
+		long e = System.currentTimeMillis();
+		getServletResponse().getWriter().write("转化完成！<br />时间："+(e-s));
 	}
 
 	private Log log = LogFactory.getLog(MyImageSpaceAction.class);
