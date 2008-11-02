@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="../style/custom.css" rel="stylesheet"></link>
-<script src="/script/use.js"></script>
+<script src="../script/use.js"></script>
 </head>
 <body>
 <#assign total= ((total-1)/size + 1)?int  />
@@ -17,8 +17,7 @@
 <div style="float:left;"><input type="checkbox" id="${coll.image.id}" name="id" value="${coll.image.id}" onClick="Item(this,'all');saveIntoCookie(this);"></div>
   <div class="tim">
 <p>
-<a href="../image/CollectionShow.do?id=${coll.image.id}&userId=${coll.user.id!}&collId=${coll.id}"><img src="../images/${coll.image.path}thumbnail/${coll.image.id}${coll.image.postfix}" width="160" height="91" border="0" />
-</a>
+<a href="../image/CollectionShow.do?id=${coll.image.id}&userId=${coll.user.id!}&collId=${coll.id}"><img src="../images/${coll.image.path}thumbnail/${coll.image.id}${coll.image.postfix}" width="160" height="91" border="0" /></a>
 </p>
 </div>
 </div>
@@ -36,16 +35,15 @@ ids += "${coll.image.id};"
  <a href="Go2ManageMyFav.do?page=${page+1}"><@s.text name="image.next_page" /></a> <a href="Go2ManageMyFav.do?page=${total}"><@s.text name="image.last_page" /></a></#if>
 <br />
   <label>
-  <input type="checkbox" id="all" onClick="All(this,'id');butchSelect(this,'id');">全选
-  </label><a href="Go2DownFavZipFile.do">打包下载</a> <a href="Go2FavForBlog.do">张贴到论坛</a> <a href="DeleteCollection.do">删除</a><br>
+  <input type="checkbox" id="all" onClick="All(this,'id');butchSelect(this,'id');"><@s.text name="my.choose_all" />
+  </label><a href="Go2DownFavZipFile.do"><@s.text name="my.down.zip_2" /></a> <a href="Go2FavForBlog.do"><@s.text name="upload.forbbs.title" /></a> <a href="DeleteCollection.do"><@s.text name="my.delete" /></a><br>
   
 <@s.text name="image.curr_place" /><br />
 <a href="Welcome.do">My</a> &gt;&gt; <@s.text name="my.fav" /><br />
 <br /><br />
-<@s.text name="image.view_tip" /><br>
+<@s.text name="my.choose.nums" /><br>
 </div>
 <script>
-	//checkhasid//
 	ids = ids.substring(0,ids.length-1);
 	var iids = ids.split(";");
 	var chLen = 0;

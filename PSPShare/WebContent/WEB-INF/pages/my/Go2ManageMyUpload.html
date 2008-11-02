@@ -1,8 +1,9 @@
+<#assign s=JspTaglibs["/WEB-INF/tlds/struts2/struts-tags.tld"]>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>管理上传</title>
+<title><@s.text name="my.upload" /></title>
 <link href="../style/custom.css" rel="stylesheet"></link>
 <script src="/script/use.js"></script>
 </head>
@@ -34,14 +35,14 @@ ids += "${img.id};"
 <br />
 
   <label>
-  <input type="checkbox" id="all" onClick="All(this,'id');butchSelect(this,'id');">全选
-  </label><a href="Go2DownZipFile.do">打包下载</a> <a href="Go2ForBlog.do">张贴到论坛</a><br>
+  <input type="checkbox" id="all" onClick="All(this,'id');butchSelect(this,'id');"><@s.text name="my.choose_all" />
+  </label><a href="Go2DownZipFile.do"><@s.text name="my.down.zip_2" /></a> <a href="Go2ForBlog.do"><@s.text name="upload.forbbs.title" /></a><br>
 
 <br />
 <@s.text name="image.curr_place" /><br />
 <a href="Welcome.do">My</a> &gt;&gt; <@s.text name="my.upload" /><br />
 <br />
-  <p>小提示 ：最多可选择36张图片</p>
+  <p><@s.text name="my.choose.nums" /></p>
 </div>
 <script>
 	//checkhasid//
