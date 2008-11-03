@@ -17,10 +17,16 @@ import java.awt.image.FilteredImageSource;
 import java.awt.image.ImageFilter;
 import java.awt.image.WritableRaster;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.FileImageOutputStream;
 
 import org.gameye.psp.image.service.IImageHandleService;
 import org.gameye.psp.image.service.IImageProvider;
@@ -264,4 +270,24 @@ public class ImageHandleServiceImpl implements IImageHandleService {
 		png2JPG(ImageIO.read(inputStream), jpgPath);
 	}
 
+	public void compressJPEG(String src, String target, int quality)
+			throws FileNotFoundException, IOException {
+		File targetFile = new File(target);
+		BufferedImage srcImage = imageProvider.readImage(src);
+		Iterator it = ImageIO.getImageWritersBySuffix("jpg");
+		if (it.hasNext()) {
+			FileImageOutputStream fileImageOutputStream = new FileImageOutputStream(
+					targetFile);
+			ImageWriter iw = (ImageWriter) it.next();
+			ImageWriteParam iwp = iw.getDefaultWriteParam();
+			iwp.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+			iwp.setCompressionQuality((float) quality / 100f);
+			iw.setOutput(fileImageOutputStream);
+			// iw.addIIOWriteProgressListener(listener);
+			iw.write(null, new IIOImage(srcImage, null, null), iwp);
+			iw.dispose();
+			fileImageOutputStream.flush();
+			fileImageOutputStream.close();
+		}
+	}
 }

@@ -1,4 +1,4 @@
-package org.gameye.psp.image.dao.base;
+package com.common.dao.base;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

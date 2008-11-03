@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -175,4 +176,21 @@ public interface IImageHandleService {
 	void tranPNG2JPG(InputStream inputStream, String jpgPath)
 			throws IOException;
 
+	/**
+	 * 
+	 * @param src
+	 *            原始图片文件
+	 * @param target
+	 *            要生成的文件
+	 * @param quality
+	 *            压缩比例
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
+	void compressJPEG(String src, String target, int quality/*
+															 * ,
+															 * IIOWriteProgressListener
+															 * listener
+															 */)
+			throws FileNotFoundException, IOException;
 }

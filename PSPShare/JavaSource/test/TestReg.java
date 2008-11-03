@@ -22,52 +22,52 @@ public class TestReg {
 	/**
 	 * @param args
 	 */
-	public static void main2(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception{
 
 //		TestReg tr = new TestReg();
-		String src = "F:/test.jpg";
-		String target = "F:/test-80.jpg";
+		String src = "E:/test.jpg";
+		String target = "E:/test-80.jpg";
 		
 		doIntImg(src,target,80);
 		
-		target = "F:/test-60.jpg";
+		target = "E:/test-60.jpg";
 		
 		doIntImg(src,target,60);
 		
 		
-		target = "F:/test-40.jpg";
+		target = "E:/test-40.jpg";
 		
 		doIntImg(src,target,40);
 		
 		
-		target = "F:/test-30.jpg";
+		target = "E:/test-30.jpg";
 		
 		doIntImg(src,target,30);
 		
 		
-		target = "F:/test-20.jpg";
+		target = "E:/test-20.jpg";
 		
 		doIntImg(src,target,20);
 		
 		
 		doIntImg(src,target,80);
 		
-		target = "F:/test-60.jpg";
+		target = "E:/test-60.jpg";
 		
 		doIntImg(src,target,60);
 		
 		
-		target = "F:/test-40.jpg";
+		target = "E:/test-40.jpg";
 		
 		doIntImg(src,target,40);
 		
 		
-		target = "F:/test-30.jpg";
+		target = "E:/test-30.jpg";
 		
 		doIntImg(src,target,30);
 		
 		
-		target = "F:/test-90.jpg";
+		target = "E:/test-90.jpg";
 		
 		doIntImg(src,target,90);
 		
@@ -102,44 +102,44 @@ public class TestReg {
 		//WRITE PNG PICTURE...
 		//PNG 不支持
 		
-//		target = "F:/test-60.png";
+//		target = "E:/test-60.png";
 //		
 //		doIntImg2(src,target,60);
 //		
 //		
-//		target = "F:/test-40.png";
+//		target = "E:/test-40.png";
 //		
 //		doIntImg2(src,target,40);
 //		
 //		
-//		target = "F:/test-30.png";
+//		target = "E:/test-30.png";
 //		
 //		doIntImg2(src,target,30);
 //		
 //		
-//		target = "F:/test-20.png";
+//		target = "E:/test-20.png";
 //		
 //		doIntImg2(src,target,20);
 //		
 //		
 //		doIntImg2(src,target,80);
 //		
-//		target = "F:/test-60.png";
+//		target = "E:/test-60.png";
 //		
 //		doIntImg2(src,target,60);
 //		
 //		
-//		target = "F:/test-40.png";
+//		target = "E:/test-40.png";
 //		
 //		doIntImg2(src,target,40);
 //		
 //		
-//		target = "F:/test-30.png";
+//		target = "E:/test-30.png";
 //		
 //		doIntImg2(src,target,30);
 //		
 //		
-//		target = "F:/test-90.png";
+//		target = "E:/test-90.png";
 //		
 //		doIntImg2(src,target,90);
 
@@ -148,8 +148,8 @@ public class TestReg {
 	public static void doIntImg(String src,String target,int quality)throws Exception{
 		long s = System.currentTimeMillis();
 		
-//		String src = "F:/test.jpg";
-//		String target = "F:/test-1.jpg";
+//		String src = "E:/test.jpg";
+//		String target = "E:/test-1.jpg";
 		File targetFile = new File(target);
 		
 		writeJPEG(targetFile,readImage(src),quality);
@@ -162,8 +162,8 @@ public class TestReg {
 	public static void doIntImg2(String src,String target,int quality)throws Exception{
 		long s = System.currentTimeMillis();
 		
-//		String src = "F:/test.jpg";
-//		String target = "F:/test-1.jpg";
+//		String src = "E:/test.jpg";
+//		String target = "E:/test-1.jpg";
 		File targetFile = new File(target);
 		
 		writePNG(targetFile,readImage(src),quality);
@@ -228,61 +228,61 @@ public class TestReg {
 	   * @throws Exception
 	   */
 	  
-	  public static void main(String[] args) throws Exception{
-		  String srcS = "F:/test.jpg";
-		  File src = new File(srcS);
-			String target = "F:/test-doCompress.jpg";
-			long s = System.currentTimeMillis();
-			doCompress(src,target);
-			long e = System.currentTimeMillis();
-			
-			
-			//75% 转换使用时间 : 422
-			System.out.println("75% 转换使用时间 : " + (e-s));
-			
-			
-			
-			target = "F:/test-60.jpg";
-			
-			doCompressQuality(src,target,60);
-			
-			
-			target = "F:/test-40.jpg";
-			
-			doCompressQuality(src,target,40);
-			
-			
-			target = "F:/test-30.jpg";
-			
-			doCompressQuality(src,target,30);
-			
-			
-			target = "F:/test-20.jpg";
-			
-			doCompressQuality(src,target,20);
-			
-			
-			doCompressQuality(src,target,80);
-			
-			target = "F:/test-60.jpg";
-			
-			doCompressQuality(src,target,60);
-			
-			
-			target = "F:/test-40.jpg";
-			
-			doCompressQuality(src,target,40);
-			
-			
-			target = "F:/test-30.jpg";
-			
-			doCompressQuality(src,target,30);
-			
-			
-			target = "F:/test-90.jpg";
-			
-			doCompressQuality(src,target,90);
-	  }
+//	  public static void main(String[] args) throws Exception{
+//		  String srcS = "E:/test.jpg";
+//		  File src = new File(srcS);
+//			String target = "E:/test-doCompress.jpg";
+//			long s = System.currentTimeMillis();
+//			doCompress(src,target);
+//			long e = System.currentTimeMillis();
+//			
+//			
+//			//75% 转换使用时间 : 422
+//			System.out.println("75% 转换使用时间 : " + (e-s));
+//			
+//			
+//			
+//			target = "E:/test-60.jpg";
+//			
+//			doCompressQuality(src,target,60);
+//			
+//			
+//			target = "E:/test-40.jpg";
+//			
+//			doCompressQuality(src,target,40);
+//			
+//			
+//			target = "E:/test-30.jpg";
+//			
+//			doCompressQuality(src,target,30);
+//			
+//			
+//			target = "E:/test-20.jpg";
+//			
+//			doCompressQuality(src,target,20);
+//			
+//			
+//			doCompressQuality(src,target,80);
+//			
+//			target = "E:/test-60.jpg";
+//			
+//			doCompressQuality(src,target,60);
+//			
+//			
+//			target = "E:/test-40.jpg";
+//			
+//			doCompressQuality(src,target,40);
+//			
+//			
+//			target = "E:/test-30.jpg";
+//			
+//			doCompressQuality(src,target,30);
+//			
+//			
+//			target = "E:/test-90.jpg";
+//			
+//			doCompressQuality(src,target,90);
+//	  }
 	  
 	  
 	  /**
