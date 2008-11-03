@@ -1,4 +1,4 @@
-package org.gameye.psp.image.dao.base;
+package com.common.dao.base;
 
 import java.util.Collection;
 import java.util.regex.Matcher;
