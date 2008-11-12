@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="test" default="main" basedir=".">
+	
+	<!-- 属性设置区 -->
+	<property name="src.dir" value="${basedir}/JavaSource" />
+	<property name="src.config" value="${basedir}/config" />
+	<property name="web.dir" value="${basedir}/WebContent" />
+	<property name="lib.dir" value="${web.dir}/WEB-INF/lib" />	
+	<!-- 部署区域 -->
+	<property name="deploy.dir" value="D:/Java/tomcat/webapps/ShareImage" />
+	<property name="deploy.class" value="${deploy.dir}/WEB-INF/classes" />
+	
+	<path id="all-libs">
+		<fileset dir="${lib.dir}">
+			<!-- include name="*.dir" />
+			<include name="*.zip" /-->
+		</fileset>
+	</path>
+	<!-- end 属性设置区 -->
+	
+	<!-- 执行命令区域 -->
+	
+	<!-- 执行初始化环境 -->
+	<target name="init">
+		<delete dir="${deploy.dir}" />
+		<mkdir dir="${deploy.dir}" />
+		<mkdir dir="${deploy.class}" />
+	</target>
+	
+	<target name="copy">
+		<copy todir="${deploy.dir}">
+			<fileset dir="${web.dir}">
+				<exclude name=".svn" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="copy_no_lib">
+		<copy todir="${deploy.dir}" includeEmptyDirs="false">
+			<fileset dir="${web.dir}">
+				<exclude name=".svn" />
+				<exclude name="**/lib/*.*" /><!-- lib目录不会被copy -->
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="init_config">
+		<copy todir="${deploy.class}">
+			<fileset dir="${src.config}">
+				<exclude name=".svn" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="complie" depends="init_config">
+		<javac srcdir="${src.dir}" destdir="${deploy.class}" classpathref="all-libs"
+			excludes="test/*.*">
+			<!-- 排除test包下面的所有文件，都不会被编译 -->
+		</javac>
+	</target>
+	
+	<target name="main" depends="copy,complie">
+	</target>
+	
+	<target name="deploy" depends="init,copy_no_lib,complie">
+	</target>
+	<!-- end 执行命令区域 -->
+</project>
